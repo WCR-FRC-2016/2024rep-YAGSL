@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -87,8 +88,8 @@ public class RobotContainer
         () -> MathUtil.applyDeadband(driverXbox.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
         () -> driverXbox.getRawAxis(2));
 
-      drivebase.setDefaultCommand(driveFieldOrientedAnglularVelocity);
-      //drivebase.setDefaultCommand(driveFieldOrientedDirectAngle);
+      //drivebase.setDefaultCommand(driveFieldOrientedAnglularVelocity);
+      drivebase.setDefaultCommand(driveFieldOrientedDirectAngle);
 
     //drivebase.setDefaultCommand(
     //    !RobotBase.isSimulation() ? driveFieldOrientedAnglularVelocity : driveFieldOrientedDirectAngleSim);
@@ -123,7 +124,11 @@ public class RobotContainer
   public Command getAutonomousCommand()
   {
     // An example command will be run in autonomous
-    return drivebase.getAutonomousCommand("New Path", true);
+    return new SequentialCommandGroup(
+    new InstantCommand(() -> {System.out.println("Pre-Command"); }),
+    drivebase.getAutonomousCommand("Test_Path", true), 
+    new InstantCommand(() -> {System.out.println("Post-Command"); })  
+    );//drivebase.getAutonomousCommand("Test_Path", true);
   }
 
   public void setDriveMode()
