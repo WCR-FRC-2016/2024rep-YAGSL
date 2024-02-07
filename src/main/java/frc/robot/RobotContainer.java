@@ -21,6 +21,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.swervedrive.drivebase.AbsoluteDriveAdv;
+import frc.robot.commands.swervedrive.drivebase.LimelightShootAlign;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import java.io.File;
 
@@ -107,13 +108,14 @@ public class RobotContainer
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
 
     new JoystickButton(driverXbox, XboxController.Button.kBack.value).onTrue((new InstantCommand(drivebase::zeroGyro)));
-    new JoystickButton(driverXbox, 3).onTrue(new InstantCommand(drivebase::addFakeVisionReading));
-    new JoystickButton(driverXbox,
-                       2).whileTrue(
-        Commands.deferredProxy(() -> drivebase.driveToPose(
-                                   new Pose2d(new Translation2d(4, 4), Rotation2d.fromDegrees(0)))
-                              ));
+    // new JoystickButton(driverXbox, 3).onTrue(new InstantCommand(drivebase::addFakeVisionReading));
+    // new JoystickButton(driverXbox,
+    //                    2).whileTrue(
+    //     Commands.deferredProxy(() -> drivebase.driveToPose(
+    //                                new Pose2d(new Translation2d(4, 4), Rotation2d.fromDegrees(0)))
+    //                           ));
 //    new JoystickButton(driverXbox, 3).whileTrue(new RepeatCommand(new InstantCommand(drivebase::lock, drivebase)));
+    new JoystickButton(driverXbox, XboxController.Button.kX.value).onTrue(new LimelightShootAlign(drivebase));
   }
 
   /**
