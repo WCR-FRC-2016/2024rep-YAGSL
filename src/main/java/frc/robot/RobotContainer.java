@@ -128,7 +128,7 @@ public class RobotContainer
     // An example command will be run in autonomous
     return new SequentialCommandGroup(
     new InstantCommand(() -> {System.out.println("Pre-Command"); }),
-    drivebase.getAutonomousCommand("Test_Path", true), 
+    drivebase.getAutonomousCommand("SPININGJustGasGas", false), 
     new InstantCommand(() -> {System.out.println("Post-Command"); })  
     );//drivebase.getAutonomousCommand("Test_Path", true);
   }
