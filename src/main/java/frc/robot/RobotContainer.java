@@ -89,8 +89,8 @@ public class RobotContainer
         () -> MathUtil.applyDeadband(driverXbox.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
         () -> driverXbox.getRawAxis(2));
 
-      //drivebase.setDefaultCommand(driveFieldOrientedAnglularVelocity);
-      drivebase.setDefaultCommand(driveFieldOrientedDirectAngle);
+      drivebase.setDefaultCommand(driveFieldOrientedAnglularVelocity);
+      //drivebase.setDefaultCommand(driveFieldOrientedDirectAngle);
 
     //drivebase.setDefaultCommand(
     //    !RobotBase.isSimulation() ? driveFieldOrientedAnglularVelocity : driveFieldOrientedDirectAngleSim);
@@ -115,7 +115,7 @@ public class RobotContainer
     //                                new Pose2d(new Translation2d(4, 4), Rotation2d.fromDegrees(0)))
     //                           ));
 //    new JoystickButton(driverXbox, 3).whileTrue(new RepeatCommand(new InstantCommand(drivebase::lock, drivebase)));
-    new JoystickButton(driverXbox, XboxController.Button.kX.value).onTrue(new LimelightShootAlign(drivebase));
+    new JoystickButton(driverXbox, XboxController.Button.kX.value).whileTrue(new LimelightShootAlign(drivebase));
   }
 
   /**
