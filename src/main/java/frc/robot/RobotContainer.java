@@ -21,10 +21,14 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.swervedrive.drivebase.AbsoluteDriveAdv;
+import frc.robot.commands.swervedrive.drivebase.LimelightAmpAlign;
 import frc.robot.commands.swervedrive.drivebase.LimelightMoveAlign;
 import frc.robot.commands.swervedrive.drivebase.LimelightShootAlign;
+import frc.robot.subsystems.LedManager.LedManagerSubsystem;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import java.io.File;
+
+import com.pathplanner.lib.auto.NamedCommands;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a "declarative" paradigm, very
@@ -37,6 +41,9 @@ public class RobotContainer
   // The robot's subsystems and commands are defined here...
   private final SwerveSubsystem drivebase = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
                                                                          "swerve/neo"));
+
+  // private final LedManagerSubsystem ledManager = new LedManagerSubsystem();
+
   // CommandJoystick rotationController = new CommandJoystick(1);
   // Replace with CommandPS4Controller or CommandJoystick if needed
   CommandJoystick driverController = new CommandJoystick(1);
@@ -49,6 +56,7 @@ public class RobotContainer
    */
   public RobotContainer()
   {
+    NamedCommands.registerCommand("AutoShootAlign",new LimelightShootAlign(drivebase));
     // Configure the trigger bindings
     configureBindings();
 
@@ -83,7 +91,7 @@ public class RobotContainer
     Command driveFieldOrientedAnglularVelocity = drivebase.driveCommand(
         () -> MathUtil.applyDeadband(driverXbox.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
         () -> MathUtil.applyDeadband(driverXbox.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
-        () -> driverXbox.getRightX()); // driverXbox.getRawAxis(2)
+        () -> -driverXbox.getRightX()); // driverXbox.getRawAxis(2)
 
     Command driveFieldOrientedDirectAngleSim = drivebase.simDriveCommand(
         () -> MathUtil.applyDeadband(driverXbox.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
@@ -118,6 +126,12 @@ public class RobotContainer
 //    new JoystickButton(driverXbox, 3).whileTrue(new RepeatCommand(new InstantCommand(drivebase::lock, drivebase)));
     new JoystickButton(driverXbox, XboxController.Button.kX.value).whileTrue(new LimelightShootAlign(drivebase));
     new JoystickButton(driverXbox, XboxController.Button.kY.value).whileTrue(new LimelightMoveAlign(drivebase));
+    new JoystickButton(driverXbox, XboxController.Button.kB.value).whileTrue(new LimelightAmpAlign(drivebase)); 
+    // new JoystickButton(driverXbox, XboxController.Button.kA.value).whileTrue(new InstantCommand(() -> {
+    //   ledManager.setState(1);
+    // })).whileFalse(new InstantCommand(() -> {
+    //   ledManager.setState(0);
+    // })); 
   }
 
   /**
@@ -130,7 +144,7 @@ public class RobotContainer
     // An example command will be run in autonomous
     return new SequentialCommandGroup(
     new InstantCommand(() -> {System.out.println("Pre-Command"); }),
-    drivebase.getAutonomousCommand("SPININGJustGasGas", false), 
+    drivebase.getAutonomousCommand("Red 3 note shoot",  true), 
     new InstantCommand(() -> {System.out.println("Post-Command"); })  
     );//drivebase.getAutonomousCommand("Test_Path", true);
   }

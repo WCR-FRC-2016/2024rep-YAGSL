@@ -1,0 +1,49 @@
+{
+  "version": 1.0,
+  "startingPose": null,
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "First Note"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AutoShootAlign"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Second Note"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AutoShootAlign"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Third Note"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AutoShootAlign"
+          }
+        }
+      ]
+    }
+  },
+  "folder": null,
+  "choreoAuto": false
+}

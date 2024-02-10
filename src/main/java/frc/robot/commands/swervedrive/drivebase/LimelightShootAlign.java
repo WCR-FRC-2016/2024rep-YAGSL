@@ -26,21 +26,32 @@ public class LimelightShootAlign extends Command {
 
     @Override
     public void execute() {
-        desiredAngle = driveBase.getHeading().getDegrees() - getTx();
+        var tx = getTx();
+        if (!getTv()){
+            driveBase.drive(0, 0, driveBase.getHeading().getRadians() + Math.toRadians(25) );
+            return;
+        }
+        desiredAngle = driveBase.getHeading().getDegrees() - tx;
         driveBase.drive(0, 0, Math.toRadians(desiredAngle));
-        currentAngle = getTx();
-        //NetworkTableInstance.getDefault().getTable("limelight").getEntry("botpose").getDoubleArray(botpose);
-        //currentAngle = botpose[4];
-        System.out.println(currentAngle);
+        currentAngle = tx;
+        // NetworkTableInstance.getDefault().getTable("limelight").getEntry("botpose").getDoubleArray(botpose);
+        // currentAngle = botpose[4];
+        // System.out.println(currentAngle);
     }
 
     @Override 
     public boolean isFinished(){
-        //return  Math.abs( currentAngle) <= 0.1d;
+         if(getTv() && Math.abs(getTx()) < 0.1) {
+            return true;
+         }
+
         return false;
     }
 
     private double getTx(){
         return NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0.0);
+    }
+    private boolean getTv(){
+        return NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0.0)>0;
     }
 }
