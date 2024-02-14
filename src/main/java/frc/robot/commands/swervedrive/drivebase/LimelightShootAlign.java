@@ -41,7 +41,7 @@ public class LimelightShootAlign extends Command {
 
     @Override 
     public boolean isFinished(){
-         if(getTv() && Math.abs(getTx()) < 0.1) {
+         if(getTv() && Math.abs(getTx()) < 1) {
             return true;
          }
 

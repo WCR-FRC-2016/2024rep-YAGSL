@@ -12,33 +12,15 @@
           }
         },
         {
-          "type": "named",
-          "data": {
-            "name": "AutoShootAlign"
-          }
-        },
-        {
           "type": "path",
           "data": {
             "pathName": "Second Note"
           }
         },
         {
-          "type": "named",
-          "data": {
-            "name": "AutoShootAlign"
-          }
-        },
-        {
           "type": "path",
           "data": {
             "pathName": "Third Note"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "AutoShootAlign"
           }
         }
       ]

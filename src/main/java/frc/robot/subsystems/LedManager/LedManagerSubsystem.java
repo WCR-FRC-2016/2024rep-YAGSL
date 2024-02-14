@@ -5,15 +5,15 @@ import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class LedManagerSubsystem extends SubsystemBase{
-    private static final int ledLength = 50;
+    private static final int ledLength = 90;
     AddressableLED led = new AddressableLED(0);
     AddressableLEDBuffer ledBuffer = new AddressableLEDBuffer(ledLength);
     private int state = 0;
 
     public LedManagerSubsystem(){
 
+        led.setLength(ledBuffer.getLength());
         led.setData(ledBuffer);
-        led.setLength(ledLength);
         led.start();
     
     }
@@ -40,6 +40,8 @@ public class LedManagerSubsystem extends SubsystemBase{
         for( int i = 0; i < ledLength; i++){
             ledBuffer.setRGB(i, r, g, b);
         }
+
+        led.setData(ledBuffer);
 
     }
 

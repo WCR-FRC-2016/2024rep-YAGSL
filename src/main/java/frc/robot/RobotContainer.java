@@ -42,7 +42,7 @@ public class RobotContainer
   private final SwerveSubsystem drivebase = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
                                                                          "swerve/neo"));
 
-  // private final LedManagerSubsystem ledManager = new LedManagerSubsystem();
+  private final LedManagerSubsystem ledManager = new LedManagerSubsystem();
 
   // CommandJoystick rotationController = new CommandJoystick(1);
   // Replace with CommandPS4Controller or CommandJoystick if needed
@@ -127,11 +127,11 @@ public class RobotContainer
     new JoystickButton(driverXbox, XboxController.Button.kX.value).whileTrue(new LimelightShootAlign(drivebase));
     new JoystickButton(driverXbox, XboxController.Button.kY.value).whileTrue(new LimelightMoveAlign(drivebase));
     new JoystickButton(driverXbox, XboxController.Button.kB.value).whileTrue(new LimelightAmpAlign(drivebase)); 
-    // new JoystickButton(driverXbox, XboxController.Button.kA.value).whileTrue(new InstantCommand(() -> {
-    //   ledManager.setState(1);
-    // })).whileFalse(new InstantCommand(() -> {
-    //   ledManager.setState(0);
-    // })); 
+    new JoystickButton(driverXbox, XboxController.Button.kA.value).whileTrue(new InstantCommand(() -> {
+      ledManager.setState(1);
+    })).whileFalse(new InstantCommand(() -> {
+      ledManager.setState(0);
+    })); 
   }
 
   /**
@@ -142,11 +142,11 @@ public class RobotContainer
   public Command getAutonomousCommand()
   {
     // An example command will be run in autonomous
-    return new SequentialCommandGroup(
-    new InstantCommand(() -> {System.out.println("Pre-Command"); }),
-    drivebase.getAutonomousCommand("Red 3 note shoot",  true), 
-    new InstantCommand(() -> {System.out.println("Post-Command"); })  
-    );//drivebase.getAutonomousCommand("Test_Path", true);
+    //return new SequentialCommandGroup(
+    //new InstantCommand(() -> {System.out.println("Pre-Command"); }),
+    return drivebase.getAutonomousCommand("Red 3 note shoot",  true);
+    //new InstantCommand(() -> {System.out.println("Post-Command"); })  
+    //);//drivebase.getAutonomousCommand("Test_Path", true);
   }
 
   public void setDriveMode()

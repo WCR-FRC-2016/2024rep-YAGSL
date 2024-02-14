@@ -6,7 +6,9 @@
     "3 note shoot",
     "3 note shoot - red"
   ],
-  "autoFolders": [],
+  "autoFolders": [
+    "3 note shoot"
+  ],
   "defaultMaxVel": 3.0,
   "defaultMaxAccel": 3.0,
   "defaultMaxAngVel": 540.0,
