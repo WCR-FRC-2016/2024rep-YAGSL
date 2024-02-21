@@ -20,10 +20,12 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.commands.collector.Collect;
 import frc.robot.commands.swervedrive.drivebase.AbsoluteDriveAdv;
 import frc.robot.commands.swervedrive.drivebase.LimelightAmpAlign;
 import frc.robot.commands.swervedrive.drivebase.LimelightMoveAlign;
 import frc.robot.commands.swervedrive.drivebase.LimelightShootAlign;
+import frc.robot.subsystems.Arm.Collector;
 import frc.robot.subsystems.LedManager.LedManagerSubsystem;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import java.io.File;
@@ -43,7 +45,7 @@ public class RobotContainer
                                                                          "swerve/neo"));
 
   private final LedManagerSubsystem ledManager = new LedManagerSubsystem();
-
+  private final Collector collector = new Collector(ledManager);
   // CommandJoystick rotationController = new CommandJoystick(1);
   // Replace with CommandPS4Controller or CommandJoystick if needed
   CommandJoystick driverController = new CommandJoystick(1);
@@ -126,12 +128,10 @@ public class RobotContainer
 //    new JoystickButton(driverXbox, 3).whileTrue(new RepeatCommand(new InstantCommand(drivebase::lock, drivebase)));
     new JoystickButton(driverXbox, XboxController.Button.kX.value).whileTrue(new LimelightShootAlign(drivebase));
     new JoystickButton(driverXbox, XboxController.Button.kY.value).whileTrue(new LimelightMoveAlign(drivebase));
-    new JoystickButton(driverXbox, XboxController.Button.kB.value).whileTrue(new LimelightAmpAlign(drivebase)); 
-    new JoystickButton(driverXbox, XboxController.Button.kA.value).whileTrue(new InstantCommand(() -> {
-      ledManager.setState(1);
-    })).whileFalse(new InstantCommand(() -> {
-      ledManager.setState(0);
-    })); 
+    new JoystickButton(driverXbox, XboxController.Button.kB.value).whileTrue(new LimelightAmpAlign(drivebase));
+    new JoystickButton(driverXbox, XboxController.Button.kA.value).whileTrue(new Collect(collector));
+      
+   
   }
 
   /**
