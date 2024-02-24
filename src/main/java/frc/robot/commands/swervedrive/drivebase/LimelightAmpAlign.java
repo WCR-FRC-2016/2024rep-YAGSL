@@ -3,6 +3,7 @@ package frc.robot.commands.swervedrive.drivebase;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
+import frc.robot.utilities.LimelightUtility;
 
 public class LimelightAmpAlign extends Command {
     private SwerveSubsystem driveBase;
@@ -31,7 +32,7 @@ public class LimelightAmpAlign extends Command {
     @Override
     public void execute() {
 
-        var botpose = getBotPos();
+        var botpose = LimelightUtility.getBotPos();
 
         // Check connection to Network table
         if (botpose.length == 0 ){ 
@@ -77,9 +78,5 @@ public class LimelightAmpAlign extends Command {
 
     private double getTx(){
         return NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0.0);
-    }
-
-    private double[] getBotPos(){
-        return NetworkTableInstance.getDefault().getTable("limelight").getEntry("botpose_targetspace").getDoubleArray(new double[0]);
-    }
+    }   
 }

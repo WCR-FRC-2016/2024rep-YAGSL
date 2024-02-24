@@ -17,7 +17,7 @@ public class Collector  extends SubsystemBase {
     }
 
     public void run(){
-        ledManager.setState(2);
+        ledManager.setState(2);       
     }
 
     public void stop(){
