@@ -60,4 +60,20 @@ public final class Constants
   {
     public static final double SpeakerHeight = 82;
   }
+
+  public static class CollectorConstants {
+    public static final int canId = 9;
+    public static final int currentLimit = 30;
+    public static final double runSpeed = 0.8d;
+  }
+
+  public static class ShooterConstants {
+    public static final int upperCanId = 13;
+    public static final int lowerCanId = 6;
+
+    public static final int upperCurrentLimit = 40; 
+    public static final int lowerCurrentLimit = 40;
+
+    public static final double flywheelRunSpeed = 1.0d;
+  }
 }

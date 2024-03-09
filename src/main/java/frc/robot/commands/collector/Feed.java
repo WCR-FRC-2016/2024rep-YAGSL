@@ -3,21 +3,15 @@ package frc.robot.commands.collector;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Arm.Collector;
 
-public class Collect extends Command {
+public class Feed extends Command {
     Collector collector;
-    public Collect(Collector collector){
+    public Feed(Collector collector){
         this.collector = collector;
     }
 
-    @Override
+     @Override
     public void execute() {
-
-        if(collector.hasPiece() == false){
-            collector.run();
-        }
-        else{
-            collector.stop();
-        }
+        collector.run();
     }
 
     @Override

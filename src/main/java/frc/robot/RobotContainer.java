@@ -5,27 +5,25 @@
 package frc.robot;
 
 import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.Filesystem;
-import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.commands.Shooter.Shoot;
 import frc.robot.commands.collector.Collect;
+import frc.robot.commands.collector.Feed;
 import frc.robot.commands.swervedrive.drivebase.AbsoluteDriveAdv;
 import frc.robot.commands.swervedrive.drivebase.LimelightAmpAlign;
 import frc.robot.commands.swervedrive.drivebase.LimelightMoveAlign;
 import frc.robot.commands.swervedrive.drivebase.LimelightShootAlign;
+import frc.robot.subsystems.Arm.Arm;
 import frc.robot.subsystems.Arm.Collector;
+import frc.robot.subsystems.Arm.Shooter;
 import frc.robot.subsystems.LedManager.LedManagerSubsystem;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import java.io.File;
@@ -46,6 +44,8 @@ public class RobotContainer
 
   private final LedManagerSubsystem ledManager = new LedManagerSubsystem();
   private final Collector collector = new Collector(ledManager);
+  private final Shooter shooter = new Shooter();
+  private final Arm arm = new Arm();
   // CommandJoystick rotationController = new CommandJoystick(1);
   // Replace with CommandPS4Controller or CommandJoystick if needed
   CommandJoystick driverController = new CommandJoystick(1);
@@ -126,10 +126,16 @@ public class RobotContainer
     //                                new Pose2d(new Translation2d(4, 4), Rotation2d.fromDegrees(0)))
     //                           ));
 //    new JoystickButton(driverXbox, 3).whileTrue(new RepeatCommand(new InstantCommand(drivebase::lock, drivebase)));
-    new JoystickButton(driverXbox, XboxController.Button.kX.value).whileTrue(new LimelightShootAlign(drivebase));
-    new JoystickButton(driverXbox, XboxController.Button.kY.value).whileTrue(new LimelightMoveAlign(drivebase));
-    new JoystickButton(driverXbox, XboxController.Button.kB.value).whileTrue(new LimelightAmpAlign(drivebase));
+    
+    // TODO: Unremove these...
+    //new JoystickButton(driverXbox, XboxController.Button.kX.value).whileTrue(new LimelightShootAlign(drivebase));
+    //new JoystickButton(driverXbox, XboxController.Button.kY.value).whileTrue(new LimelightMoveAlign(drivebase));
+    //new JoystickButton(driverXbox, XboxController.Button.kB.value).whileTrue(new LimelightAmpAlign(drivebase));
     new JoystickButton(driverXbox, XboxController.Button.kA.value).whileTrue(new Collect(collector));
+
+    new JoystickButton(driverXbox, XboxController.Button.kB.value).whileTrue(new Shoot(shooter));
+
+    new JoystickButton(driverXbox, XboxController.Button.kRightBumper.value).whileTrue(new Feed(collector));
       
    
   }
