@@ -48,5 +48,16 @@ public final class Constants
     public static final double LEFT_Y_DEADBAND  = 0.1;
     public static final double RIGHT_X_DEADBAND = 0.1;
     public static final double TURN_CONSTANT    = 6;
+    
+  }
+
+  public static class RobotDemensions
+  {
+    public static final double ArmLength = 22;
+  }
+
+  public static class FieldDemensions
+  {
+    public static final double SpeakerHeight = 82;
   }
 }
