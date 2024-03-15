@@ -49,7 +49,6 @@ AbsoluteEncoder encoder;
         slaveMotorController.burnFlash();
 
         //setAngle(0.5);
-        setAngle(1.0);
         //0.789
         //0.46
 

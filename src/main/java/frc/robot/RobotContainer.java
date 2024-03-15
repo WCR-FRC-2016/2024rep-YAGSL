@@ -47,7 +47,7 @@ public class RobotContainer
                                                                          "swerve/neo"));
 
   private final LedManagerSubsystem ledManager = new LedManagerSubsystem();
-  private final Collector collector = new Collector(ledManager);
+  public final Collector collector = new Collector(ledManager);
   private final Shooter shooter = new Shooter();
   private final Arm arm = new Arm();
   // CommandJoystick rotationController = new CommandJoystick(1);
@@ -121,7 +121,7 @@ public class RobotContainer
   private void configureBindings()
   {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
-    arm.setDefaultCommand(new ManualDriveArm(arm, () -> manipulatorXbox.getLeftY()));
+    arm.setDefaultCommand(new ManualDriveArm(arm, () -> MathUtil.applyDeadband(manipulatorXbox.getLeftY(), 0.1)));
     new JoystickButton(driverXbox, XboxController.Button.kBack.value).onTrue((new InstantCommand(drivebase::zeroGyro)));
     // new JoystickButton(driverXbox, 3).onTrue(new InstantCommand(drivebase::addFakeVisionReading));
     // new JoystickButton(driverXbox,
@@ -134,7 +134,7 @@ public class RobotContainer
     // TODO: Unremove these...
     //new JoystickButton(driverXbox, XboxController.Button.kX.value).whileTrue(new LimelightShootAlign(drivebase));
     //new JoystickButton(driverXbox, XboxController.Button.kY.value).whileTrue(new LimelightMoveAlign(drivebase));
-    //new JoystickButton(driverXbox, XboxController.Button.kB.value).whileTrue(new LimelightAmpAlign(drivebase));
+    new JoystickButton(driverXbox, XboxController.Button.kY.value).whileTrue(new LimelightAmpAlign(drivebase));
     new JoystickButton(driverXbox, XboxController.Button.kA.value).whileTrue(new Collect(collector, arm));
 
     new JoystickButton(driverXbox, XboxController.Button.kRightBumper.value).whileTrue(new Feed(collector));
