@@ -44,11 +44,11 @@ public class LimelightMoveAlign extends Command {
         }
 
         actualDistanceZ = botpose[2];
-        double distanceToMove = -1 * (actualDistanceZ - desiredDistanceZ);       
+        double distanceToMove = (actualDistanceZ - desiredDistanceZ);       
         desiredAngle = driveBase.getHeading().getDegrees() - getTx();
         
         //currentAngle = botpose[4];
-        driveBase.drive(0, distanceToMove * 0.4,  Math.toRadians(desiredAngle)); 
+        driveBase.drive(distanceToMove * 0.4, 0,  Math.toRadians(desiredAngle)); 
         currentAngle = getTx();
         turnMagnitude = currentAngle != 0.0d ? currentAngle/Math.abs(currentAngle) * -1.0d :1.0d;
         //NetworkTableInstance.getDefault().getTable("limelight").getEntry("botpose").getDoubleArray(botpose);

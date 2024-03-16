@@ -77,10 +77,10 @@ public class Arm extends SubsystemBase {
     //  return Math.toDegrees(Math.atan((Constants.FieldDemensions.SpeakerHeight - armHeight()) /
     // // botpose[2] ));
     //  }
-    //  public void targetSpeaker(){
-    // System.out.println(getTargetAngle());
-    //     //    setAngle(getTargetAngle()/360.0);
-    //  }
+     public void targetSpeaker(){
+        // System.out.println(getTargetAngle());
+        //    setAngle(getTargetAngle()/360.0);
+     }
 
     //  private double armHeight(){
     // //     //take arm length (Hypotonuse)

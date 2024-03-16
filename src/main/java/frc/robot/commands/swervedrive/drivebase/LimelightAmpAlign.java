@@ -54,11 +54,11 @@ public class LimelightAmpAlign extends Command {
         System.out.println(botpose[2]);
         actualDistanceX = botpose[0];
         actualDistanceZ = botpose[2];
-        double distanceToMoveY = -1 * (actualDistanceZ - desiredDistanceZ);
+        double distanceToMoveY = (actualDistanceZ - desiredDistanceZ);
         double distanceToMoveX = -1 * (actualDistanceX);
         desiredAngle = driveBase.getHeading().getDegrees() - getTx();
         //currentAngle = botpose[4];
-        driveBase.drive(distanceToMoveX * 0.3, distanceToMoveY * 0.3,  Math.toRadians(desiredAngle)); 
+        driveBase.drive(distanceToMoveY * 0.3, distanceToMoveX * 0.3,  Math.toRadians(desiredAngle)); 
         currentAngle = getTx();
         turnMagnitude = currentAngle != 0.0d ? currentAngle/Math.abs(currentAngle) * -1.0d :1.0d;
         //NetworkTableInstance.getDefault().getTable("limelight").getEntry("botpose").getDoubleArray(botpose);
