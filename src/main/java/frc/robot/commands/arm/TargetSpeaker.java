@@ -7,7 +7,7 @@ import frc.robot.utilities.LimelightUtility;
 public class TargetSpeaker extends Command {
     Arm arm;
     private static final double speakerBaseOffset = 0.991;
-    private static final double distanceToAngleFactor = 0.085;
+    private static final double distanceToAngleFactor = 0.035;
 
     public TargetSpeaker(Arm arm){
         this.arm = arm;

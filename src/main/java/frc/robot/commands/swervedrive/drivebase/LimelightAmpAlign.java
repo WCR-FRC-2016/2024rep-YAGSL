@@ -73,7 +73,7 @@ public class LimelightAmpAlign extends Command {
     @Override 
     public boolean isFinished(){
         //return  Math.abs( currentAngle) <= 0.1d;
-       if(Math.abs(getTx()) <= 0.5d && Math.abs(getZpos())<=Math.abs(desiredDistanceZ) + 0.1) {
+       if(Math.abs(getTx()) <= 1.0d && Math.abs(getZpos())<=Math.abs(desiredDistanceZ) + 0.1) {
         return true;
        }
        return false;
