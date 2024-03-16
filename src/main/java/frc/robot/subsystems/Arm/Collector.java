@@ -31,7 +31,7 @@ public class Collector  extends SubsystemBase {
     }
      
     public boolean hasPiece(){
-        return pieceSensor.get();
+        return !pieceSensor.get();
     }
 
     public void printSensorValue(){
