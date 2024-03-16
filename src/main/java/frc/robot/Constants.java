@@ -74,6 +74,6 @@ public final class Constants
     public static final int upperCurrentLimit = 40; 
     public static final int lowerCurrentLimit = 40;
 
-    public static final double flywheelRunSpeed = 0.5d;
+    public static final double flywheelRunSpeed = 1d;
   }
 }

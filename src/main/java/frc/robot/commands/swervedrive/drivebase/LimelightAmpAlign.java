@@ -45,9 +45,9 @@ public class LimelightAmpAlign extends Command {
             if(closeToTarget == true){
                 driveBase.drive(0, 0, driveBase.getHeading().getRadians());
             }
-            else{
-                driveBase.drive(0, 0, driveBase.getHeading().getRadians() + Math.toRadians(25) * turnMagnitude);
-            }
+            // else{
+            //     driveBase.drive(0, 0, driveBase.getHeading().getRadians() + Math.toRadians(25) * turnMagnitude);
+            // }
             return;
         }
 

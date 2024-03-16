@@ -7,6 +7,7 @@ public class Feed extends Command {
     Collector collector;
     public Feed(Collector collector){
         this.collector = collector;
+        addRequirements(collector);
     }
 
      @Override

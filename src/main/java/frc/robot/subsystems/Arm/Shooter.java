@@ -1,5 +1,6 @@
 package frc.robot.subsystems.Arm;
 
+
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
@@ -35,9 +36,14 @@ public class Shooter extends SubsystemBase {
     }
 
     public void run() {
-        topMotorController.set(Constants.ShooterConstants.flywheelRunSpeed);
-        bottomMotorController.set(Constants.ShooterConstants.flywheelRunSpeed);
+        run(1);
     }
+
+    public void run(double factor){
+        topMotorController.set(Constants.ShooterConstants.flywheelRunSpeed * factor);
+        bottomMotorController.set(Constants.ShooterConstants.flywheelRunSpeed * factor);
+    }
+    
 
     public void stop() {
         topMotorController.set(0.0f);

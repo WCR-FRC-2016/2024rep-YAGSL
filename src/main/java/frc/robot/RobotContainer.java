@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Shooter.Shoot;
+import frc.robot.commands.Shooter.Spit;
 import frc.robot.commands.arm.AmpAngleCommand;
 import frc.robot.commands.arm.ManualDriveArm;
 import frc.robot.commands.arm.TargetSpeaker;
@@ -124,7 +125,7 @@ public class RobotContainer
   private void configureBindings()
   {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
-    arm.setDefaultCommand(new ManualDriveArm(arm, () -> MathUtil.applyDeadband(manipulatorXbox.getLeftY(), 0.1)));
+    arm.setDefaultCommand(new ManualDriveArm(arm, () -> MathUtil.applyDeadband(manipulatorXbox.getLeftY(), 0.7)));
     new JoystickButton(driverXbox, XboxController.Button.kBack.value).onTrue((new InstantCommand(drivebase::zeroGyro)));
     // new JoystickButton(driverXbox, 3).onTrue(new InstantCommand(drivebase::addFakeVisionReading));
     // new JoystickButton(driverXbox,
@@ -142,7 +143,8 @@ public class RobotContainer
     new JoystickButton(driverXbox, XboxController.Button.kX.value).whileTrue( new LimelightAmpAlign(drivebase));
     new JoystickButton(driverXbox, XboxController.Button.kRightBumper.value).whileTrue(new Feed(collector));
 
-    new JoystickButton(manipulatorXbox, XboxController.Button.kB.value).whileTrue(new  ParallelCommandGroup ( new AmpAngleCommand (arm), new LimelightAmpAlign(drivebase))); // Test bind
+    new JoystickButton(manipulatorXbox, XboxController.Button.kB.value).whileTrue(new  ParallelCommandGroup ( new AmpAngleCommand (arm), new LimelightAmpAlign(drivebase)));
+    new JoystickButton(manipulatorXbox, XboxController.Button.kRightBumper.value).whileTrue(new Spit(shooter, collector)); // Test bind
 
     driverXboxCommanded.rightTrigger(0.5).whileTrue(new Shoot(shooter));
     // new JoystickButton(driverXbox, XboxController.Button.kX.value).whileTrue(new TargetSpeaker(arm)); // TODO: Double bound from merge
