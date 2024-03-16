@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -24,6 +25,7 @@ import frc.robot.commands.arm.TargetSpeaker;
 import frc.robot.commands.collector.Collect;
 import frc.robot.commands.collector.Feed;
 import frc.robot.commands.swervedrive.drivebase.AbsoluteDriveAdv;
+import frc.robot.commands.swervedrive.drivebase.GoForward;
 import frc.robot.commands.swervedrive.drivebase.LimelightAmpAlign;
 import frc.robot.commands.swervedrive.drivebase.LimelightMoveAlign;
 import frc.robot.commands.swervedrive.drivebase.LimelightShootAlign;
@@ -123,7 +125,9 @@ public class RobotContainer
    * controllers or {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight joysticks}.
    */
   private void configureBindings()
-  {
+  { var ampAlignAndShootCommand = new SequentialCommandGroup (new  ParallelCommandGroup (
+     new AmpAngleCommand (arm, 0.5), new LimelightAmpAlign(drivebase))
+     , new GoForward(drivebase), new Spit(shooter, collector));
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
     arm.setDefaultCommand(new ManualDriveArm(arm, () -> MathUtil.applyDeadband(manipulatorXbox.getLeftY(), 0.7)));
     new JoystickButton(driverXbox, XboxController.Button.kBack.value).onTrue((new InstantCommand(drivebase::zeroGyro)));
@@ -142,11 +146,14 @@ public class RobotContainer
     new JoystickButton(driverXbox, XboxController.Button.kA.value).whileTrue(new Collect(collector, arm));
     new JoystickButton(driverXbox, XboxController.Button.kX.value).whileTrue( new LimelightAmpAlign(drivebase));
     new JoystickButton(driverXbox, XboxController.Button.kRightBumper.value).whileTrue(new Feed(collector));
+    new JoystickButton(driverXbox, XboxController.Button.kLeftBumper.value).whileTrue(new InstantCommand(() -> {System.out.println(arm.getAngle());}));
 
-    new JoystickButton(manipulatorXbox, XboxController.Button.kB.value).whileTrue(new  ParallelCommandGroup ( new AmpAngleCommand (arm), new LimelightAmpAlign(drivebase)));
+
+    new JoystickButton(manipulatorXbox, XboxController.Button.kB.value).whileTrue(ampAlignAndShootCommand);
     new JoystickButton(manipulatorXbox, XboxController.Button.kRightBumper.value).whileTrue(new Spit(shooter, collector)); // Test bind
+    new JoystickButton(manipulatorXbox, XboxController.Button.kLeftBumper.value).whileTrue(new AmpAngleCommand(arm, 0.7));
 
-    driverXboxCommanded.rightTrigger(0.5).whileTrue(new Shoot(shooter));
+    driverXboxCommanded.rightTrigger(0.5).whileTrue( new ParallelCommandGroup ( new LimelightShootAlign(drivebase), new Shoot(shooter)));
     // new JoystickButton(driverXbox, XboxController.Button.kX.value).whileTrue(new TargetSpeaker(arm)); // TODO: Double bound from merge
   }
 

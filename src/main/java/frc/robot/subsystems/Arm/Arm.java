@@ -89,6 +89,10 @@ public class Arm extends SubsystemBase {
     //      return Math.sin(Math.toRadians(encoder.getPosition()*360)) * Constants.RobotDemensions.ArmLength;
     //  }
 
+    public double getAngle(){
+        return encoder.getPosition();
+    }
+
     public void targetHell() {
         setAngle(0.789);
     }
