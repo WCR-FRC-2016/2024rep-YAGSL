@@ -9,12 +9,15 @@ import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Shooter.Shoot;
+import frc.robot.commands.arm.AmpAngleCommand;
 import frc.robot.commands.collector.Collect;
 import frc.robot.commands.collector.Feed;
 import frc.robot.commands.swervedrive.drivebase.AbsoluteDriveAdv;
@@ -132,12 +135,11 @@ public class RobotContainer
     //new JoystickButton(driverXbox, XboxController.Button.kY.value).whileTrue(new LimelightMoveAlign(drivebase));
     //new JoystickButton(driverXbox, XboxController.Button.kB.value).whileTrue(new LimelightAmpAlign(drivebase));
     new JoystickButton(driverXbox, XboxController.Button.kA.value).whileTrue(new Collect(collector));
+    new JoystickButton(driverXbox, XboxController.Button.kX.value).whileTrue(new ParallelCommandGroup( new AmpAngleCommand(arm), new LimelightShootAlign(drivebase)));
 
-    new JoystickButton(driverXbox, XboxController.Button.kB.value).whileTrue(new Shoot(shooter));
-
+    //new JoystickButton(driverXbox, XboxController.Joystick.Axis.kRightTrigger).whileTrue(new Shoot(shooter));
+    new JoystickButton(driverXbox, XboxController.Axis.kRightTrigger.value).whileTrue(new Shoot(shooter));
     new JoystickButton(driverXbox, XboxController.Button.kRightBumper.value).whileTrue(new Feed(collector));
-      
-   
   }
 
   /**
