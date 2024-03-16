@@ -9,7 +9,7 @@ public class LimelightAmpAlign extends Command {
     private SwerveSubsystem driveBase;
     private double desiredAngle;
     private double currentAngle;
-    private static final double desiredDistanceZ = -0.25;
+    private static final double desiredDistanceZ = -1;
     private double actualDistanceZ;
     private double actualDistanceX;
     private double turnMagnitude = 1;
@@ -51,7 +51,7 @@ public class LimelightAmpAlign extends Command {
             return;
         }
 
-        System.out.println(botpose[2]);
+        System.out.println("distance: " + botpose[2] + " | angle: " + getTx());
         actualDistanceX = botpose[0];
         actualDistanceZ = botpose[2];
         double distanceToMoveY = (actualDistanceZ - desiredDistanceZ);
@@ -73,7 +73,7 @@ public class LimelightAmpAlign extends Command {
     @Override 
     public boolean isFinished(){
         //return  Math.abs( currentAngle) <= 0.1d;
-       if(Math.abs(getTx()) <= 0.1d && (getZpos()<=desiredDistanceZ + 0.2)) {
+       if(Math.abs(getTx()) <= 0.5d && Math.abs(getZpos())<=Math.abs(desiredDistanceZ) + 0.1) {
         return true;
        }
        return false;

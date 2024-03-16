@@ -5,7 +5,8 @@ import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 
 public class GoForward extends Command {
     private SwerveSubsystem driveBase;
-
+    private int timerCounter = 75;
+    private int unlazyEndline; 
     public GoForward(SwerveSubsystem swerve){
         driveBase = swerve;
         addRequirements(driveBase);
@@ -13,7 +14,21 @@ public class GoForward extends Command {
 
     @Override
     public void initialize () {
-        driveBase.drive(0, 1, driveBase.getHeading().getRadians());
+        driveBase.drive(-0.20, 0, driveBase.getHeading().getRadians());
+        unlazyEndline = 0;
+        System.out.println("started moving");
+    }
+    @Override
+    public void execute(){
+        unlazyEndline++;
+    }
+    @Override
+    public boolean isFinished(){
+        return unlazyEndline>=timerCounter;
+    }
+    @Override
+    public void end(boolean interrupted){System.out.println("FinishedMoving");
+        driveBase.drive(0, 0, driveBase.getHeading().getRadians());
     }
      
 }
