@@ -28,13 +28,13 @@ public class Collector  extends SubsystemBase {
         collectorMotorController.setInverted(true);
         collectorMotorController.burnFlash();
 
-        pieceSensor = new DutyCycleEncoder(1);
+        pieceSensor = new DutyCycleEncoder(0);
         //pieceSensor = new DigitalInput(0);
     }
      
     public boolean hasPiece(){
 
-        if (pieceSensor.getDistance() < 0.5){
+        if (pieceSensor.getDistance() < 0.04){
         return true; //pieceSensor.get();
         }
 
