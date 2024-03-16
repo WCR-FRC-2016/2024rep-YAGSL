@@ -139,7 +139,7 @@ public class RobotContainer
     //new JoystickButton(driverXbox, XboxController.Button.kY.value).whileTrue(new LimelightMoveAlign(drivebase));
     new JoystickButton(driverXbox, XboxController.Button.kY.value).whileTrue(new LimelightAmpAlign(drivebase));
     new JoystickButton(driverXbox, XboxController.Button.kA.value).whileTrue(new Collect(collector, arm));
-    new JoystickButton(driverXbox, XboxController.Button.kX.value).whileTrue(new ParallelCommandGroup( new AmpAngleCommand(arm), new LimelightShootAlign(drivebase)));
+    new JoystickButton(driverXbox, XboxController.Button.kX.value).whileTrue( new LimelightAmpAlign(drivebase));
     new JoystickButton(driverXbox, XboxController.Button.kRightBumper.value).whileTrue(new Feed(collector));
     driverXboxCommanded.rightTrigger(0.5).whileTrue(new Shoot(shooter));
     // new JoystickButton(driverXbox, XboxController.Button.kX.value).whileTrue(new TargetSpeaker(arm)); // TODO: Double bound from merge

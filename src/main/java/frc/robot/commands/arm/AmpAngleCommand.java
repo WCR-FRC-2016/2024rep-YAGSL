@@ -6,11 +6,12 @@ import frc.robot.subsystems.Arm.Arm;
 public class AmpAngleCommand extends Command {
   Arm arm;
     public AmpAngleCommand (Arm arm){
-        this.arm = arm;
+        this.arm = arm; 
+        addRequirements(arm);
     }
     @Override
     public void initialize(){
-       arm.setAngle(0.7);
+       arm.setAngle(0.5);
     }
     @Override 
     public boolean isFinished(){

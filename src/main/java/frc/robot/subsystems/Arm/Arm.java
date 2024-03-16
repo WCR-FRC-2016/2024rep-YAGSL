@@ -66,7 +66,7 @@ public class Arm extends SubsystemBase {
     public boolean atDesiredAngle() {
         var currentAngle = encoder.getPosition();
 
-        return currentAngle <= desiredAngle + 0.5 && currentAngle >= desiredAngle - 0.5;
+        return currentAngle <= desiredAngle + 0.05 && currentAngle >= desiredAngle - 0.05;
 
     }
     //  public double getTargetAngle(){
