@@ -9,6 +9,8 @@ import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
+import frc.robot.utilities.LimelightUtility;
 
 public class Arm extends SubsystemBase {
 
@@ -47,13 +49,14 @@ public class Arm extends SubsystemBase {
         masterMotorController.burnFlash();
         slaveMotorController.burnFlash();
 
-        // setAngle(0.5);
-        setAngle(0.51);
-        // 0.789
-        // 0.46
+        //0.789
+        //0.46
 
+        
     }
-
+        public void drive(double notdrive){
+            setAngle(encoder.getPosition()+notdrive*0.05);
+        }
     public void setAngle(double desiredAngle) {
         desiredAngle = Math.max(Math.min(0.789, desiredAngle), 0.50);
         pidController.setReference(desiredAngle, ControlType.kPosition);
@@ -66,22 +69,28 @@ public class Arm extends SubsystemBase {
         return currentAngle <= desiredAngle + 0.5 && currentAngle >= desiredAngle - 0.5;
 
     }
-    // public double getDesiredAngle(){
-    // var botpose = LimelightUtility.getBotPos();
-    // // Take distance from robot to speaker
-    // // tall is always 6' 10" subtracted by hight of shooter
-    // // angle = atan(distance - any offsets, height - arm height)
-    // return Math.atan(Constants.FieldDemensions.SpeakerHeight - armHeight() /
-    // botpose[2] );
-    // }
+    //  public double getTargetAngle(){
+    //  var botpose = LimelightUtility.getBotPos();
+    //  // Take distance from robot to speaker
+    // // // tall is always 6' 10" subtracted by hight of shooter
+    // // // angle = atan(distance - any offsets, height - arm height)
+    //  return Math.toDegrees(Math.atan((Constants.FieldDemensions.SpeakerHeight - armHeight()) /
+    // // botpose[2] ));
+    //  }
+    //  public void targetSpeaker(){
+    // System.out.println(getTargetAngle());
+    //     //    setAngle(getTargetAngle()/360.0);
+    //  }
 
-    // private double armHeight(){
-    // //take arm length (Hypotonuse)
-    // //take arm angle from CANcoder
-    // //find Height with sin()
-    // return
-    // Math.sin(Math.toRadians(currentAngleEncoder.getPosition().getValueAsDouble()))
-    // * Constants.RobotDemensions.ArmLength;
-    // }
+    //  private double armHeight(){
+    // //     //take arm length (Hypotonuse)
+    // //     //take arm angle from CANcoder
+    // //     //find Height with sin()
+    //      return Math.sin(Math.toRadians(encoder.getPosition()*360)) * Constants.RobotDemensions.ArmLength;
+    //  }
+
+    public void targetHell() {
+        setAngle(0.789);
+    }
 
 }

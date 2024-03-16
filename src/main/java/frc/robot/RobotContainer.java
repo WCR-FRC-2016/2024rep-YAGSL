@@ -18,6 +18,8 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Shooter.Shoot;
 import frc.robot.commands.arm.AmpAngleCommand;
+import frc.robot.commands.arm.ManualDriveArm;
+import frc.robot.commands.arm.TargetSpeaker;
 import frc.robot.commands.collector.Collect;
 import frc.robot.commands.collector.Feed;
 import frc.robot.commands.swervedrive.drivebase.AbsoluteDriveAdv;
@@ -30,6 +32,8 @@ import frc.robot.subsystems.Arm.Shooter;
 import frc.robot.subsystems.LedManager.LedManagerSubsystem;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import java.io.File;
+
+
 
 import com.pathplanner.lib.auto.NamedCommands;
 
@@ -46,16 +50,16 @@ public class RobotContainer
                                                                          "swerve/neo"));
 
   private final LedManagerSubsystem ledManager = new LedManagerSubsystem();
-  private final Collector collector = new Collector(ledManager);
+  public final Collector collector = new Collector(ledManager);
   private final Shooter shooter = new Shooter();
   private final Arm arm = new Arm();
   // CommandJoystick rotationController = new CommandJoystick(1);
   // Replace with CommandPS4Controller or CommandJoystick if needed
-  CommandJoystick driverController = new CommandJoystick(1);
 
   // CommandJoystick driverController   = new CommandJoystick(3);//(OperatorConstants.DRIVER_CONTROLLER_PORT);
   XboxController driverXbox = new XboxController(0);
-
+  XboxController manipulatorXbox = new XboxController(1);
+  CommandXboxController driverXboxCommanded = new CommandXboxController(0);
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
@@ -120,7 +124,7 @@ public class RobotContainer
   private void configureBindings()
   {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
-
+    arm.setDefaultCommand(new ManualDriveArm(arm, () -> MathUtil.applyDeadband(manipulatorXbox.getLeftY(), 0.1)));
     new JoystickButton(driverXbox, XboxController.Button.kBack.value).onTrue((new InstantCommand(drivebase::zeroGyro)));
     // new JoystickButton(driverXbox, 3).onTrue(new InstantCommand(drivebase::addFakeVisionReading));
     // new JoystickButton(driverXbox,
@@ -133,13 +137,12 @@ public class RobotContainer
     // TODO: Unremove these...
     //new JoystickButton(driverXbox, XboxController.Button.kX.value).whileTrue(new LimelightShootAlign(drivebase));
     //new JoystickButton(driverXbox, XboxController.Button.kY.value).whileTrue(new LimelightMoveAlign(drivebase));
-    //new JoystickButton(driverXbox, XboxController.Button.kB.value).whileTrue(new LimelightAmpAlign(drivebase));
-    new JoystickButton(driverXbox, XboxController.Button.kA.value).whileTrue(new Collect(collector));
+    new JoystickButton(driverXbox, XboxController.Button.kY.value).whileTrue(new LimelightAmpAlign(drivebase));
+    new JoystickButton(driverXbox, XboxController.Button.kA.value).whileTrue(new Collect(collector, arm));
     new JoystickButton(driverXbox, XboxController.Button.kX.value).whileTrue(new ParallelCommandGroup( new AmpAngleCommand(arm), new LimelightShootAlign(drivebase)));
-
-    //new JoystickButton(driverXbox, XboxController.Joystick.Axis.kRightTrigger).whileTrue(new Shoot(shooter));
-    new JoystickButton(driverXbox, XboxController.Axis.kRightTrigger.value).whileTrue(new Shoot(shooter));
     new JoystickButton(driverXbox, XboxController.Button.kRightBumper.value).whileTrue(new Feed(collector));
+    driverXboxCommanded.rightTrigger(0.5).whileTrue(new Shoot(shooter));
+    // new JoystickButton(driverXbox, XboxController.Button.kX.value).whileTrue(new TargetSpeaker(arm)); // TODO: Double bound from merge
   }
 
   /**

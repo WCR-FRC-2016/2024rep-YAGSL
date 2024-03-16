@@ -53,7 +53,7 @@ public final class Constants
 
   public static class RobotDemensions
   {
-    public static final double ArmLength = 22;
+    public static final double ArmLength = 21.5;
   }
 
   public static class FieldDemensions
