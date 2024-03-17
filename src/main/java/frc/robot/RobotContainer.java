@@ -129,7 +129,7 @@ public class RobotContainer
       (new  ParallelCommandGroup (new AmpAngleCommand (arm, 0.5), new LimelightAmpAlign(drivebase))
      , new GoForward(drivebase), new Spit(shooter, collector, drivebase));
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
-    arm.setDefaultCommand(new ManualDriveArm(arm, () -> MathUtil.applyDeadband(manipulatorXbox.getLeftY(), 0.7)));
+    arm.setDefaultCommand(new ManualDriveArm(arm, () -> MathUtil.applyDeadband(manipulatorXbox.getRightY(), 0.7)));
     new JoystickButton(driverXbox, XboxController.Button.kBack.value).onTrue((new InstantCommand(drivebase::zeroGyro)));
     // new JoystickButton(driverXbox, 3).onTrue(new InstantCommand(drivebase::addFakeVisionReading));
     // new JoystickButton(driverXbox,
@@ -147,6 +147,7 @@ public class RobotContainer
     new JoystickButton(driverXbox, XboxController.Button.kX.value).whileTrue( new LimelightAmpAlign(drivebase));
     new JoystickButton(driverXbox, XboxController.Button.kRightBumper.value).whileTrue(new Feed(collector));
     new JoystickButton(driverXbox, XboxController.Button.kLeftBumper.value).whileTrue(new InstantCommand(() -> {System.out.println(arm.getAngle());}));
+    new JoystickButton(driverXbox, XboxController.Button.kB.value).whileTrue(new Shoot(shooter));
 
 
     new JoystickButton(manipulatorXbox, XboxController.Button.kB.value).whileTrue(ampAlignAndShootCommand);
