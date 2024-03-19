@@ -7,6 +7,7 @@ package frc.robot;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
@@ -15,7 +16,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-
+import frc.robot.Constants.Auton;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Shooter.Dump;
 import frc.robot.commands.Shooter.Shoot;
@@ -75,6 +76,7 @@ public class RobotContainer
   {
     NamedCommands.registerCommand("AutoShootAlign",new LimelightShootAlign(drivebase));
     // Configure the trigger bindings
+    registerAutos();
     configureBindings();
 
     AbsoluteDriveAdv closedAbsoluteDriveAdv = new AbsoluteDriveAdv(drivebase,
@@ -177,12 +179,23 @@ public class RobotContainer
    */
   public Command getAutonomousCommand()
   {
-    // An example command will be run in autonomous
-    //return new SequentialCommandGroup(
-    //new InstantCommand(() -> {System.out.println("Pre-Command"); }),
-    return drivebase.getAutonomousCommand("Main_Test",  true);
-    //new InstantCommand(() -> {System.out.println("Post-Command"); })  
-    //);//drivebase.getAutonomousCommand("Test_Path", true);
+    var auto = SmartDashboard.getString("Auto Selector", null);
+    System.out.println("Selected Autonomous: " + ((auto == null) ? "[null, cannot find one]" : auto));
+
+    // Verify and autonomous command was able to be found from the Dashboard
+    if (auto == null)
+      return drivebase.getAutonomousCommand(Auton.DEFAULT_AUTO_NAME, true);
+
+    // Verify the command actually exists. This will return the command if its in the list. (MUST match)
+    for (var i = 0; i < Auton.AUTO_NAMES.length; i++)
+      if (Auton.AUTO_NAMES[i].equals(auto))
+        return drivebase.getAutonomousCommand(auto, true);
+
+    // Dont try to run a autonomous that isn't verifiably in the list
+    System.out.println("This autonomous is not in the list!!!");
+    System.out.println(" . Make sure you select one from the dropdown and DONT CHANGE IT.");
+    System.out.println("    > It MUST be in the list to be run.");
+    return drivebase.getAutonomousCommand(Auton.DEFAULT_AUTO_NAME, true);
   }
 
   public void setDriveMode()
@@ -193,5 +206,9 @@ public class RobotContainer
   public void setMotorBrake(boolean brake)
   {
     drivebase.setMotorBrake(brake);
+  }
+
+  private void registerAutos() {
+   SmartDashboard.putStringArray("Auto List", Auton.AUTO_NAMES);
   }
 }
