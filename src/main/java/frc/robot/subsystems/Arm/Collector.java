@@ -43,6 +43,11 @@ public class Collector  extends SubsystemBase {
         collectorMotorController.set(CollectorConstants.runSpeed);    
     }
 
+    public void run(double factor){
+        // ledManager.setState(2);   
+        collectorMotorController.set(CollectorConstants.runSpeed * factor);    
+    }
+
     public void stop(){
         // ledManager.setState(0);
         collectorMotorController.set(0.0);

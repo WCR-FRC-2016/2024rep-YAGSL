@@ -17,6 +17,6 @@ public class ManualDriveArm extends Command {
 
     @Override
     public void execute() {
-       arm.drive(input.getAsDouble());
+       arm.drive(input.getAsDouble() * 2);
     }
 }

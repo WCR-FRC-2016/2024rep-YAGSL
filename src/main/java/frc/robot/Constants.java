@@ -54,6 +54,8 @@ public final class Constants
   public static class RobotDemensions
   {
     public static final double ArmLength = 21.5;
+    public static final double ArmHeightLimit = 0.46;
+        public static final double ArmDipLimit = 0.789;
   }
 
   public static class FieldDemensions

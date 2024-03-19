@@ -5,16 +5,16 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import frc.robot.utilities.LimelightUtility;
 
-public class LimelightAmpAlign extends Command {
+public class LimelightTrapAlign extends Command {
     private SwerveSubsystem driveBase;
     private double desiredAngle;
     private double currentAngle;
-    private static final double desiredDistanceZ = -1;
+    private static final double desiredDistanceZ = -0.26;
     private double actualDistanceZ;
     private double actualDistanceX;
     private double turnMagnitude = 1;
     private boolean closeToTarget = false;
-    public LimelightAmpAlign(SwerveSubsystem swerve){
+    public LimelightTrapAlign(SwerveSubsystem swerve){
         driveBase = swerve;
         addRequirements(driveBase);
 
@@ -65,7 +65,7 @@ public class LimelightAmpAlign extends Command {
         
         //System.out.println(currentAngle);
         
-        if (Math.abs(distanceToMoveY) <= 0.3){
+        if (Math.abs(distanceToMoveY) <= 0.1){
             closeToTarget = true;
         }
     }
@@ -79,7 +79,7 @@ public class LimelightAmpAlign extends Command {
        return false;
     }
 
-    public double getTx(){
+    private double getTx(){
         return NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0.0);
     }   
     private double getZpos(){

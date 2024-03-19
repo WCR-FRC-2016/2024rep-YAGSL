@@ -2,37 +2,31 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0,
-      "y": 0
+      "x": 15.130882833194237,
+      "y": 7.329728945172176
     },
-    "rotation": 0
+    "rotation": -90.0
   },
   "command": {
     "type": "sequential",
     "data": {
       "commands": [
         {
-          "type": "path",
+          "type": "named",
           "data": {
-            "pathName": null
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 5.0
+            "name": "collect"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Unit"
+            "pathName": "Move_Out"
           }
         },
         {
           "type": "wait",
           "data": {
-            "waitTime": 20000.0
+            "waitTime": 100000000.0
           }
         }
       ]
