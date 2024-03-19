@@ -4,10 +4,12 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.robot.subsystems.Arm.Arm;
+import frc.robot.subsystems.LedManager.LedManagerSubsystem;
 import frc.robot.utilities.LimelightUtility;
 
 public class TargetSpeaker extends Command {
     Arm arm;
+    LedManagerSubsystem ledManagerSubsystem;
     private static final double speakerBaseOffset = 0.991;
     private static final double distanceToAngleFactorClose = 0.040;
     private static final double distanceToAngleFactorMedium = 0.032;
@@ -19,6 +21,7 @@ public class TargetSpeaker extends Command {
 
     public TargetSpeaker(Arm arm){
         this.arm = arm;
+        this.ledManagerSubsystem = ledManagerSubsystem;
         addRequirements(arm);
     }
 
@@ -42,7 +45,7 @@ public class TargetSpeaker extends Command {
 
         }
 
-
+        ledManagerSubsystem.setState(6);
 
         
         var desiredAngle = Constants.RobotDemensions.ArmDipLimit - ((distanceToAprilTag - speakerBaseOffset) * distanceToAngleFactorActual);
