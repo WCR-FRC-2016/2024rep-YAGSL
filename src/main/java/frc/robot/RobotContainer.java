@@ -75,6 +75,9 @@ public class RobotContainer
   public RobotContainer()
   {
     NamedCommands.registerCommand("AutoShootAlign",new LimelightShootAlign(drivebase));
+    NamedCommands.registerCommand("Collect",new Collect(collector, arm));
+    
+    
     // Configure the trigger bindings
     registerAutos();
     configureBindings();
@@ -138,6 +141,7 @@ public class RobotContainer
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
     arm.setDefaultCommand(new ManualDriveArm(arm, () -> MathUtil.applyDeadband(manipulatorXbox.getRightY(), 0.7)));
     new JoystickButton(driverXbox, XboxController.Button.kBack.value).onTrue((new InstantCommand(drivebase::zeroGyro)));
+    NamedCommands.registerCommand("AmpAlignAndShoot", ampAlignAndShootCommand);
     // new JoystickButton(driverXbox, 3).onTrue(new InstantCommand(drivebase::addFakeVisionReading));
     // new JoystickButton(driverXbox,
     //                    2).whileTrue(

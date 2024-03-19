@@ -21,6 +21,21 @@ public class LedManagerSubsystem extends SubsystemBase{
     @Override
     public void periodic(){
         switch(state){
+            case 6:
+            fill(127,0,255);
+            break;
+
+            case 5:
+             fill(153,0,0);
+             break;
+             
+            case 4:
+             fill(0,0, 250);
+             break;
+
+            case 3:
+             fill(255, 128, 0);
+             break;
 
             case 2:
                 ledBuffer.setRGB(1, 255, 0, 0);

@@ -26,5 +26,9 @@ public class Debug extends Command {
         return NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0.0);
     }   
     
+    @Override
+    public boolean isFinished(){
+        return true;
+    }
 }
 
