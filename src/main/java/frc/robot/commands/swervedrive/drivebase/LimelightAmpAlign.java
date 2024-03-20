@@ -3,12 +3,13 @@ package frc.robot.commands.swervedrive.drivebase;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
+import frc.robot.utilities.LimelightUtility;
 
 public class LimelightAmpAlign extends Command {
     private SwerveSubsystem driveBase;
     private double desiredAngle;
     private double currentAngle;
-    private static final double desiredDistanceZ = -0.25;
+    private static final double desiredDistanceZ = -1;
     private double actualDistanceZ;
     private double actualDistanceX;
     private double turnMagnitude = 1;
@@ -31,7 +32,7 @@ public class LimelightAmpAlign extends Command {
     @Override
     public void execute() {
 
-        var botpose = getBotPos();
+        var botpose = LimelightUtility.getBotPos();
 
         // Check connection to Network table
         if (botpose.length == 0 ){ 
@@ -44,20 +45,20 @@ public class LimelightAmpAlign extends Command {
             if(closeToTarget == true){
                 driveBase.drive(0, 0, driveBase.getHeading().getRadians());
             }
-            else{
-                driveBase.drive(0, 0, driveBase.getHeading().getRadians() + Math.toRadians(25) * turnMagnitude);
-            }
+            // else{
+            //     driveBase.drive(0, 0, driveBase.getHeading().getRadians() + Math.toRadians(25) * turnMagnitude);
+            // }
             return;
         }
 
-        System.out.println(botpose[2]);
+        System.out.println("distance: " + botpose[2] + " | angle: " + getTx());
         actualDistanceX = botpose[0];
         actualDistanceZ = botpose[2];
-        double distanceToMoveY = -1 * (actualDistanceZ - desiredDistanceZ);
+        double distanceToMoveY = (actualDistanceZ - desiredDistanceZ);
         double distanceToMoveX = -1 * (actualDistanceX);
         desiredAngle = driveBase.getHeading().getDegrees() - getTx();
         //currentAngle = botpose[4];
-        driveBase.drive(distanceToMoveX * 0.3, distanceToMoveY * 0.3,  Math.toRadians(desiredAngle)); 
+        driveBase.drive(distanceToMoveY * 0.3, distanceToMoveX * 0.3,  Math.toRadians(desiredAngle)); 
         currentAngle = getTx();
         turnMagnitude = currentAngle != 0.0d ? currentAngle/Math.abs(currentAngle) * -1.0d :1.0d;
         //NetworkTableInstance.getDefault().getTable("limelight").getEntry("botpose").getDoubleArray(botpose);
@@ -72,14 +73,16 @@ public class LimelightAmpAlign extends Command {
     @Override 
     public boolean isFinished(){
         //return  Math.abs( currentAngle) <= 0.1d;
-        return false;
+       if(Math.abs(getTx()) <= 1.0d && Math.abs(getZpos())<=Math.abs(desiredDistanceZ) + 0.1) {
+        return true;
+       }
+       return false;
     }
 
-    private double getTx(){
+    public double getTx(){
         return NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0.0);
-    }
-
-    private double[] getBotPos(){
-        return NetworkTableInstance.getDefault().getTable("limelight").getEntry("botpose_targetspace").getDoubleArray(new double[0]);
-    }
+    }   
+    private double getZpos(){
+        return LimelightUtility.getBotPos()[2];
+    }   
 }

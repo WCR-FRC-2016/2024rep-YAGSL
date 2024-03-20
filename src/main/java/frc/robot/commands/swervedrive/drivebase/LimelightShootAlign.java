@@ -27,10 +27,10 @@ public class LimelightShootAlign extends Command {
     @Override
     public void execute() {
         var tx = getTx();
-        if (!getTv()){
-            driveBase.drive(0, 0, driveBase.getHeading().getRadians() + Math.toRadians(25) );
-            return;
-        }
+        // if (!getTv()){
+        //     driveBase.drive(0, 0, driveBase.getHeading().getRadians() + Math.toRadians(25) );
+        //     return;
+        // }
         desiredAngle = driveBase.getHeading().getDegrees() - tx;
         driveBase.drive(0, 0, Math.toRadians(desiredAngle));
         currentAngle = tx;

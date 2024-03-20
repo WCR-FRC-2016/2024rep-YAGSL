@@ -31,6 +31,17 @@ public final class Constants
     public static final PIDFConfig angleAutoPID   = new PIDFConfig(0.4, 0, 0.01);
 
     public static final double MAX_ACCELERATION = 2;
+
+    // The default command to run incase an invalid command (that doesn't exist) is selected
+    // THIS IS CASE SENSITIVE
+    public static final String DEFAULT_AUTO_NAME = "DriveDefault";
+    // In order to add more commands, just put the PathPlanner name as an index in this array,
+    // it will get handled from there. USE THE DEFAULT DRIVEBASE STATION.
+    // THIS IS CASE SENSITIVE
+    public static final String[] AUTO_NAMES = {
+      "Main_Test",
+      "Command2"
+    };
   }
 
   public static final class Drivebase
@@ -48,5 +59,34 @@ public final class Constants
     public static final double LEFT_Y_DEADBAND  = 0.1;
     public static final double RIGHT_X_DEADBAND = 0.1;
     public static final double TURN_CONSTANT    = 6;
+    
+  }
+
+  public static class RobotDemensions
+  {
+    public static final double ArmLength = 21.5;
+    public static final double ArmHeightLimit = 0.46;
+        public static final double ArmDipLimit = 0.789;
+  }
+
+  public static class FieldDemensions
+  {
+    public static final double SpeakerHeight = 82;
+  }
+
+  public static class CollectorConstants {
+    public static final int canId = 9;
+    public static final int currentLimit = 30;
+    public static final double runSpeed = 0.8d;
+  }
+
+  public static class ShooterConstants {
+    public static final int upperCanId = 13;
+    public static final int lowerCanId = 6;
+
+    public static final int upperCurrentLimit = 40; 
+    public static final int lowerCurrentLimit = 40;
+
+    public static final double flywheelRunSpeed = 1d;
   }
 }

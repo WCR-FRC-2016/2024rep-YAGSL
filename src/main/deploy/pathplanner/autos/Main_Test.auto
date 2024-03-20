@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0,
-      "y": 0
+      "x": 15.130882833194237,
+      "y": 7.329728945172176
     },
-    "rotation": 0
+    "rotation": 177.5104470780007
   },
   "command": {
     "type": "sequential",
@@ -14,25 +14,25 @@
         {
           "type": "path",
           "data": {
-            "pathName": null
+            "pathName": "Move_Out"
           }
         },
         {
-          "type": "wait",
+          "type": "named",
           "data": {
-            "waitTime": 5.0
+            "name": "AutoShoot"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": null
+            "pathName": "MoveForward"
           }
         },
         {
           "type": "wait",
           "data": {
-            "waitTime": 20000.0
+            "waitTime": 100000000.0
           }
         }
       ]
