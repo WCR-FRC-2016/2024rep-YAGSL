@@ -19,7 +19,7 @@ public class TargetSpeaker extends Command {
     private static final double horizontalDistanceOffsetFactor = 0.005;
 
 
-    public TargetSpeaker(Arm arm){
+    public TargetSpeaker(Arm arm, LedManagerSubsystem ledManagerSubsystem){
         this.arm = arm;
         this.ledManagerSubsystem = ledManagerSubsystem;
         addRequirements(arm);
@@ -46,10 +46,10 @@ public class TargetSpeaker extends Command {
         }
        var distanceToAprilTagHorizontal = Math.abs(botpose[0]);
     var horizontalDistanceOffset = distanceToAprilTagHorizontal/2.0f * horizontalDistanceOffsetFactor;
-        ledManagerSubsystem.setState(6);
+        //ledManagerSubsystem.setState(6);
 
         
-        var desiredAngle = Constants.RobotDemensions.ArmDipLimit - ((distanceToAprilTag - speakerBaseOffset) * distanceToAngleFactorActual - horizontalDistanceOffset);
+        var desiredAngle = Constants.RobotDemensions.ArmDipLimit - ((distanceToAprilTag - speakerBaseOffset) * distanceToAngleFactorActual + horizontalDistanceOffset);
 
         arm.setAngle(desiredAngle);
     }

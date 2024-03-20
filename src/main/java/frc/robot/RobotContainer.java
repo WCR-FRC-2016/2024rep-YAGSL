@@ -136,7 +136,7 @@ public class RobotContainer
    */
   private void configureBindings()
   { var ampAlignAndShootCommand = new SequentialCommandGroup 
-      (new  ParallelCommandGroup (new AmpAngleCommand (arm, 0.5), new LimelightAmpAlign(drivebase))
+      (new  ParallelCommandGroup (new AmpAngleCommand (arm, 0.5, ledManager), new LimelightAmpAlign(drivebase))
      , new GoForward(drivebase), new Dump(shooter, collector, drivebase));
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
     arm.setDefaultCommand(new ManualDriveArm(arm, () -> MathUtil.applyDeadband(manipulatorXbox.getRightY(), 0.7)));
@@ -165,13 +165,13 @@ public class RobotContainer
 
     new JoystickButton(manipulatorXbox, XboxController.Button.kY.value).whileTrue(new Shoot(shooter));
     new JoystickButton(manipulatorXbox, XboxController.Button.kLeftBumper.value).whileTrue(new Spit(shooter, collector, drivebase)); // Test bind
-    new JoystickButton(manipulatorXbox, XboxController.Button.kX.value).whileTrue(new AmpAngleCommand(arm, Constants.RobotDemensions.ArmHeightLimit));
+    new JoystickButton(manipulatorXbox, XboxController.Button.kX.value).whileTrue(new AmpAngleCommand(arm, Constants.RobotDemensions.ArmHeightLimit, ledManager));
     new JoystickButton(manipulatorXbox, XboxController.Button.kRightBumper.value).whileTrue(new Feed(collector));
-    new JoystickButton(manipulatorXbox, XboxController.Button.kA.value).whileTrue(new Debug(collector, arm));
+    new JoystickButton(manipulatorXbox, XboxController.Button.kA.value).whileTrue(new Spit(shooter, collector, drivebase));
  
     
 
-    mainpulatorXboxCommanded.rightTrigger(0.5).whileTrue( new ParallelCommandGroup ( new LimelightShootAlign(drivebase), new Shoot(shooter), new TargetSpeaker(arm)));
+    mainpulatorXboxCommanded.rightTrigger(0.5).whileTrue( new ParallelCommandGroup ( new LimelightShootAlign(drivebase), new Shoot(shooter), new TargetSpeaker(arm, ledManager)));
     mainpulatorXboxCommanded.leftTrigger(0.5).whileTrue(new Collect(collector, arm));
     // new JoystickButton(driverXbox, XboxController.Button.kX.value).whileTrue(new TargetSpeaker(arm)); // TODO: Double bound from merge
   }
