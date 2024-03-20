@@ -5,7 +5,7 @@
       "x": 15.130882833194237,
       "y": 7.329728945172176
     },
-    "rotation": -90.0
+    "rotation": 177.5104470780007
   },
   "command": {
     "type": "sequential",
@@ -20,7 +20,13 @@
         {
           "type": "named",
           "data": {
-            "name": "AmpAlign"
+            "name": "AutoShoot"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "MoveForward"
           }
         },
         {

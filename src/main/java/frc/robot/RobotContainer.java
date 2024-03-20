@@ -12,12 +12,15 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.Auton;
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.commands.Shooter.AutoFeed;
+import frc.robot.commands.Shooter.AutoShoot;
 import frc.robot.commands.Shooter.AutoShootStart;
 import frc.robot.commands.Shooter.AutoShootStop;
 import frc.robot.commands.Shooter.Dump;
@@ -78,14 +81,19 @@ public class RobotContainer
   {
 
     var ampAlignAndShootCommand = new SequentialCommandGroup 
-      (new  ParallelCommandGroup (new AmpAngleCommand (arm, 0.5, ledManager), new LimelightAmpAlign(drivebase))
-     , new GoForward(drivebase), new Dump(shooter, collector, drivebase));
+      (new  ParallelCommandGroup (new AmpAngleCommand (arm, 0.5, ledManager), new LimelightAmpAlign(drivebase)) 
+     , new GoForward(drivebase),new AutoShootStart(shooter, collector), new WaitCommand(2), new AutoShootStop(shooter, collector), new AmpAngleCommand (arm, Constants.RobotDemensions.ArmDipLimit, ledManager));
+
+     var AutoShoot = new SequentialCommandGroup 
+      (new AmpAngleCommand (arm, Constants.RobotDemensions.ArmDipLimit, ledManager), new AutoShoot(shooter), new WaitCommand(1), new AutoFeed(collector), new WaitCommand(1), new AutoShootStop(shooter, collector));
+
 
     NamedCommands.registerCommand("AmpAlign",ampAlignAndShootCommand);
     NamedCommands.registerCommand("AutoShootAlign",new LimelightShootAlign(drivebase));
     NamedCommands.registerCommand("Collect",new Collect(collector, arm));
-    NamedCommands.registerCommand("ShootStart", new AutoShootStart(shooter));
-    NamedCommands.registerCommand("ShootStop", new AutoShootStop(shooter));
+    NamedCommands.registerCommand("ShootStart", new AutoShootStart(shooter, collector));
+    NamedCommands.registerCommand("ShootStop", new AutoShootStop(shooter, collector));
+    NamedCommands.registerCommand("AutoShoot", AutoShoot);
     
     
     // Configure the trigger bindings
