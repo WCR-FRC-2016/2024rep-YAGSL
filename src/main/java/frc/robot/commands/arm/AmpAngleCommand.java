@@ -8,11 +8,11 @@ public class AmpAngleCommand extends Command {
   Arm arm;
   LedManagerSubsystem ledManagerSubsystem;
   double angle;
-    public AmpAngleCommand (Arm arm, double angle){
+    public AmpAngleCommand (Arm arm, double angle, LedManagerSubsystem ledManagerSubsystem){
         this.arm = arm; 
         this.angle = angle;
         this.ledManagerSubsystem = ledManagerSubsystem;
-        addRequirements(arm, ledManagerSubsystem);
+        addRequirements(arm);
     }
     @Override
     public void initialize(){
