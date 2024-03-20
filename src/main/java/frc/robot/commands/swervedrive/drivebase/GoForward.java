@@ -5,7 +5,7 @@ import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 
 public class GoForward extends Command {
     private SwerveSubsystem driveBase;
-    private int timerCounter = 75;
+    private int timerCounter = 100;
     private int unlazyEndline; 
     public GoForward(SwerveSubsystem swerve){
         driveBase = swerve;

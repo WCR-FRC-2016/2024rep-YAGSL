@@ -18,6 +18,8 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.Auton;
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.commands.Shooter.AutoShootStart;
+import frc.robot.commands.Shooter.AutoShootStop;
 import frc.robot.commands.Shooter.Dump;
 import frc.robot.commands.Shooter.Shoot;
 import frc.robot.commands.Shooter.Spit;
@@ -74,8 +76,16 @@ public class RobotContainer
    */
   public RobotContainer()
   {
+
+    var ampAlignAndShootCommand = new SequentialCommandGroup 
+      (new  ParallelCommandGroup (new AmpAngleCommand (arm, 0.5, ledManager), new LimelightAmpAlign(drivebase))
+     , new GoForward(drivebase), new Dump(shooter, collector, drivebase));
+
+    NamedCommands.registerCommand("AmpAlign",ampAlignAndShootCommand);
     NamedCommands.registerCommand("AutoShootAlign",new LimelightShootAlign(drivebase));
     NamedCommands.registerCommand("Collect",new Collect(collector, arm));
+    NamedCommands.registerCommand("ShootStart", new AutoShootStart(shooter));
+    NamedCommands.registerCommand("ShootStop", new AutoShootStop(shooter));
     
     
     // Configure the trigger bindings

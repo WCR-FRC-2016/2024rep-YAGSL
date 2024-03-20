@@ -12,15 +12,15 @@
     "data": {
       "commands": [
         {
-          "type": "named",
-          "data": {
-            "name": "collect"
-          }
-        },
-        {
           "type": "path",
           "data": {
             "pathName": "Move_Out"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AmpAlign"
           }
         },
         {
