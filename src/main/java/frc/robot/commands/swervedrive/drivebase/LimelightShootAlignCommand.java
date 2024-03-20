@@ -4,12 +4,13 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 
-public class LimelightShootAlign extends Command {
+public class LimelightShootAlignCommand extends Command {
     private SwerveSubsystem driveBase;
     private double desiredAngle;
-   // private double[] botpose = new double[8];
+    // private double[] botpose = new double[8];
     private double currentAngle;
-    public LimelightShootAlign(SwerveSubsystem swerve){
+
+    public LimelightShootAlignCommand(SwerveSubsystem swerve) {
         driveBase = swerve;
         addRequirements(driveBase);
 
@@ -17,9 +18,9 @@ public class LimelightShootAlign extends Command {
 
     @Override
     public void initialize() {
-        
-        //NetworkTableInstance.getDefault().getTable("limelight").getEntry("botpose").getDoubleArray(botpose);
-        //desiredAngle = botpose[4];
+
+        // NetworkTableInstance.getDefault().getTable("limelight").getEntry("botpose").getDoubleArray(botpose);
+        // desiredAngle = botpose[4];
         // double tx = getTx();
         // desiredAngle = driveBase.getHeading().getDegrees() - tx;
     }
@@ -28,8 +29,9 @@ public class LimelightShootAlign extends Command {
     public void execute() {
         var tx = getTx();
         // if (!getTv()){
-        //     driveBase.drive(0, 0, driveBase.getHeading().getRadians() + Math.toRadians(25) );
-        //     return;
+        // driveBase.drive(0, 0, driveBase.getHeading().getRadians() +
+        // Math.toRadians(25) );
+        // return;
         // }
         desiredAngle = driveBase.getHeading().getDegrees() - tx;
         driveBase.drive(0, 0, Math.toRadians(desiredAngle));
@@ -39,19 +41,20 @@ public class LimelightShootAlign extends Command {
         // System.out.println(currentAngle);
     }
 
-    @Override 
-    public boolean isFinished(){
-         if(getTv() && Math.abs(getTx()) < 1) {
+    @Override
+    public boolean isFinished() {
+        if (getTv() && Math.abs(getTx()) < 1) {
             return true;
-         }
+        }
 
         return false;
     }
 
-    private double getTx(){
+    private double getTx() {
         return NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0.0);
     }
-    private boolean getTv(){
-        return NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0.0)>0;
+
+    private boolean getTv() {
+        return NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0.0) > 0;
     }
 }

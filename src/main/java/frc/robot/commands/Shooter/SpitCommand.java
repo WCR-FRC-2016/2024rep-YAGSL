@@ -5,19 +5,20 @@ import frc.robot.subsystems.Arm.Collector;
 import frc.robot.subsystems.Arm.Shooter;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 
-public class Spit extends Command {
+public class SpitCommand extends Command {
     Shooter shooter;
     Collector collector;
     SwerveSubsystem drivebase;
-    public Spit(Shooter shooter, Collector collector, SwerveSubsystem drivebase){
+
+    public SpitCommand(Shooter shooter, Collector collector, SwerveSubsystem drivebase) {
         this.shooter = shooter;
         this.collector = collector;
         this.drivebase = drivebase;
-        addRequirements(shooter, collector,drivebase);
+        addRequirements(shooter, collector, drivebase);
 
     }
 
-     @Override
+    @Override
     public void execute() {
         shooter.run(-1);
         collector.run(-1);
@@ -28,5 +29,5 @@ public class Spit extends Command {
         shooter.stop();
         collector.stop();
     }
-    
+
 }

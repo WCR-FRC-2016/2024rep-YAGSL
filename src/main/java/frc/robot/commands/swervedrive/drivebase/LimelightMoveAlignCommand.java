@@ -5,14 +5,14 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import frc.robot.utilities.LimelightUtility;
 
-public class LimelightMoveAlign extends Command {
+public class LimelightMoveAlignCommand extends Command {
     private SwerveSubsystem driveBase;
     private double desiredAngle;
     private double currentAngle;
     private static final double desiredDistanceZ = -1;
     private double actualDistanceZ;
     private double turnMagnitude = 1;
-    public LimelightMoveAlign(SwerveSubsystem swerve){
+    public LimelightMoveAlignCommand(SwerveSubsystem swerve){
         driveBase = swerve;
         addRequirements(driveBase);
 

@@ -3,15 +3,16 @@ package frc.robot.commands.swervedrive.drivebase;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 
-public class ResetOdometry extends Command {
+public class ResetOdometryCommand extends Command {
     SwerveSubsystem driveBase;
-    public ResetOdometry( SwerveSubsystem driveBase){
+
+    public ResetOdometryCommand(SwerveSubsystem driveBase) {
         this.driveBase = driveBase;
         addRequirements(driveBase);
     }
 
     @Override
-    public void initialize () {
+    public void initialize() {
         driveBase.resetOdometry(null);
     }
 

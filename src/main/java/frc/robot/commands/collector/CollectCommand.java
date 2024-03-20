@@ -4,26 +4,28 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Arm.Arm;
 import frc.robot.subsystems.Arm.Collector;
 
-public class Collect extends Command {
+public class CollectCommand extends Command {
     Collector collector;
     Arm arm;
-    public Collect(Collector collector, Arm arm ){
+
+    public CollectCommand(Collector collector, Arm arm) {
         this.arm = arm;
         this.collector = collector;
-        addRequirements(arm,collector);
+        addRequirements(arm, collector);
 
     }
+
     @Override
-    public void initialize(){
+    public void initialize() {
         arm.targetHell();
     }
+
     @Override
     public void execute() {
 
-        if(collector.hasPiece() == false){
+        if (collector.hasPiece() == false) {
             collector.run();
-        }
-        else{
+        } else {
             collector.stop();
         }
     }
@@ -32,5 +34,5 @@ public class Collect extends Command {
     public void end(boolean interrupted) {
         collector.stop();
     }
-    
+
 }

@@ -5,10 +5,11 @@ import java.util.function.DoubleSupplier;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Arm.Arm;
 
-public class ManualDriveArm extends Command {
+public class ManualDriveArmCommand extends Command {
     Arm arm;
     DoubleSupplier input;
-    public ManualDriveArm(Arm arm, DoubleSupplier input){
+
+    public ManualDriveArmCommand(Arm arm, DoubleSupplier input) {
         this.arm = arm;
         this.input = input;
         addRequirements(arm);
@@ -17,6 +18,6 @@ public class ManualDriveArm extends Command {
 
     @Override
     public void execute() {
-       arm.drive(input.getAsDouble() * 2);
+        arm.drive(input.getAsDouble() * 2);
     }
 }
