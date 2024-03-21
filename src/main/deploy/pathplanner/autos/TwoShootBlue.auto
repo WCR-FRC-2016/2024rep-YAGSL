@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.0,
-      "y": 0.0
+      "x": 0.5447222323016081,
+      "y": 7.256431655720455
     },
-    "rotation": 0
+    "rotation": 49.53777250790664
   },
   "command": {
     "type": "sequential",
@@ -14,42 +14,42 @@
         {
           "type": "path",
           "data": {
-            "pathName": "GASGASGASDRIFTINGSORRYMYREFERENCESARETWENTYYEARSOLD"
+            "pathName": "BlueToSpeaker1"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AutoShoot"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Collect"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "GASGASGASDRIFTINGSORRYMYREFERENCESARETWENTYYEARSOLD"
+            "pathName": "Blue1ColectPiece"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "GASGASGASDRIFTINGSORRYMYREFERENCESARETWENTYYEARSOLD"
+            "pathName": "BlueToSpeaker1"
           }
         },
         {
-          "type": "path",
+          "type": "named",
           "data": {
-            "pathName": "GASGASGASDRIFTINGSORRYMYREFERENCESARETWENTYYEARSOLD"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "GASGASGASDRIFTINGSORRYMYREFERENCESARETWENTYYEARSOLD"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 999.0
+            "name": "AutoShoot"
           }
         }
       ]
     }
   },
-  "folder": null,
+  "folder": "TwoShoot",
   "choreoAuto": false
 }

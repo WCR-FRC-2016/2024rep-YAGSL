@@ -184,22 +184,14 @@ public class RobotContainer {
     // InstantCommand(drivebase::lock, drivebase)));
 
     // TODO: Unremove these...
-    // new JoystickButton(driverXbox, XboxController.Button.kX.value).whileTrue(new
-    // LimelightShootAlign(drivebase));
-    // new JoystickButton(driverXbox, XboxController.Button.kY.value).whileTrue(new
-    // LimelightMoveAlign(drivebase));
-    // new JoystickButton(driverXbox, XboxController.Button.kY.value).whileTrue(new
-    // LimelightAmpAlign(drivebase)); // Test bind
-    // new JoystickButton(driverXbox,
-    // XboxController.Button.kA.value).whileTrue(ampAlignAndShootCommand);
-    // new JoystickButton(driverXbox, XboxController.Button.kX.value).whileTrue( new
-    // LimelightAmpAlign(drivebase));
-
-    new JoystickButton(driverXbox, XboxController.Button.kLeftBumper.value).whileTrue(new InstantCommand(() -> {
-      System.out.println(arm.getAngle());
-    }));
-    new JoystickButton(driverXbox, XboxController.Button.kStart.value)
-        .whileTrue(new LedPassiveCommand(ledManager, collector));
+    //new JoystickButton(driverXbox, XboxController.Button.kX.value).whileTrue(new LimelightShootAlign(drivebase));
+    //new JoystickButton(driverXbox, XboxController.Button.kY.value).whileTrue(new LimelightMoveAlign(drivebase));
+    //new JoystickButton(driverXbox, XboxController.Button.kY.value).whileTrue(new LimelightAmpAlign(drivebase)); // Test bind
+    //new JoystickButton(driverXbox, XboxController.Button.kA.value).whileTrue(ampAlignAndShootCommand);
+    //new JoystickButton(driverXbox, XboxController.Button.kX.value).whileTrue( new LimelightAmpAlign(drivebase));
+    
+    new JoystickButton(driverXbox, XboxController.Button.kLeftBumper.value).whileTrue(new InstantCommand(() -> {System.out.println(arm.getAngle());}));
+    new JoystickButton(driverXbox, XboxController.Button.kStart.value).whileTrue(new LedPassiveCommand(ledManager, collector));
     new JoystickButton(driverXbox, XboxController.Button.kB.value).whileTrue(ampAlignAndShootCommand);
     new JoystickButton(driverXbox, XboxController.Button.kY.value).whileTrue(new LimelightTrapAlignCommand(drivebase));
 

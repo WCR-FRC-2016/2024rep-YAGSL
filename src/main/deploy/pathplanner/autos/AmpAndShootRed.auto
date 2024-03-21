@@ -2,42 +2,42 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0,
-      "y": 0
+      "x": 14.70575855437425,
+      "y": 7.7108748503211295
     },
-    "rotation": 0
+    "rotation": -88.66778014613053
   },
   "command": {
     "type": "sequential",
     "data": {
       "commands": [
         {
-          "type": "path",
+          "type": "named",
           "data": {
-            "pathName": null
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 5.0
+            "name": "AmpAlign"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": null
+            "pathName": "Red1ColectPiece"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "RedToSpeaker1"
           }
         },
         {
           "type": "wait",
           "data": {
-            "waitTime": 20000.0
+            "waitTime": 1000000000.0
           }
         }
       ]
     }
   },
-  "folder": null,
+  "folder": "AmpAndShoot",
   "choreoAuto": false
 }

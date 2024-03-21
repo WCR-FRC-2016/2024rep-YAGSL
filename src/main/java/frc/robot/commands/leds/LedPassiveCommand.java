@@ -16,8 +16,11 @@ public class LedPassiveCommand extends Command {
 
     @Override
     public void execute() {
+
         if (collector.hasPiece() == true) {
             ledManager.setState(3);
         }
+        
     }
+
 }

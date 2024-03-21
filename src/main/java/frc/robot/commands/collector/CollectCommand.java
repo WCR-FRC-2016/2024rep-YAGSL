@@ -28,6 +28,7 @@ public class CollectCommand extends Command {
         } else {
             collector.stop();
         }
+        
     }
 
     @Override

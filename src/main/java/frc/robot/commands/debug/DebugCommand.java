@@ -32,4 +32,5 @@ public class DebugCommand extends Command {
     public boolean isFinished() {
         return true;
     }
+    
 }

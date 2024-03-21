@@ -24,4 +24,5 @@ public class AutoShootStopCommand extends Command {
     public boolean isFinished() {
         return true;
     }
+
 }

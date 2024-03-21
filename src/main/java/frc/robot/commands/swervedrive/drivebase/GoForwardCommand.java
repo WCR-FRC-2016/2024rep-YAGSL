@@ -29,7 +29,7 @@ public class GoForwardCommand extends Command {
     public boolean isFinished() {
         return unlazyEndline >= timerCounter;
     }
-
+    
     @Override
     public void end(boolean interrupted) {
         System.out.println("FinishedMoving");

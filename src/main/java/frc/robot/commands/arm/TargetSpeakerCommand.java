@@ -26,9 +26,7 @@ public class TargetSpeakerCommand extends Command {
     @Override
     public void execute() {
         double distanceToAngleFactorActual = 0.040;
-
         var botpose = LimelightUtility.getBotPos();
-
         var distanceToAprilTag = Math.abs(botpose[2]);
         if (distanceToAprilTag < mediumDistance) {
             distanceToAngleFactorActual = distanceToAngleFactorClose;
@@ -52,6 +50,7 @@ public class TargetSpeakerCommand extends Command {
         var desiredAngle = Constants.RobotDemensions.ArmDipLimit
                 - ((distanceToAprilTag - speakerBaseOffset) * distanceToAngleFactorActual + horizontalDistanceOffset);
         System.out.println(horizontalDistanceOffset);
+        
         arm.setAngle(desiredAngle);
     }
 
