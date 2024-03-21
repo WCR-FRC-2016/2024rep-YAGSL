@@ -14,7 +14,6 @@ public class Dump extends Command {
         this.collector = collector;
         this.drivebase = drivebase;
         addRequirements(shooter, collector,drivebase);
-
     }
 
      @Override
