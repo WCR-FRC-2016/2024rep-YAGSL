@@ -28,6 +28,7 @@ import frc.robot.commands.Shooter.SpitCommand;
 import frc.robot.commands.arm.AmpAngleCommand;
 import frc.robot.commands.arm.ManualDriveArmCommand;
 import frc.robot.commands.arm.TargetSpeakerCommand;
+import frc.robot.commands.climber.ManualDriveClimberCommand;
 import frc.robot.commands.collector.CollectCommand;
 import frc.robot.commands.collector.FeedCommand;
 import frc.robot.commands.leds.LedPassiveCommand;
@@ -39,6 +40,7 @@ import frc.robot.commands.swervedrive.drivebase.LimelightTrapAlignCommand;
 import frc.robot.subsystems.Arm.Arm;
 import frc.robot.subsystems.Arm.Collector;
 import frc.robot.subsystems.Arm.Shooter;
+import frc.robot.subsystems.Climber.Climber;
 import frc.robot.subsystems.LedManager.LedManagerSubsystem;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import java.io.File;
@@ -63,6 +65,7 @@ public class RobotContainer {
   public final Collector collector = new Collector(ledManager);
   private final Shooter shooter = new Shooter();
   private final Arm arm = new Arm();
+  private final Climber climber = new Climber();
   // CommandJoystick rotationController = new CommandJoystick(1);
   // Replace with CommandPS4Controller or CommandJoystick if needed
 
@@ -166,6 +169,8 @@ public class RobotContainer {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
     arm.setDefaultCommand(
         new ManualDriveArmCommand(arm, () -> MathUtil.applyDeadband(manipulatorXbox.getRightY(), 0.7)));
+    arm.setDefaultCommand(
+        new ManualDriveClimberCommand(climber, () -> MathUtil.applyDeadband(manipulatorXbox.getLeftX(), 0.7)));
     new JoystickButton(driverXbox, XboxController.Button.kBack.value).onTrue((new InstantCommand(drivebase::zeroGyro)));
     NamedCommands.registerCommand("AmpAlignAndShoot", ampAlignAndShootCommand);
     // new JoystickButton(driverXbox, 3).onTrue(new

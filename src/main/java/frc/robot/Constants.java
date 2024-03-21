@@ -89,4 +89,10 @@ public final class Constants {
 
     public static final double flywheelRunSpeed = 1d;
   }
+
+  public static class ClimberConstants {
+    public static final int leftCanId = 0; // Needs to be set
+    public static final int rightCanId = 0; // Needs to be set
+    public static final double runSpeed = 0.3d;
+  }
 }

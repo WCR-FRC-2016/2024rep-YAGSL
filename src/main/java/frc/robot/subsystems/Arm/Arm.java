@@ -49,14 +49,15 @@ public class Arm extends SubsystemBase {
         masterMotorController.burnFlash();
         slaveMotorController.burnFlash();
 
-        //0.789
-        //0.46
+        // 0.789
+        // 0.46
 
-        
     }
-        public void drive(double notdrive){
-            setAngle(encoder.getPosition()+notdrive*0.05);
-        }
+
+    public void drive(double notdrive) {
+        setAngle(encoder.getPosition() + notdrive * 0.05);
+    }
+
     public void setAngle(double desiredAngle) {
         desiredAngle = Math.max(Math.min(0.789, desiredAngle), 0.50);
         pidController.setReference(desiredAngle, ControlType.kPosition);
@@ -69,27 +70,30 @@ public class Arm extends SubsystemBase {
         return currentAngle <= desiredAngle + 0.025 && currentAngle >= desiredAngle - 0.025;
 
     }
-    //  public double getTargetAngle(){
-    //  var botpose = LimelightUtility.getBotPos();
-    //  // Take distance from robot to speaker
+
+    // public double getTargetAngle(){
+    // var botpose = LimelightUtility.getBotPos();
+    // // Take distance from robot to speaker
     // // // tall is always 6' 10" subtracted by hight of shooter
     // // // angle = atan(distance - any offsets, height - arm height)
-    //  return Math.toDegrees(Math.atan((Constants.FieldDemensions.SpeakerHeight - armHeight()) /
+    // return Math.toDegrees(Math.atan((Constants.FieldDemensions.SpeakerHeight -
+    // armHeight()) /
     // // botpose[2] ));
-    //  }
-     public void targetSpeaker(){
+    // }
+    public void targetSpeaker() {
         // System.out.println(getTargetAngle());
-        //    setAngle(getTargetAngle()/360.0);
-     }
+        // setAngle(getTargetAngle()/360.0);
+    }
 
-    //  private double armHeight(){
-    // //     //take arm length (Hypotonuse)
-    // //     //take arm angle from CANcoder
-    // //     //find Height with sin()
-    //      return Math.sin(Math.toRadians(encoder.getPosition()*360)) * Constants.RobotDemensions.ArmLength;
-    //  }
+    // private double armHeight(){
+    // // //take arm length (Hypotonuse)
+    // // //take arm angle from CANcoder
+    // // //find Height with sin()
+    // return Math.sin(Math.toRadians(encoder.getPosition()*360)) *
+    // Constants.RobotDemensions.ArmLength;
+    // }
 
-    public double getAngle(){
+    public double getAngle() {
         return encoder.getPosition();
     }
 
