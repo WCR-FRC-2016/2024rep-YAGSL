@@ -18,9 +18,11 @@ public class AutoShootStart extends Command{
         shooter.run();
         collector.run();
     }
+
     @Override
     public boolean isFinished(){
         return true;
     }
+    
 }
 

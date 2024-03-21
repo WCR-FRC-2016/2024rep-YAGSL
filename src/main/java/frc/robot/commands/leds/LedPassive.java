@@ -8,15 +8,19 @@ import frc.robot.subsystems.LedManager.LedManagerSubsystem;
 public class LedPassive extends Command {
     LedManagerSubsystem ledManager;
     Collector collector;
-    public LedPassive(LedManagerSubsystem ledManager){
+    public LedPassive(LedManagerSubsystem ledManager, Collector collector){
         this.ledManager = ledManager;
         this.collector = collector;
         addRequirements(ledManager);
     }
+
     @Override
     public void execute() {
+
         if (collector.hasPiece() == true) {
             ledManager.setState(3);
         }
+        
     }
+
 }

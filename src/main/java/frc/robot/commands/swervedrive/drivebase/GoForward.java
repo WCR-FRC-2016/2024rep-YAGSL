@@ -18,14 +18,17 @@ public class GoForward extends Command {
         unlazyEndline = 0;
         System.out.println("started moving");
     }
+
     @Override
     public void execute(){
         unlazyEndline++;
     }
+
     @Override
     public boolean isFinished(){
         return unlazyEndline>=timerCounter;
     }
+    
     @Override
     public void end(boolean interrupted){System.out.println("FinishedMoving");
         driveBase.drive(0, 0, driveBase.getHeading().getRadians());

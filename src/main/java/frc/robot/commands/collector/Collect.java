@@ -11,12 +11,13 @@ public class Collect extends Command {
         this.arm = arm;
         this.collector = collector;
         addRequirements(arm,collector);
-
     }
+
     @Override
     public void initialize(){
         arm.targetHell();
     }
+
     @Override
     public void execute() {
 
@@ -26,6 +27,7 @@ public class Collect extends Command {
         else{
             collector.stop();
         }
+        
     }
 
     @Override

@@ -76,7 +76,9 @@ public class LimelightTrapAlign extends Command {
        if(Math.abs(getTx()) <= 1.0d && Math.abs(getZpos())<=Math.abs(desiredDistanceZ) + 0.1) {
         return true;
        }
+
        return false;
+       
     }
 
     private double getTx(){

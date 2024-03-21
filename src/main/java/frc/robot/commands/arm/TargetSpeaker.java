@@ -19,7 +19,6 @@ public class TargetSpeaker extends Command {
         private static final double farDistance = 3;
     private static final double horizontalDistanceOffsetFactor = 0.010;
 
-
     public TargetSpeaker(Arm arm, LedManagerSubsystem ledManagerSubsystem){
         this.arm = arm;
         this.ledManagerSubsystem = ledManagerSubsystem;
@@ -29,32 +28,31 @@ public class TargetSpeaker extends Command {
     @Override
     public void execute() {
         double distanceToAngleFactorActual = 0.040;
-
         var botpose = LimelightUtility.getBotPos();
-
         var distanceToAprilTag = Math.abs(botpose[2]);
+
         if(distanceToAprilTag < mediumDistance){
             distanceToAngleFactorActual = distanceToAngleFactorClose;
         System.out.println("close");
-
         }
+
         if(distanceToAprilTag >= mediumDistance && distanceToAprilTag < farDistance){
             distanceToAngleFactorActual = distanceToAngleFactorMedium;
                     System.out.println("medium");
-
         }
+
         if(distanceToAprilTag >= farDistance){
             distanceToAngleFactorActual = distanceToAngleFactorFar;
                     System.out.println("far");
-
         }
-       var distanceToAprilTagHorizontal = Math.abs(botpose[0]);
-    var horizontalDistanceOffset = distanceToAprilTagHorizontal/2.0f * horizontalDistanceOffsetFactor;
-        //ledManagerSubsystem.setState(6);
 
-        
+        var distanceToAprilTagHorizontal = Math.abs(botpose[0]);
+        var horizontalDistanceOffset = distanceToAprilTagHorizontal/2.0f * horizontalDistanceOffsetFactor;
+        //ledManagerSubsystem.setState(6);       
         var desiredAngle = Constants.RobotDemensions.ArmDipLimit - ((distanceToAprilTag - speakerBaseOffset) * distanceToAngleFactorActual + horizontalDistanceOffset);
+
         System.out.println(horizontalDistanceOffset);
+        
         arm.setAngle(desiredAngle);
     }
 

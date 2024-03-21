@@ -4,7 +4,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Arm.Collector;
 import frc.robot.subsystems.Arm.Shooter;
 
-
     public class AutoShootStop extends Command{
      Shooter shooter;
      Collector collector;
@@ -19,9 +18,11 @@ import frc.robot.subsystems.Arm.Shooter;
         shooter.stop();
         collector.stop();
     }
+
     @Override
     public boolean isFinished(){
         return true;
     }
+
 }
 

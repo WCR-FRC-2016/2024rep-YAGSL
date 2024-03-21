@@ -17,7 +17,6 @@ public class LimelightAmpAlign extends Command {
     public LimelightAmpAlign(SwerveSubsystem swerve){
         driveBase = swerve;
         addRequirements(driveBase);
-
     }
 
     @Override
@@ -85,4 +84,5 @@ public class LimelightAmpAlign extends Command {
     private double getZpos(){
         return LimelightUtility.getBotPos()[2];
     }   
+    
 }

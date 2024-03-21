@@ -176,7 +176,7 @@ public class RobotContainer
     //new JoystickButton(driverXbox, XboxController.Button.kX.value).whileTrue( new LimelightAmpAlign(drivebase));
     
     new JoystickButton(driverXbox, XboxController.Button.kLeftBumper.value).whileTrue(new InstantCommand(() -> {System.out.println(arm.getAngle());}));
-    new JoystickButton(driverXbox, XboxController.Button.kStart.value).whileTrue(new LedPassive(ledManager));
+    new JoystickButton(driverXbox, XboxController.Button.kStart.value).whileTrue(new LedPassive(ledManager, collector));
     new JoystickButton(driverXbox, XboxController.Button.kB.value).whileTrue(ampAlignAndShootCommand);
     new JoystickButton(driverXbox, XboxController.Button.kY.value).whileTrue(new LimelightTrapAlign(drivebase));
 

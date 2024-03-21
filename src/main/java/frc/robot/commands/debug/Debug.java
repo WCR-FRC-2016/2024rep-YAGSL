@@ -13,8 +13,8 @@ public class Debug extends Command {
         this.arm = arm;
         this.collector = collector;
         addRequirements(arm,collector);
-
     }
+
     @Override
     public void execute(){
         var botpose = LimelightUtility.getBotPos();
@@ -30,5 +30,6 @@ public class Debug extends Command {
     public boolean isFinished(){
         return true;
     }
+    
 }
 

@@ -2,42 +2,42 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0,
-      "y": 0
+      "x": 1.7761166950905336,
+      "y": 7.696215392430785
     },
-    "rotation": 0
+    "rotation": -90.0
   },
   "command": {
     "type": "sequential",
     "data": {
       "commands": [
         {
-          "type": "path",
+          "type": "named",
           "data": {
-            "pathName": null
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 5.0
+            "name": "AmpAlign"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": null
+            "pathName": "Blue1ColectPiece"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "BlueToSpeaker1"
           }
         },
         {
           "type": "wait",
           "data": {
-            "waitTime": 20000.0
+            "waitTime": 1000000000.0
           }
         }
       ]
     }
   },
-  "folder": null,
+  "folder": "AmpAndShoot",
   "choreoAuto": false
 }
