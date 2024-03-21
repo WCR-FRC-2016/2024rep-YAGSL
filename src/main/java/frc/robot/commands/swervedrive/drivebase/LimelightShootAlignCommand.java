@@ -9,7 +9,6 @@ public class LimelightShootAlignCommand extends Command {
     private double desiredAngle;
     // private double[] botpose = new double[8];
     private double currentAngle;
-    private boolean foundSpeaker;   // Added to handle situations where we try to rev shooter motors, but don't initially find the april tag
 
     public LimelightShootAlignCommand(SwerveSubsystem swerve) {
         driveBase = swerve;
@@ -18,7 +17,6 @@ public class LimelightShootAlignCommand extends Command {
 
     @Override
     public void initialize() {
-        foundSpeaker = false;
         // NetworkTableInstance.getDefault().getTable("limelight").getEntry("botpose").getDoubleArray(botpose);
         // desiredAngle = botpose[4];
         // double tx = getTx();
@@ -28,7 +26,6 @@ public class LimelightShootAlignCommand extends Command {
     @Override
     public void execute() {
         var tx = getTx();
-        foundSpeaker = tx != 0.0;
         // if (!getTv()){
         // driveBase.drive(0, 0, driveBase.getHeading().getRadians() +
         // Math.toRadians(25) );
@@ -44,7 +41,7 @@ public class LimelightShootAlignCommand extends Command {
 
     @Override
     public boolean isFinished() {
-        if (getTv() && Math.abs(getTx()) < 1 && foundSpeaker) {
+        if (getTv() && Math.abs(getTx()) < 1) {
             return true;
         }
 
