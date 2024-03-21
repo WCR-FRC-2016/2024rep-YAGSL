@@ -41,17 +41,20 @@ public class LimelightShootAlign extends Command {
 
     @Override 
     public boolean isFinished(){
+
          if(getTv() && Math.abs(getTx()) < 1) {
             return true;
          }
 
         return false;
+
     }
 
     private double getTx(){
         return NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0.0);
-    }
+    }  
     private boolean getTv(){
         return NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0.0)>0;
     }
+    
 }

@@ -2,31 +2,25 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 15.130882833194237,
-      "y": 7.329728945172176
+      "x": 15.966471932943866,
+      "y": 4.046010377735041
     },
-    "rotation": 177.5104470780007
+    "rotation": 90.0
   },
   "command": {
     "type": "sequential",
     "data": {
       "commands": [
         {
-          "type": "path",
-          "data": {
-            "pathName": "Move_Out"
-          }
-        },
-        {
           "type": "named",
           "data": {
-            "name": "AutoShoot"
+            "name": "Collect"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "MoveForward"
+            "pathName": "Red3ColectPiece"
           }
         },
         {
