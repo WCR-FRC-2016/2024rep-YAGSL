@@ -74,6 +74,7 @@ public class LimelightAmpAlignCommand extends Command {
 
     @Override
     public boolean isFinished() {
+
         // return Math.abs( currentAngle) <= 0.1d;
         if (Math.abs(getTx()) <= 3d && Math.abs(desiredDistanceZ) - 0.25 <= Math.abs(getZpos()) && Math.abs(getZpos()) <= Math.abs(desiredDistanceZ) + 0.5) {
             return true;
@@ -82,11 +83,16 @@ public class LimelightAmpAlignCommand extends Command {
     }
 
     public double getTx() {
+
         return NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0.0);
     }
 
     private double getZpos() {
+        var botpose = LimelightUtility.getBotPos();
+        if (botpose.length == 0) {        
+            return desiredDistanceZ;
+        }
         return LimelightUtility.getBotPos()[2];
-    }   
+    }       
     
 }
