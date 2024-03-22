@@ -15,7 +15,12 @@ public class ManualDriveClimberCommand extends Command {
         addRequirements(climber);
 
     }
-
+    @Override
+    public void initialize(){
+        if (climberMaxHeight() == false && climberMinHeight() == false) {
+            
+        }
+    }
     @Override
     public void execute() {
         climber.drive(input.getAsDouble() * 2);

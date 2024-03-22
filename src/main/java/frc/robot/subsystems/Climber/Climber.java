@@ -10,33 +10,45 @@ import frc.robot.Constants;
 import frc.robot.Constants.CollectorConstants;
 
 public class Climber extends SubsystemBase {
-    DigitalInput pieceSensor;
+    DigitalInput highClimberSensor;
+    DigitalInput lowClimberSensor;
 
-    private CANSparkMax leftMotorController;
-    private CANSparkMax rightMotorController;
+    private CANSparkMax masterMotorController;
+    private CANSparkMax slaveMotorController;
+
+
 
     public Climber() {
-        // leftMotorController = new CANSparkMax(Constants.ClimberConstants.leftCanId, MotorType.kBrushed);
-        // rightMotorController = new CANSparkMax(Constants.ClimberConstants.rightCanId, MotorType.kBrushed);
+         masterMotorController = new CANSparkMax(Constants.ClimberConstants.masterCanId, MotorType.kBrushed);
+         slaveMotorController = new CANSparkMax(Constants.ClimberConstants.slaveCanId, MotorType.kBrushed);
 
-        // leftMotorController.restoreFactoryDefaults();
-        // rightMotorController.restoreFactoryDefaults();
+         masterMotorController.restoreFactoryDefaults();
+         slaveMotorController.restoreFactoryDefaults();
 
-        // leftMotorController.setIdleMode(IdleMode.kBrake);
-        // rightMotorController.setIdleMode(IdleMode.kBrake);
+         masterMotorController.setIdleMode(IdleMode.kBrake);
+         slaveMotorController.setIdleMode(IdleMode.kBrake);
 
-        // leftMotorController.setSmartCurrentLimit(40); // Need to verify
-        // rightMotorController.setSmartCurrentLimit(40);
+         slaveMotorController.setSmartCurrentLimit(40); // Need to verify
+         slaveMotorController.setSmartCurrentLimit(40);
 
-        // leftMotorController.setInverted(true); // Need to verify
-        // rightMotorController.follow(leftMotorController, true);
+         masterMotorController.setInverted(true); // Need to verify
+         slaveMotorController.follow(masterMotorController, true);
 
-        // leftMotorController.burnFlash();
-        // rightMotorController.burnFlash();
+         masterMotorController.burnFlash();
+         slaveMotorController.burnFlash();
+         highClimberSensor = new DigitalInput(2);
+         lowClimberSensor = new DigitalInput(3);
+    }
+    public boolean climberMaxHeight(){
+        return highClimberSensor.get();
+    }
+
+     public boolean climberMinHeight(){
+        return lowClimberSensor.get();
     }
 
     public void drive(double magnitude) {
-        //leftMotorController.set(magnitude * CollectorConstants.runSpeed);
+        masterMotorController.set(magnitude * CollectorConstants.runSpeed);
     }
 
 }
