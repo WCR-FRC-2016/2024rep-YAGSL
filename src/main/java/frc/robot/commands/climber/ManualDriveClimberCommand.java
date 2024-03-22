@@ -21,11 +21,14 @@ public class ManualDriveClimberCommand extends Command {
     }
     @Override
     public void execute() {
-        if (climber.climberMaxHeight()) {
-            climber.drive(Math.min(input.getAsDouble() * 2, 0));
+        if (climber.climberMaxHeight() == true) {
+            climber.drive(Math.min(input.getAsDouble(), 0));
         }
         if (climber.climberMinHeight()) {
-            climber.drive(Math.max(input.getAsDouble() * 2, 0));
+            climber.drive(Math.max(input.getAsDouble(), 0));
+        }
+        else{
+            climber.drive(input.getAsDouble());
         }
     }
 }
