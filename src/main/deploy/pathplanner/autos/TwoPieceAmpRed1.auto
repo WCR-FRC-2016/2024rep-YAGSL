@@ -2,15 +2,53 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 10.0,
-      "y": 2
+      "x": 15.8,
+      "y": 6.52
     },
-    "rotation": 0
+    "rotation": 118.17859010995916
   },
   "command": {
     "type": "sequential",
     "data": {
-      "commands": []
+      "commands": [
+        {
+          "type": "named",
+          "data": {
+            "name": "AutoShoot"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Red1ColectPiece"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Collect"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "FromCollectToAmpRed1"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AmpAlign"
+          }
+        }
+      ]
     }
   },
   "folder": null,

@@ -47,7 +47,7 @@ public class Climber extends SubsystemBase {
         return lowClimberSensor.get();
     }
 
-    public void drive(double magnitude) {
+    public void drive(Double magnitude) {
         masterMotorController.set(magnitude * CollectorConstants.runSpeed);
     }
 
