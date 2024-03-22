@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 15.8,
-      "y": 6.52
+      "x": 0.7059762690953959,
+      "y": 4.54443194600675
     },
-    "rotation": 118.17859010995916
+    "rotation": -60.52411099675429
   },
   "command": {
     "type": "sequential",
@@ -24,7 +24,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Red1ColectPiece"
+                  "pathName": "Blue3ColectPiece"
                 }
               },
               {
@@ -39,13 +39,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "FromCollectToAmpRed1"
+            "pathName": "BlueToSpeaker3"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "AmpAlign"
+            "name": "AutoShoot"
           }
         }
       ]

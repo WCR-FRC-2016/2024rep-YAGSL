@@ -51,7 +51,9 @@ public final class Constants {
         "TwoShootRed2",
         "ThreeShootBlue1",
         "ThreeShootRed1",
-        "DelayedShootAndMoveBlue1"
+        "DelayedShootAndMoveBlue1",
+        "TwoPieceAmpRed1",
+        "2Shoot3"
     };
   }
 
@@ -84,7 +86,7 @@ public final class Constants {
   public static class CollectorConstants {
     public static final int canId = 9;
     public static final int currentLimit = 30;
-    public static final double runSpeed = 0.8d;
+    public static final double runSpeed = 0.6d;
   }
 
   public static class ShooterConstants {
@@ -100,6 +102,6 @@ public final class Constants {
   public static class ClimberConstants {
     public static final int masterCanId = 8; // Needs to be set
     public static final int slaveCanId = 11; // Needs to be set
-    public static final double runSpeed = 0.3d;
+    public static final double runSpeed = 0.5d;
   }
 }

@@ -7,6 +7,7 @@ import com.revrobotics.CANSparkMax;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Constants.ClimberConstants;
 import frc.robot.Constants.CollectorConstants;
 
 public class Climber extends SubsystemBase {
@@ -47,8 +48,8 @@ public class Climber extends SubsystemBase {
         return lowClimberSensor.get();
     }
 
-    public void drive(double magnitude) {
-        masterMotorController.set(magnitude * CollectorConstants.runSpeed);
+    public void drive(Double magnitude) {
+        masterMotorController.set(magnitude * ClimberConstants.runSpeed);
     }
 
 }
