@@ -72,6 +72,12 @@
           "data": {
             "pathName": "BlueToSpeaker2"
           }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AutoShoot"
+          }
         }
       ]
     }
