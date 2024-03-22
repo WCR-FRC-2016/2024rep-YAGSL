@@ -199,7 +199,7 @@ public class RobotContainer {
     new JoystickButton(driverXbox, XboxController.Button.kY.value).whileTrue(new LimelightTrapAlignCommand(drivebase));
 
     new JoystickButton(manipulatorXbox, XboxController.Button.kY.value).whileTrue(new ShootCommand(shooter));
-    new JoystickButton(manipulatorXbox, XboxController.Button.kB.value).whileTrue(new LedPassiveCommand(ledManager, collector));
+    new JoystickButton(manipulatorXbox, XboxController.Button.kB.value).whileTrue(new CollectCommand(collector, arm));
     new JoystickButton(manipulatorXbox, XboxController.Button.kLeftBumper.value)
         .whileTrue(new SpitCommand(shooter, collector, drivebase)); // Test bind
     new JoystickButton(manipulatorXbox, XboxController.Button.kX.value)

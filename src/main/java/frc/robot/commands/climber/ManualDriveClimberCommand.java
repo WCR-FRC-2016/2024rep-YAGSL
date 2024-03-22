@@ -24,7 +24,7 @@ public class ManualDriveClimberCommand extends Command {
         if (climber.climberMaxHeight() == true) {
             climber.drive(Math.min(input.getAsDouble(), 0));
         }
-        if (climber.climberMinHeight()) {
+        if (climber.climberMinHeight() == true) {
             climber.drive(Math.max(input.getAsDouble(), 0));
         }
         else{
