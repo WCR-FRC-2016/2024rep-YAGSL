@@ -171,8 +171,8 @@ public class RobotContainer {
 
     arm.setDefaultCommand(
         new ManualDriveArmCommand(arm, () -> MathUtil.applyDeadband(manipulatorXbox.getRightY(), 0.7)));
-    climber.setDefaultCommand(
-         new ManualDriveClimberCommand(climber, () -> MathUtil.applyDeadband(manipulatorXbox.getLeftX(), 0.7)));
+    // climber.setDefaultCommand(
+    //      new ManualDriveClimberCommand(climber, () -> MathUtil.applyDeadband(manipulatorXbox.getLeftX(), 0.7)));
 
     new JoystickButton(driverXbox, XboxController.Button.kBack.value).onTrue((new InstantCommand(drivebase::zeroGyro)));
     NamedCommands.registerCommand("AmpAlignAndShoot", ampAlignAndShootCommand);
