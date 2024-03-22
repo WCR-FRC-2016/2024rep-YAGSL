@@ -11,7 +11,7 @@ public class CollectCommand extends Command {
     public CollectCommand(Collector collector, Arm arm) {
         this.arm = arm;
         this.collector = collector;
-        addRequirements(arm, collector);
+        addRequirements(collector, arm);
 
     }
 
@@ -29,6 +29,12 @@ public class CollectCommand extends Command {
             collector.stop();
         }
         
+    }
+
+    @Override
+    public boolean isFinished() {
+        return collector.hasPiece();
+
     }
 
     @Override

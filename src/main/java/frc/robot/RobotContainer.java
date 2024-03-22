@@ -98,6 +98,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("ShootStart", new AutoShootStartCommand(shooter, collector));
     NamedCommands.registerCommand("ShootStop", new AutoShootStopCommand(shooter, collector));
     NamedCommands.registerCommand("AutoShoot", AutoShoot);
+    NamedCommands.registerCommand("ReadyArm", new AmpAngleCommand(arm, Constants.RobotDemensions.ArmHeightLimit, ledManager));
 
     // Configure the trigger bindings
     registerAutos();
@@ -167,10 +168,12 @@ public class RobotContainer {
         new ParallelCommandGroup(new AmpAngleCommand(arm, 0.5, ledManager), new LimelightAmpAlignCommand(drivebase)),
         new GoForwardCommand(drivebase), new DumpCommand(shooter, collector, drivebase));
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
+
     arm.setDefaultCommand(
         new ManualDriveArmCommand(arm, () -> MathUtil.applyDeadband(manipulatorXbox.getRightY(), 0.7)));
-    arm.setDefaultCommand(
-        new ManualDriveClimberCommand(climber, () -> MathUtil.applyDeadband(manipulatorXbox.getLeftX(), 0.7)));
+    climber.setDefaultCommand(
+         new ManualDriveClimberCommand(climber, () -> MathUtil.applyDeadband(manipulatorXbox.getLeftX(), 0.7)));
+
     new JoystickButton(driverXbox, XboxController.Button.kBack.value).onTrue((new InstantCommand(drivebase::zeroGyro)));
     NamedCommands.registerCommand("AmpAlignAndShoot", ampAlignAndShootCommand);
     // new JoystickButton(driverXbox, 3).onTrue(new
@@ -196,13 +199,16 @@ public class RobotContainer {
     new JoystickButton(driverXbox, XboxController.Button.kY.value).whileTrue(new LimelightTrapAlignCommand(drivebase));
 
     new JoystickButton(manipulatorXbox, XboxController.Button.kY.value).whileTrue(new ShootCommand(shooter));
+    new JoystickButton(manipulatorXbox, XboxController.Button.kB.value).whileTrue(new LedPassiveCommand(ledManager, collector));
     new JoystickButton(manipulatorXbox, XboxController.Button.kLeftBumper.value)
         .whileTrue(new SpitCommand(shooter, collector, drivebase)); // Test bind
     new JoystickButton(manipulatorXbox, XboxController.Button.kX.value)
         .whileTrue(new AmpAngleCommand(arm, Constants.RobotDemensions.ArmHeightLimit, ledManager));
     new JoystickButton(manipulatorXbox, XboxController.Button.kRightBumper.value).whileTrue(new FeedCommand(collector));
+    // new JoystickButton(manipulatorXbox, XboxController.Button.kA.value)
+    //     .whileTrue(new SpitCommand(shooter, collector, drivebase));
     new JoystickButton(manipulatorXbox, XboxController.Button.kA.value)
-        .whileTrue(new SpitCommand(shooter, collector, drivebase));
+        .whileTrue(new AmpAngleCommand(arm, Constants.RobotDemensions.ArmDipLimit, ledManager));
 
     mainpulatorXboxCommanded.rightTrigger(0.5)
         .whileTrue(new ParallelCommandGroup(new LimelightShootAlignCommand(drivebase), new ShootCommand(shooter),

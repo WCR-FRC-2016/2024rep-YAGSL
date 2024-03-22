@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.6002032004064015,
-        "y": 3.019848325410937
+        "x": 0.7912916726734353,
+        "y": 4.613106883871426
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.5855306796327864,
-        "y": 2.125621394099931
+        "x": 0.5601740933211595,
+        "y": 3.0599967506241326
       },
       "isLocked": false,
       "linkedName": null
@@ -20,12 +20,12 @@
         "y": 3.3716753147792016
       },
       "prevControl": {
-        "x": 2.6841411049987616,
-        "y": 2.6680039063208616
+        "x": 2.7227292690246196,
+        "y": 2.032165242443434
       },
       "nextControl": {
-        "x": 2.6556841685111943,
-        "y": 4.119307667186764
+        "x": 2.640232307491642,
+        "y": 4.141627021992783
       },
       "isLocked": false,
       "linkedName": null
@@ -54,7 +54,7 @@
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 3.0,
+    "maxVelocity": 1.0,
     "maxAcceleration": 3.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
@@ -67,7 +67,7 @@
   "reversed": false,
   "folder": "CollectPiece",
   "previewStartingState": {
-    "rotation": 91.84761026599438,
+    "rotation": -57.52880770915145,
     "velocity": 0
   },
   "useDefaultConstraints": true

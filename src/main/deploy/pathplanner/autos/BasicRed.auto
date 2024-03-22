@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 15.966471932943866,
-      "y": 4.046010377735041
+      "x": 15.860157846441819,
+      "y": 4.520659852130516
     },
-    "rotation": 90.0
+    "rotation": -120.96375653207348
   },
   "command": {
     "type": "sequential",
@@ -14,19 +14,19 @@
         {
           "type": "named",
           "data": {
-            "name": "Collect"
+            "name": "AutoShoot"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Red3ColectPiece"
+            "pathName": "MoveForward1"
           }
         },
         {
           "type": "wait",
           "data": {
-            "waitTime": 100000000.0
+            "waitTime": 10000.0
           }
         }
       ]

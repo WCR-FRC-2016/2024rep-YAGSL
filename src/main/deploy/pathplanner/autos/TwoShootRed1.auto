@@ -2,21 +2,15 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.5447222323016081,
-      "y": 7.256431655720455
+      "x": 15.804689627397273,
+      "y": 6.517515737734178
     },
-    "rotation": 49.53777250790664
+    "rotation": 118.9264258352535
   },
   "command": {
     "type": "sequential",
     "data": {
       "commands": [
-        {
-          "type": "path",
-          "data": {
-            "pathName": "BlueToSpeaker1"
-          }
-        },
         {
           "type": "named",
           "data": {
@@ -24,21 +18,28 @@
           }
         },
         {
-          "type": "named",
+          "type": "parallel",
           "data": {
-            "name": "Collect"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Red1ColectPiece"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Collect"
+                }
+              }
+            ]
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Blue1ColectPiece"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "BlueToSpeaker1"
+            "pathName": "RedToSpeaker1"
           }
         },
         {
@@ -50,6 +51,6 @@
       ]
     }
   },
-  "folder": "TwoShoot",
+  "folder": null,
   "choreoAuto": false
 }

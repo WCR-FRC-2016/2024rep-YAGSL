@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class LedManagerSubsystem extends SubsystemBase{
-    private static final int ledLength = 90;
+    private static final int ledLength = 73;
     AddressableLED led = new AddressableLED(1);
     AddressableLEDBuffer ledBuffer = new AddressableLEDBuffer(ledLength);
     private int state = 0;

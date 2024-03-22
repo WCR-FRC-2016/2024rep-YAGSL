@@ -42,16 +42,16 @@ public class LimelightAmpAlignCommand extends Command {
 
         // Check if able to see April Tag and if close to target stop moving and if not
         // seek
-        if (botpose[0] == 0 && botpose[1] == 0 && botpose[2] == 0) {
-            if (closeToTarget == true) {
-                driveBase.drive(0, 0, driveBase.getHeading().getRadians());
-            }
-            // else{
-            // driveBase.drive(0, 0, driveBase.getHeading().getRadians() +
-            // Math.toRadians(25) * turnMagnitude);
-            // }
-            return;
-        }
+        // if (botpose[0] == 0 && botpose[1] == 0 && botpose[2] == 0) {
+        //     if (closeToTarget == true) {
+        //         driveBase.drive(0, 0, driveBase.getHeading().getRadians());
+        //     }
+        //     // else{
+        //     // driveBase.drive(0, 0, driveBase.getHeading().getRadians() +
+        //     // Math.toRadians(25) * turnMagnitude);
+        //     // }
+        //     return;
+        // }
 
         System.out.println("distance: " + botpose[2] + " | angle: " + getTx());
         actualDistanceX = botpose[0];
@@ -60,22 +60,22 @@ public class LimelightAmpAlignCommand extends Command {
         double distanceToMoveX = -1 * (actualDistanceX);
         desiredAngle = driveBase.getHeading().getDegrees() - getTx();
         // currentAngle = botpose[4];
-        driveBase.drive(distanceToMoveY * 0.3, distanceToMoveX * 0.3, Math.toRadians(desiredAngle));
+        driveBase.drive(Math.max(distanceToMoveY * 0.6, 0.2), Math.max(distanceToMoveX * 0.6, 0.2), Math.toRadians(desiredAngle));
         currentAngle = getTx();
         turnMagnitude = currentAngle != 0.0d ? currentAngle / Math.abs(currentAngle) * -1.0d : 1.0d;
         // NetworkTableInstance.getDefault().getTable("limelight").getEntry("botpose").getDoubleArray(botpose);
 
         // System.out.println(currentAngle);
 
-        if (Math.abs(distanceToMoveY) <= 0.3) {
-            closeToTarget = true;
-        }
+        // if (Math.abs(distanceToMoveY) <= 0.3) {
+        //     closeToTarget = true;
+        // }
     }
 
     @Override
     public boolean isFinished() {
         // return Math.abs( currentAngle) <= 0.1d;
-        if (Math.abs(getTx()) <= 1.0d && Math.abs(getZpos()) <= Math.abs(desiredDistanceZ) + 0.1) {
+        if (Math.abs(getTx()) <= 3d && Math.abs(desiredDistanceZ) - 0.25 <= Math.abs(getZpos()) && Math.abs(getZpos()) <= Math.abs(desiredDistanceZ) + 0.5) {
             return true;
         }
         return false;

@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 15.072245001632862,
-        "y": 3.767480677818499
+        "x": 15.32396506234454,
+        "y": 5.52661562465982
       },
       "prevControl": null,
       "nextControl": {
-        "x": 14.940309880619761,
-        "y": 4.661707609129505
+        "x": 14.750793465550895,
+        "y": 5.528332498106438
       },
       "isLocked": false,
       "linkedName": null
@@ -20,12 +20,12 @@
         "y": 5.52661562465982
       },
       "prevControl": {
-        "x": 15.604443352981404,
-        "y": 5.5504531037881
+        "x": 14.732304059202715,
+        "y": 5.519087794932347
       },
       "nextControl": {
-        "x": 13.679596502050146,
-        "y": 5.511956166769477
+        "x": 13.679653028891115,
+        "y": 5.5438714003547975
       },
       "isLocked": false,
       "linkedName": null
@@ -47,14 +47,14 @@
   "rotationTargets": [
     {
       "waypointRelativePos": 1,
-      "rotationDegrees": -177.70938995736148,
+      "rotationDegrees": -179.38137288818004,
       "rotateFast": false
     }
   ],
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 3.0,
+    "maxVelocity": 1.0,
     "maxAcceleration": 3.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
@@ -67,7 +67,7 @@
   "reversed": false,
   "folder": "CollectPiece",
   "previewStartingState": {
-    "rotation": -177.39743779750012,
+    "rotation": -179.18154453831153,
     "velocity": 0
   },
   "useDefaultConstraints": true

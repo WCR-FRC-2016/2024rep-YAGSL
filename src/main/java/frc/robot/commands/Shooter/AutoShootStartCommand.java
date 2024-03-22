@@ -11,7 +11,7 @@ public class AutoShootStartCommand extends Command {
     public AutoShootStartCommand(Shooter shooter, Collector collector) {
         this.shooter = shooter;
         this.collector = collector;
-        addRequirements(shooter);
+        addRequirements(shooter, collector);
     }
 
     @Override

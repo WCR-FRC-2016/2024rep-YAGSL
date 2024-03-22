@@ -43,8 +43,14 @@ public final class Constants {
     // it will get handled from there. USE THE DEFAULT DRIVEBASE STATION.
     // THIS IS CASE SENSITIVE
     public static final String[] AUTO_NAMES = {
-        "Main_Test",
-        "Command2"
+        "BasicBlue",
+        "BasicRed",
+        "TwoShootBlue1",
+        "TwoShootRed1",
+        "TwoShootBlue2",
+        "TwoShootRed2",
+        "ThreeShootBlue1",
+        "ThreeShootRed1"
     };
   }
 
