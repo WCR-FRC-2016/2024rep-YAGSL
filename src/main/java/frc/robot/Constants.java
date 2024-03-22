@@ -52,7 +52,8 @@ public final class Constants {
         "ThreeShootBlue1",
         "ThreeShootRed1",
         "DelayedShootAndMoveBlue1",
-        "TwoPieceAmpRed1"
+        "TwoPieceAmpRed1",
+        "2Shoot3"
     };
   }
 

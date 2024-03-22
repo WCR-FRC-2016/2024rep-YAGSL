@@ -171,8 +171,8 @@ public class RobotContainer {
 
     arm.setDefaultCommand(
         new ManualDriveArmCommand(arm, () -> MathUtil.applyDeadband(manipulatorXbox.getRightY(), 0.7)));
-    // climber.setDefaultCommand(
-    //      new ManualDriveClimberCommand(climber, () -> MathUtil.applyDeadband(manipulatorXbox.getLeftX(), 0.7)));
+    climber.setDefaultCommand(
+        new ManualDriveClimberCommand(climber, () -> MathUtil.applyDeadband(manipulatorXbox.getLeftX() * 3, 0.7)));
 
     new JoystickButton(driverXbox, XboxController.Button.kBack.value).onTrue((new InstantCommand(drivebase::zeroGyro)));
     NamedCommands.registerCommand("AmpAlignAndShoot", ampAlignAndShootCommand);
@@ -234,7 +234,7 @@ public class RobotContainer {
     // Verify the command actually exists. This will return the command if its in
     // the list. (MUST match)
     for (var i = 0; i < Auton.AUTO_NAMES.length; i++)
-      if (Auton.AUTO_NAMES[i].equals(auto))
+      if (Auton.AUTO_NAMES[i].equals(auto))  
         return drivebase.getAutonomousCommand(auto, true);
 
     // Dont try to run a autonomous that isn't verifiably in the list
