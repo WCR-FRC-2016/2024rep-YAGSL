@@ -24,6 +24,7 @@ import frc.robot.commands.Shooter.AutoShootStartCommand;
 import frc.robot.commands.Shooter.AutoShootStopCommand;
 import frc.robot.commands.Shooter.DumpCommand;
 import frc.robot.commands.Shooter.ShootCommand;
+import frc.robot.commands.Shooter.SlowShootCommand;
 import frc.robot.commands.Shooter.SpitCommand;
 import frc.robot.commands.arm.AmpAngleCommand;
 import frc.robot.commands.arm.ManualDriveArmCommand;
@@ -92,6 +93,19 @@ public class RobotContainer {
         new WaitCommand(1), new AutoFeedCommand(collector), new WaitCommand(1),
         new AutoShootStopCommand(shooter, collector));
 
+    var AutoShootAndAim = new ParallelCommandGroup( 
+        new SequentialCommandGroup(
+          new WaitCommand(0.5), 
+          new AutoShootCommand(shooter), 
+          new WaitCommand(1), 
+          new AutoFeedCommand(collector), 
+          new WaitCommand(1), 
+          new AutoShootStopCommand(shooter, collector)
+        ),
+      new LimelightShootAlignCommand(drivebase), 
+      new TargetSpeakerCommand(arm, ledManager)
+    );
+
     NamedCommands.registerCommand("AmpAlign", ampAlignAndShootCommand);
     NamedCommands.registerCommand("AutoShootAlign", new LimelightShootAlignCommand(drivebase));
     NamedCommands.registerCommand("Collect", new CollectCommand(collector, arm));
@@ -99,6 +113,8 @@ public class RobotContainer {
     NamedCommands.registerCommand("ShootStop", new AutoShootStopCommand(shooter, collector));
     NamedCommands.registerCommand("AutoShoot", AutoShoot);
     NamedCommands.registerCommand("ReadyArm", new AmpAngleCommand(arm, Constants.RobotDemensions.ArmHeightLimit, ledManager));
+    NamedCommands.registerCommand("AutoShootWithAim", AutoShootAndAim);
+    
 
     // Configure the trigger bindings
     registerAutos();
@@ -172,7 +188,7 @@ public class RobotContainer {
     arm.setDefaultCommand(
         new ManualDriveArmCommand(arm, () -> MathUtil.applyDeadband(manipulatorXbox.getRightY(), 0.7)));
     climber.setDefaultCommand(
-        new ManualDriveClimberCommand(climber, () -> MathUtil.applyDeadband(manipulatorXbox.getLeftX(), 0.7)));
+        new ManualDriveClimberCommand(climber, () -> MathUtil.applyDeadband(manipulatorXbox.getLeftY(), 0.7)));
 
     new JoystickButton(driverXbox, XboxController.Button.kBack.value).onTrue((new InstantCommand(drivebase::zeroGyro)));
     NamedCommands.registerCommand("AmpAlignAndShoot", ampAlignAndShootCommand);
@@ -199,7 +215,8 @@ public class RobotContainer {
     new JoystickButton(driverXbox, XboxController.Button.kY.value).whileTrue(new LimelightTrapAlignCommand(drivebase));
 
     new JoystickButton(manipulatorXbox, XboxController.Button.kY.value).whileTrue(new ShootCommand(shooter));
-    new JoystickButton(manipulatorXbox, XboxController.Button.kB.value).whileTrue(new CollectCommand(collector, arm));
+    // new JoystickButton(manipulatorXbox, XboxController.Button.kB.value).whileTrue(new CollectCommand(collector, arm));
+    new JoystickButton(manipulatorXbox, XboxController.Button.kB.value).whileTrue(new SlowShootCommand(shooter));
     new JoystickButton(manipulatorXbox, XboxController.Button.kLeftBumper.value)
         .whileTrue(new SpitCommand(shooter, collector, drivebase)); // Test bind
     new JoystickButton(manipulatorXbox, XboxController.Button.kX.value)

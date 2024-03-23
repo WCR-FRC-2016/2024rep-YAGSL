@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 15.804689627397273,
-      "y": 6.517515737734178
+      "x": 0.689599937758434,
+      "y": 6.563739253604634
     },
-    "rotation": 118.9264258352535
+    "rotation": 59.036243467926454
   },
   "command": {
     "type": "sequential",
@@ -24,7 +24,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Red1ColectPiece"
+                  "pathName": "Blue1CollectPiece"
                 }
               },
               {
@@ -39,13 +39,19 @@
         {
           "type": "path",
           "data": {
-            "pathName": "RedToSpeaker1"
+            "pathName": "BlueToAlmostSpeaker1"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "AutoShoot"
+            "name": "AutoShootWithAim"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 100000.0
           }
         }
       ]

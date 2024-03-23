@@ -38,7 +38,7 @@ public class Shooter extends SubsystemBase {
     public void run() {
         run(1);
     }
-
+    
     public void run(double factor){
         topMotorController.set(Constants.ShooterConstants.flywheelRunSpeed * factor);
         bottomMotorController.set(Constants.ShooterConstants.flywheelRunSpeed * factor);

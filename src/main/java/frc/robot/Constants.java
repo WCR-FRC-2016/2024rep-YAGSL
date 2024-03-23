@@ -44,16 +44,14 @@ public final class Constants {
     // THIS IS CASE SENSITIVE
     public static final String[] AUTO_NAMES = {
         "BasicBlue",
-        "BasicRed",
         "TwoShootBlue1",
-        "TwoShootRed1",
         "TwoShootBlue2",
-        "TwoShootRed2",
         "ThreeShootBlue1",
-        "ThreeShootRed1",
         "DelayedShootAndMoveBlue1",
-        "TwoPieceAmpRed1",
-        "2Shoot3"
+        "2Shoot3",
+        "2Shoot2",
+        "2Shoot1",
+        "OutOfWay1"
     };
   }
 
@@ -105,3 +103,4 @@ public final class Constants {
     public static final double runSpeed = 0.5d;
   }
 }
+

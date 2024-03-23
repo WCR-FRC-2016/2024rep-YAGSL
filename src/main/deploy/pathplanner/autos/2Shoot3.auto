@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.7059762690953959,
-      "y": 4.54443194600675
+      "x": 0.7792735585471178,
+      "y": 4.559091403897094
     },
     "rotation": -60.52411099675429
   },
@@ -45,7 +45,13 @@
         {
           "type": "named",
           "data": {
-            "name": "AutoShoot"
+            "name": "AutoShootWithAim"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 100000.0
           }
         }
       ]

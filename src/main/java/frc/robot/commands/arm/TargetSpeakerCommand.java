@@ -10,12 +10,12 @@ public class TargetSpeakerCommand extends Command {
     Arm arm;
     LedManagerSubsystem ledManagerSubsystem;
     private static final double speakerBaseOffset = 0.991;
-    private static final double distanceToAngleFactorClose = 0.040;
-    private static final double distanceToAngleFactorMedium = 0.032;
-    private static final double mediumDistance = 2.5;
-    private static final double distanceToAngleFactorFar = 0.027;
+private static final double distanceToAngleFactorClose = 0.06;
+    private static final double distanceToAngleFactorMedium = 0.047;
+    private static final double mediumDistance = 2;
+    private static final double distanceToAngleFactorFar = 0.043;
     private static final double farDistance = 3;
-    private static final double horizontalDistanceOffsetFactor = 0.010;
+    private static final double horizontalDistanceOffsetFactor = 0.040;
 
     public TargetSpeakerCommand(Arm arm, LedManagerSubsystem ledManagerSubsystem) {
         this.arm = arm;
@@ -25,6 +25,7 @@ public class TargetSpeakerCommand extends Command {
 
     @Override
     public void execute() {
+        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!target speaker command");
         double distanceToAngleFactorActual = 0.040;
         var botpose = LimelightUtility.getBotPos();
         var distanceToAprilTag = Math.abs(botpose[2]);

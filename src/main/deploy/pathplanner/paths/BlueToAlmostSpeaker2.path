@@ -3,50 +3,50 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 14.723059356030575,
-        "y": 6.942772083737935
+        "x": 3.3890532645930156,
+        "y": 5.556066607628711
       },
       "prevControl": null,
       "nextControl": {
-        "x": 14.464207667156026,
-        "y": 6.933527380563843
+        "x": 2.122528929742544,
+        "y": 5.556066607628711
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 13.85405725766602,
-        "y": 6.942772083737935
+        "x": 1.3182397535966242,
+        "y": 5.556066607628711
       },
       "prevControl": {
-        "x": 14.159132462411021,
-        "y": 6.933527380563843
+        "x": 2.122528929742544,
+        "y": 5.574556013976893
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "FirstNoteRed"
+      "linkedName": null
     }
   ],
   "rotationTargets": [],
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 1.0,
+    "maxVelocity": 3.0,
     "maxAcceleration": 3.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 61.82140989004083,
+    "rotation": 1.1017061152062895,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "3 note shoot - red",
+  "folder": null,
   "previewStartingState": {
-    "rotation": 91.14576283817524,
+    "rotation": 0.6295986084102184,
     "velocity": 0
   },
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }
