@@ -84,7 +84,7 @@ public final class Constants {
   public static class CollectorConstants {
     public static final int canId = 9;
     public static final int currentLimit = 30;
-    public static final double runSpeed = 0.6d;
+    public static final double runSpeed = 0.8d;
   }
 
   public static class ShooterConstants {

@@ -23,25 +23,48 @@ private static final double distanceToAngleFactorClose = 0.06;
         addRequirements(arm);
     }
 
+    // Moving println to initialize so it only runs once
+    @Override
+    public void initialize() {
+        System.out.println("!!!target speaker command!!!");
+        var botpose = LimelightUtility.getBotPos();
+        var distanceToAprilTag = Math.abs(botpose[2]);
+        if (botpose.length == 0) {
+            System.out.println("couldn't find the apriltag");
+        }
+        if (distanceToAprilTag < mediumDistance) {
+            System.out.println("close");
+        }
+        if (distanceToAprilTag >= mediumDistance && distanceToAprilTag < farDistance) {
+            System.out.println("medium");
+        }
+        if (distanceToAprilTag >= farDistance) {
+            System.out.println("far");
+        }
+        var distanceToAprilTagHorizontal = Math.abs(botpose[0]);
+        var horizontalDistanceOffset = distanceToAprilTagHorizontal / 2.0f * horizontalDistanceOffsetFactor;
+        System.out.println(horizontalDistanceOffset);
+    }
+
     @Override
     public void execute() {
-        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!target speaker command");
+        // System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!target speaker command");
         double distanceToAngleFactorActual = 0.040;
         var botpose = LimelightUtility.getBotPos();
         var distanceToAprilTag = Math.abs(botpose[2]);
         if (distanceToAprilTag < mediumDistance) {
             distanceToAngleFactorActual = distanceToAngleFactorClose;
-            System.out.println("close");
+            // System.out.println("close");
 
         }
         if (distanceToAprilTag >= mediumDistance && distanceToAprilTag < farDistance) {
             distanceToAngleFactorActual = distanceToAngleFactorMedium;
-            System.out.println("medium");
+            // System.out.println("medium");
 
         }
         if (distanceToAprilTag >= farDistance) {
             distanceToAngleFactorActual = distanceToAngleFactorFar;
-            System.out.println("far");
+            // System.out.println("far");
 
         }
         var distanceToAprilTagHorizontal = Math.abs(botpose[0]);
@@ -50,7 +73,7 @@ private static final double distanceToAngleFactorClose = 0.06;
 
         var desiredAngle = Constants.RobotDemensions.ArmDipLimit
                 - ((distanceToAprilTag - speakerBaseOffset) * distanceToAngleFactorActual + horizontalDistanceOffset);
-        System.out.println(horizontalDistanceOffset);
+        // System.out.println(horizontalDistanceOffset);
         
         arm.setAngle(desiredAngle);
     }

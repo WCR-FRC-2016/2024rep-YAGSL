@@ -23,6 +23,7 @@ public class LimelightAmpAlignCommand extends Command {
     @Override
     public void initialize() {
         closeToTarget = false;
+        System.out.println("***ran auto amp command***");
         // NetworkTableInstance.getDefault().getTable("limelight").getEntry("botpose").getDoubleArray(botpose);
         // desiredAngle = botpose[4];
         // double tx = getTx();
