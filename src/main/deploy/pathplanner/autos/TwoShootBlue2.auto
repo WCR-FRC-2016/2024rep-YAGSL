@@ -39,13 +39,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "BlueToSpeaker2"
+            "pathName": "BlueToAlmostSpeaker2"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "AutoShoot"
+            "name": "AutoShootWithAim"
           }
         }
       ]

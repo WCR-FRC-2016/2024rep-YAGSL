@@ -17,24 +17,24 @@ public class ManualDriveClimberCommand extends Command {
     }
     @Override
     public void initialize(){
-        
+
     }
     @Override
     public void execute() {
         double adjustedInput = 0;
 
-        if (climber.climberMinHeight() == true) {
-            adjustedInput = Math.min(input.getAsDouble(), 0);
-            // climber.drive(Math.min(input.getAsDouble(), 0));
-        }
-        else if (climber.climberMaxHeight() == true) {
-            adjustedInput = Math.max(input.getAsDouble(), 0);
-            // climber.drive(Math.max(input.getAsDouble(), 0));
-        }
-        else{
+        // if (climber.climberMinHeight() == true) {
+        //     adjustedInput = Math.min(input.getAsDouble(), 0);
+        //     // climber.drive(Math.min(input.getAsDouble(), 0));
+        // }
+        // else if (climber.climberMaxHeight() == true) {
+        //     adjustedInput = Math.max(input.getAsDouble(), 0);
+        //     // climber.drive(Math.max(input.getAsDouble(), 0));
+        // }
+        // else{
             adjustedInput = input.getAsDouble();
             // climber.drive(input.getAsDouble());
-        }
+        // }
 
         climber.drive(adjustedInput);
     }

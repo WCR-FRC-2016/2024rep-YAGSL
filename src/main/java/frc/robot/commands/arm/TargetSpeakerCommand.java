@@ -10,12 +10,12 @@ public class TargetSpeakerCommand extends Command {
     Arm arm;
     LedManagerSubsystem ledManagerSubsystem;
     private static final double speakerBaseOffset = 0.991;
-private static final double distanceToAngleFactorClose = 0.06;
-    private static final double distanceToAngleFactorMedium = 0.047;
+private static final double distanceToAngleFactorClose = 0.062;
+    private static final double distanceToAngleFactorMedium = 0.040;
     private static final double mediumDistance = 2;
-    private static final double distanceToAngleFactorFar = 0.043;
-    private static final double farDistance = 3;
-    private static final double horizontalDistanceOffsetFactor = 0.040;
+    private static final double distanceToAngleFactorFar = 0.025;
+    private static final double farDistance = 2.7;
+    private static final double horizontalDistanceOffsetFactor = 0.020;
 
     public TargetSpeakerCommand(Arm arm, LedManagerSubsystem ledManagerSubsystem) {
         this.arm = arm;
@@ -27,6 +27,18 @@ private static final double distanceToAngleFactorClose = 0.06;
     @Override
     public void initialize() {
         System.out.println("!!!target speaker command!!!");
+        var botpose = LimelightUtility.getBotPos();
+        var distanceToAprilTag = Math.abs(botpose[2]);
+        
+        var distanceToAprilTagHorizontal = Math.abs(botpose[0]);
+        var horizontalDistanceOffset = distanceToAprilTagHorizontal / 2.0f * horizontalDistanceOffsetFactor;
+        System.out.println(horizontalDistanceOffset);
+    }
+
+    @Override
+    public void execute() {
+        // System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!target speaker command");
+        double distanceToAngleFactorActual = 0.040;
         var botpose = LimelightUtility.getBotPos();
         var distanceToAprilTag = Math.abs(botpose[2]);
         if (botpose.length == 0) {
@@ -41,17 +53,6 @@ private static final double distanceToAngleFactorClose = 0.06;
         if (distanceToAprilTag >= farDistance) {
             System.out.println("far");
         }
-        var distanceToAprilTagHorizontal = Math.abs(botpose[0]);
-        var horizontalDistanceOffset = distanceToAprilTagHorizontal / 2.0f * horizontalDistanceOffsetFactor;
-        System.out.println(horizontalDistanceOffset);
-    }
-
-    @Override
-    public void execute() {
-        // System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!target speaker command");
-        double distanceToAngleFactorActual = 0.040;
-        var botpose = LimelightUtility.getBotPos();
-        var distanceToAprilTag = Math.abs(botpose[2]);
         if (distanceToAprilTag < mediumDistance) {
             distanceToAngleFactorActual = distanceToAngleFactorClose;
             // System.out.println("close");
