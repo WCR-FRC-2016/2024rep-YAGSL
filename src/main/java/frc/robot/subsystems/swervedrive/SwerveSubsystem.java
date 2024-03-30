@@ -492,4 +492,7 @@ public class SwerveSubsystem extends SubsystemBase {
   public void addFakeVisionReading() {
     swerveDrive.addVisionMeasurement(new Pose2d(3, 3, Rotation2d.fromDegrees(65)), Timer.getFPGATimestamp());
   }
+
+  public double getMaximumVelocity() { return swerveDrive.getMaximumVelocity(); }
+  public double getMaximumAngularVelocity() { return swerveDrive.getMaximumAngularVelocity(); }
 }

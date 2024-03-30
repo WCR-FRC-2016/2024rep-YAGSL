@@ -37,6 +37,7 @@ import frc.robot.commands.swervedrive.drivebase.AbsoluteDriveAdvCommand;
 import frc.robot.commands.swervedrive.drivebase.GoForwardCommand;
 import frc.robot.commands.swervedrive.drivebase.LimelightAmpAlignCommand;
 import frc.robot.commands.swervedrive.drivebase.LimelightShootAlignCommand;
+import frc.robot.commands.swervedrive.drivebase.LimelightShootAlignDriveCommand;
 import frc.robot.commands.swervedrive.drivebase.LimelightTrapAlignCommand;
 import frc.robot.leds.LedManager;
 import frc.robot.subsystems.Arm.Arm;
@@ -202,6 +203,15 @@ public class RobotContainer {
       driverXboxCommanded.rightTrigger(0.5)
           .whileTrue(new ParallelCommandGroup(new LimelightShootAlignCommand(drivebase), new ShootCommand(shooter),
               new TargetSpeakerCommand(arm)));
+      //driverXboxCommanded.rightTrigger(0.5)
+      //  .whileTrue(new ParallelCommandGroup(new LimelightShootAlignDriveCommand(
+      //    drivebase, 
+      //    () -> MathUtil.applyDeadband(driverXbox.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
+      //  () -> MathUtil.applyDeadband(driverXbox.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
+      //  () -> - MathUtil.applyDeadband(driverXbox.getRightX(), OperatorConstants.RIGHT_X_DEADBAND))
+      //    , new ShootCommand(shooter)
+      //    , new TargetSpeakerCommand(arm))
+      //  );
       driverXboxCommanded.leftTrigger(0.5).whileTrue(new CollectCommand(collector, arm));
 
       arm.setDefaultCommand(
