@@ -37,6 +37,7 @@ import frc.robot.commands.swervedrive.drivebase.GoForwardCommand;
 import frc.robot.commands.swervedrive.drivebase.LimelightAmpAlignCommand;
 import frc.robot.commands.swervedrive.drivebase.LimelightShootAlignCommand;
 import frc.robot.commands.swervedrive.drivebase.LimelightTrapAlignCommand;
+import frc.robot.leds.LedManager;
 import frc.robot.subsystems.Arm.Arm;
 import frc.robot.subsystems.Arm.Collector;
 import frc.robot.subsystems.Arm.Shooter;
@@ -80,6 +81,7 @@ public class RobotContainer {
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
+    LedManager.initialize();
 
     var ampAlignAndShootCommand = new SequentialCommandGroup(
         new ParallelCommandGroup(new AmpAngleCommand(arm, 0.5, ledManager), new LimelightAmpAlignCommand(drivebase)),
