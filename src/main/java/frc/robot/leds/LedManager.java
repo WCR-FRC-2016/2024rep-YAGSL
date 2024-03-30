@@ -6,6 +6,7 @@ import edu.wpi.first.util.WPIUtilJNI;
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import frc.robot.leds.driver.ManualDriver;
+import frc.robot.leds.driver.NoLimelightDriver;
 import frc.robot.leds.driver.RestingDriver;
 
 // 99 LEDS on strip
@@ -63,6 +64,7 @@ public final class LedManager {
             return;
 
         instance = new LedManager();
+        instance.registerDrivers();
     }
 
     public static void setState(String state_name) { 
@@ -71,6 +73,9 @@ public final class LedManager {
         
         instance.current_state_name   = state_name;
         instance.current_state_driver = instance.led_drivers.getOrDefault(state_name, null);
+    
+        if (instance.current_state_driver == null)
+            System.out.println("Led Driver with name [" + state_name + "] was not found, maybe it hasn't been registered?");
     }
 
     public static void ledPeriodic() { instance.periodic(); }
@@ -95,8 +100,6 @@ public final class LedManager {
         leds.setData(led_buffer);
         leds.start();
 
-        registerDrivers();
-
         // Im assuming this is in microseconds?
         previous_time = WPIUtilJNI.now();
     }
@@ -104,7 +107,8 @@ public final class LedManager {
     private void periodic() {
         var current_time = WPIUtilJNI.now();             // Get the current time (in microseconds?)
         float delta_time = current_time - previous_time; // Calculate the time elapsed since this was last called (in microseconds)
-        delta_time /= 1e-6f;                             // Convert this time to seconds (from microseconds?) 
+        delta_time *= 1e-6f;                             // Convert this time to seconds (from microseconds?) 
+        previous_time = current_time;
 
         led_info.Time += delta_time;
         led_info.DeltaTime = delta_time;
@@ -126,6 +130,7 @@ public final class LedManager {
 
         led_drivers.put("Resting",     new RestingDriver());
         led_drivers.put("ManualDrive", new ManualDriver());
+        led_drivers.put("NoLimelight", new NoLimelightDriver());
 
         // This is the default driver, set it to whatever its actually supposed to be
         setState("Resting");
