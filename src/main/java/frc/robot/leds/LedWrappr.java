@@ -61,6 +61,11 @@ import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 public final class LedWrappr {
     public final AddressableLEDBuffer LedBuffer;
 
+    public final LedStrip StripA;
+    public final LedStrip StripB;
+    public final LedStrip StripC;
+    public final LedStrip StripD;
+
     public void setRGB(int led, int r, int g, int b) { LedBuffer.setRGB(led, r, g, b); }
     public void setHSV(int led, int h, int s, int v) { LedBuffer.setHSV(led, h, s, v); }
 
@@ -87,12 +92,10 @@ public final class LedWrappr {
     public void fillRangeRGBGradient(int start_led, int end_led, int start_r, int start_g, int start_b, int end_r, int end_g, int end_b) {
         int led_count = end_led - start_led;
 
-        int red_per_led   = (end_r - start_r) / led_count;
-        int green_per_led = (end_g - start_g) / led_count;
-        int blue_per_led  = (end_b - start_b) / led_count;
-
-        for (var i = start_led; i < end_led; i++)
-            LedBuffer.setRGB(i, start_r - (red_per_led * i), start_g - (green_per_led * i), start_b - (blue_per_led * i));
+        for (var i = start_led; i < end_led; i++) {
+            float t = (float) (i - start_led) / (float) led_count;
+            LedBuffer.setRGB(i, lerp(start_r, end_r, t), lerp(start_b, end_b, t), lerp(start_b, end_b, t));
+        }
     }
     // Sets a certain number of LEDs at a certain position to be the gradient of two colors
     public void fillCountRGBGradient(int start_led, int count, int start_r, int start_g, int start_b, int end_r, int end_g, int end_b) { fillRangeRGBGradient(start_led, start_led + count, start_r, start_g, start_b, end_r, end_g, end_b); }
@@ -102,5 +105,14 @@ public final class LedWrappr {
     // "Hidden" from things that aren't LedManager since you dont need to create multiple
     protected LedWrappr(AddressableLEDBuffer buffer) {
         LedBuffer = buffer;
+
+        StripA = new LedStrip(this, 0, 36);
+        StripB = new LedStrip(this, 36, 36);
+        StripC = new LedStrip(this, 72, 36);
+        StripD = new LedStrip(this, 108, 36);
+    }
+
+    private int lerp(int a, int b, float t) {
+        return a + (int) Math.round((b - a) * t);
     }
 }

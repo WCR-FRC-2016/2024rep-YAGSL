@@ -7,7 +7,9 @@ import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import frc.robot.leds.driver.ManualDriver;
 import frc.robot.leds.driver.NoLimelightDriver;
+import frc.robot.leds.driver.PieceCollectedDriver;
 import frc.robot.leds.driver.RestingDriver;
+import frc.robot.leds.driver.StripTestDriver;
 
 // 99 LEDS on strip
 
@@ -39,8 +41,10 @@ public final class LedManager {
     // It kind of fits the Subsystem paradigm, but im making it a singleton
     private static LedManager instance = null;
 
+    // Old LED info: 99 + 73; // Long LED panel, Shorter LED panel
+
     // Constants
-    private static final int LED_COUNT = 99;
+    private static final int LED_COUNT = 36 * 4;
     private static final int LED_PORT  = 1;
 
     // Runtime Variables
@@ -100,14 +104,14 @@ public final class LedManager {
         leds.setData(led_buffer);
         leds.start();
 
-        // Im assuming this is in microseconds?
+        // Set the previous time to the current time (in microseconds)
         previous_time = WPIUtilJNI.now();
     }
 
     private void periodic() {
-        var current_time = WPIUtilJNI.now();             // Get the current time (in microseconds?)
+        var current_time = WPIUtilJNI.now();             // Get the current time (in microseconds)
         float delta_time = current_time - previous_time; // Calculate the time elapsed since this was last called (in microseconds)
-        delta_time *= 1e-6f;                             // Convert this time to seconds (from microseconds?) 
+        delta_time *= 1e-6f;                             // Convert this time to seconds (from microseconds) 
         previous_time = current_time;
 
         led_info.Time += delta_time;
@@ -128,11 +132,13 @@ public final class LedManager {
         //
         //led_drivers.put("SampleDriver", new SampleDriver());
 
-        led_drivers.put("Resting",     new RestingDriver());
-        led_drivers.put("ManualDrive", new ManualDriver());
-        led_drivers.put("NoLimelight", new NoLimelightDriver());
+        led_drivers.put("Resting",        new RestingDriver());
+        led_drivers.put("ManualDrive",    new ManualDriver());
+        led_drivers.put("NoLimelight",    new NoLimelightDriver());
+        led_drivers.put("StripTest",      new StripTestDriver());
+        led_drivers.put("PieceCollected", new PieceCollectedDriver());
 
         // This is the default driver, set it to whatever its actually supposed to be
-        setState("Resting");
+        setState("StripTest");
     }
 }
