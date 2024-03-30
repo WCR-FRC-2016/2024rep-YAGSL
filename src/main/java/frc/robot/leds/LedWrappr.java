@@ -92,7 +92,7 @@ public final class LedWrappr {
         int blue_per_led  = (end_b - start_b) / led_count;
 
         for (var i = start_led; i < end_led; i++)
-            LedBuffer.setRGB(i, start_r + red_per_led, start_g + green_per_led, start_b + blue_per_led);
+            LedBuffer.setRGB(i, start_r - (red_per_led * i), start_g - (green_per_led * i), start_b - (blue_per_led * i));
     }
     // Sets a certain number of LEDs at a certain position to be the gradient of two colors
     public void fillCountRGBGradient(int start_led, int count, int start_r, int start_g, int start_b, int end_r, int end_g, int end_b) { fillRangeRGBGradient(start_led, start_led + count, start_r, start_g, start_b, end_r, end_g, end_b); }

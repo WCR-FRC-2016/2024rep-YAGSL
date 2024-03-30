@@ -6,6 +6,7 @@ import edu.wpi.first.util.WPIUtilJNI;
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import frc.robot.leds.driver.ManualDriver;
+import frc.robot.leds.driver.NoLimelightDriver;
 import frc.robot.leds.driver.RestingDriver;
 
 // 99 LEDS on strip
@@ -63,12 +64,15 @@ public final class LedManager {
             return;
 
         instance = new LedManager();
+        instance.registerDrivers();
     }
 
     public static void setState(String state_name) { 
         if (instance == null)
             return;
         
+        System.out.println("Setting state to: " + state_name);
+
         instance.current_state_name   = state_name;
         instance.current_state_driver = instance.led_drivers.getOrDefault(state_name, null);
     }
@@ -95,8 +99,6 @@ public final class LedManager {
         leds.setData(led_buffer);
         leds.start();
 
-        registerDrivers();
-
         // Im assuming this is in microseconds?
         previous_time = WPIUtilJNI.now();
     }
@@ -109,8 +111,10 @@ public final class LedManager {
         led_info.Time += delta_time;
         led_info.DeltaTime = delta_time;
         
-        if (current_state_driver == null)
+        if (current_state_driver == null) {
+            System.out.println("NO VALID StateDriver");
             return;
+        }
 
         current_state_driver.setLEDS(led_wrapper, led_info);
         leds.setData(led_buffer);
@@ -126,8 +130,9 @@ public final class LedManager {
 
         led_drivers.put("Resting",     new RestingDriver());
         led_drivers.put("ManualDrive", new ManualDriver());
+        led_drivers.put("NoLimelight", new NoLimelightDriver());
 
         // This is the default driver, set it to whatever its actually supposed to be
-        setState("Resting");
+        setState("NoLimelight");
     }
 }
