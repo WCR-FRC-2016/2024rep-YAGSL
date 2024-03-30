@@ -8,7 +8,6 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.CollectorConstants;
-import frc.robot.subsystems.LedManager.LedManagerSubsystem;
 
 public class Collector  extends SubsystemBase { 
     // LedManagerSubsystem ledManager;
@@ -16,7 +15,7 @@ public class Collector  extends SubsystemBase {
     // DutyCycleEncoder pieceSensor;
     private CANSparkMax collectorMotorController;
 
-    public Collector(LedManagerSubsystem ledManager){
+    public Collector() {
         collectorMotorController = new CANSparkMax(Constants.CollectorConstants.canId, MotorType.kBrushed);
 
         // this.ledManager = ledManager;

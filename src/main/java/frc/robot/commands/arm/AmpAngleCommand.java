@@ -2,17 +2,14 @@ package frc.robot.commands.arm;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Arm.Arm;
-import frc.robot.subsystems.LedManager.LedManagerSubsystem;
 
 public class AmpAngleCommand extends Command {
     Arm arm;
-    LedManagerSubsystem ledManagerSubsystem;
     double angle;
 
-    public AmpAngleCommand(Arm arm, double angle, LedManagerSubsystem ledManagerSubsystem) {
+    public AmpAngleCommand(Arm arm, double angle) {
         this.arm = arm;
         this.angle = angle;
-        this.ledManagerSubsystem = ledManagerSubsystem;
         addRequirements(arm);
     }
 
@@ -23,7 +20,7 @@ public class AmpAngleCommand extends Command {
 
     @Override
     public void execute() {
-        ledManagerSubsystem.setState(5);
+        //ledManagerSubsystem.setState(5);
     }
 
     @Override

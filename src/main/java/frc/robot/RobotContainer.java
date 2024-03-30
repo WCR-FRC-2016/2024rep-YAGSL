@@ -32,17 +32,17 @@ import frc.robot.commands.arm.TargetSpeakerCommand;
 import frc.robot.commands.climber.ManualDriveClimberCommand;
 import frc.robot.commands.collector.CollectCommand;
 import frc.robot.commands.collector.FeedCommand;
-import frc.robot.commands.leds.LedPassiveCommand;
+//import frc.robot.commands.leds.LedPassiveCommand; // FIXME: Use new LedManager system
 import frc.robot.commands.swervedrive.drivebase.AbsoluteDriveAdvCommand;
 import frc.robot.commands.swervedrive.drivebase.GoForwardCommand;
 import frc.robot.commands.swervedrive.drivebase.LimelightAmpAlignCommand;
 import frc.robot.commands.swervedrive.drivebase.LimelightShootAlignCommand;
 import frc.robot.commands.swervedrive.drivebase.LimelightTrapAlignCommand;
+import frc.robot.leds.LedManager;
 import frc.robot.subsystems.Arm.Arm;
 import frc.robot.subsystems.Arm.Collector;
 import frc.robot.subsystems.Arm.Shooter;
 import frc.robot.subsystems.Climber.Climber;
-import frc.robot.subsystems.LedManager.LedManagerSubsystem;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import java.io.File;
 
@@ -62,8 +62,8 @@ public class RobotContainer {
   private final SwerveSubsystem drivebase = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
       "swerve/neo"));
 
-  private final LedManagerSubsystem ledManager = new LedManagerSubsystem();
-  public final Collector collector = new Collector(ledManager);
+  //private final LedManagerSubsystem ledManager = new LedManagerSubsystem();
+  private final Collector collector = new Collector();
   private final Shooter shooter = new Shooter();
   private final Arm arm = new Arm();
   private final Climber climber = new Climber();
@@ -82,15 +82,16 @@ public class RobotContainer {
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
+    LedManager.initialize();
 
     var ampAlignAndShootCommand = new SequentialCommandGroup(
-        new ParallelCommandGroup(new AmpAngleCommand(arm, 0.5, ledManager), new LimelightAmpAlignCommand(drivebase)),
+        new ParallelCommandGroup(new AmpAngleCommand(arm, 0.5), new LimelightAmpAlignCommand(drivebase)),
         new GoForwardCommand(drivebase), new AutoShootStartCommand(shooter, collector), new WaitCommand(2),
         new AutoShootStopCommand(shooter, collector),
-        new AmpAngleCommand(arm, Constants.RobotDemensions.ArmDipLimit, ledManager));
+        new AmpAngleCommand(arm, Constants.RobotDemensions.ArmDipLimit));
 
     var AutoShoot = new SequentialCommandGroup(
-        new AmpAngleCommand(arm, Constants.RobotDemensions.ArmDipLimit, ledManager), new AutoShootCommand(shooter),
+        new AmpAngleCommand(arm, Constants.RobotDemensions.ArmDipLimit), new AutoShootCommand(shooter),
         new WaitCommand(1), new AutoFeedCommand(collector), new WaitCommand(1),
         new AutoShootStopCommand(shooter, collector));
 
@@ -104,7 +105,7 @@ public class RobotContainer {
           new AutoShootStopCommand(shooter, collector)
         ),
       new LimelightShootAlignCommand(drivebase), 
-      new TargetSpeakerCommand(arm, ledManager)
+      new TargetSpeakerCommand(arm)
     );
 
     NamedCommands.registerCommand("AmpAlign", ampAlignAndShootCommand);
@@ -113,7 +114,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("ShootStart", new AutoShootStartCommand(shooter, collector));
     NamedCommands.registerCommand("ShootStop", new AutoShootStopCommand(shooter, collector));
     NamedCommands.registerCommand("AutoShoot", AutoShoot);
-    NamedCommands.registerCommand("ReadyArm", new AmpAngleCommand(arm, Constants.RobotDemensions.ArmHeightLimit, ledManager));
+    NamedCommands.registerCommand("ReadyArm", new AmpAngleCommand(arm, Constants.RobotDemensions.ArmHeightLimit));
     NamedCommands.registerCommand("AutoShootWithAim", AutoShootAndAim);
     
 
@@ -182,25 +183,25 @@ public class RobotContainer {
    */
   private void configureBindings() {
     var ampAlignAndShootCommand = new SequentialCommandGroup(
-        new ParallelCommandGroup(new AmpAngleCommand(arm, 0.5, ledManager), new LimelightTrapAlignCommand(drivebase)),
+        new ParallelCommandGroup(new AmpAngleCommand(arm, 0.5), new LimelightTrapAlignCommand(drivebase)),
         new GoForwardCommand(drivebase), new DumpCommand(shooter, collector, drivebase));
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
 
     if(ControllerBindMode == 1){
       new JoystickButton(driverXbox, XboxController.Button.kBack.value).onTrue((new InstantCommand(drivebase::zeroGyro)));
-      new JoystickButton(driverXbox, XboxController.Button.kStart.value).whileTrue(new LedPassiveCommand(ledManager, collector));
+      //new JoystickButton(driverXbox, XboxController.Button.kStart.value).whileTrue(new LedPassiveCommand(collector)); // FIXME: readd command
       new JoystickButton(driverXbox, XboxController.Button.kX.value).whileTrue(ampAlignAndShootCommand);
       new JoystickButton(driverXbox, XboxController.Button.kY.value).whileTrue(new ShootCommand(shooter));
       new JoystickButton(driverXbox, XboxController.Button.kB.value)
-          .whileTrue(new AmpAngleCommand(arm, Constants.RobotDemensions.ArmHeightLimit, ledManager));
+          .whileTrue(new AmpAngleCommand(arm, Constants.RobotDemensions.ArmHeightLimit));
       new JoystickButton(driverXbox, XboxController.Button.kA.value)
-          .whileTrue(new AmpAngleCommand(arm, Constants.RobotDemensions.ArmDipLimit, ledManager));
+          .whileTrue(new AmpAngleCommand(arm, Constants.RobotDemensions.ArmDipLimit));
       new JoystickButton(driverXbox, XboxController.Button.kRightBumper.value).whileTrue(new FeedCommand(collector));
       new JoystickButton(driverXbox, XboxController.Button.kLeftBumper.value)     
           .whileTrue(new SpitCommand(shooter, collector, drivebase));    
       driverXboxCommanded.rightTrigger(0.5)
           .whileTrue(new ParallelCommandGroup(new LimelightShootAlignCommand(drivebase), new ShootCommand(shooter),
-              new TargetSpeakerCommand(arm, ledManager)));
+              new TargetSpeakerCommand(arm)));
       driverXboxCommanded.leftTrigger(0.5).whileTrue(new CollectCommand(collector, arm));
 
       arm.setDefaultCommand(
@@ -221,7 +222,7 @@ public class RobotContainer {
       NamedCommands.registerCommand("AmpAlignAndShoot", ampAlignAndShootCommand);
       
       new JoystickButton(driverXbox, XboxController.Button.kLeftBumper.value).whileTrue(new InstantCommand(() -> {System.out.println(arm.getAngle());}));
-      new JoystickButton(driverXbox, XboxController.Button.kStart.value).whileTrue(new LedPassiveCommand(ledManager, collector));
+      //new JoystickButton(driverXbox, XboxController.Button.kStart.value).whileTrue(new LedPassiveCommand(collector)); // FIXME: readd command
       new JoystickButton(driverXbox, XboxController.Button.kB.value).whileTrue(ampAlignAndShootCommand);
       new JoystickButton(driverXbox, XboxController.Button.kY.value).whileTrue(new LimelightTrapAlignCommand(drivebase));
 
@@ -240,7 +241,7 @@ public class RobotContainer {
 
       mainpulatorXboxCommanded.rightTrigger(0.5)
           .whileTrue(new ParallelCommandGroup(new LimelightShootAlignCommand(drivebase), new ShootCommand(shooter),
-              new TargetSpeakerCommand(arm, ledManager)));
+              new TargetSpeakerCommand(arm)));
       mainpulatorXboxCommanded.leftTrigger(0.5).whileTrue(new CollectCommand(collector, arm));
       // new JoystickButton(driverXbox, XboxController.Button.kX.value).whileTrue(new
       // TargetSpeaker(arm)); // TODO: Double bound from merge

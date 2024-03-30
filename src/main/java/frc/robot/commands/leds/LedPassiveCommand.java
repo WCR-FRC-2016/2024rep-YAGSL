@@ -1,26 +1,28 @@
-package frc.robot.commands.leds;
+// I dont really know what to do with this file, it needs to be rewritten
 
-import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.Arm.Collector;
-import frc.robot.subsystems.LedManager.LedManagerSubsystem;
+// package frc.robot.commands.leds;
 
-public class LedPassiveCommand extends Command {
-    LedManagerSubsystem ledManager;
-    Collector collector;
+// import edu.wpi.first.wpilibj2.command.Command;
+// import frc.robot.subsystems.Arm.Collector;
+// import frc.robot.subsystems.LedManager.LedManagerSubsystem;
 
-    public LedPassiveCommand(LedManagerSubsystem ledManager, Collector collector) {
-        this.ledManager = ledManager;
-        this.collector = collector;
-        addRequirements(ledManager);
-    }
+// public class LedPassiveCommand extends Command {
+//     LedManagerSubsystem ledManager;
+//     Collector collector;
 
-    @Override
-    public void execute() {
+//     public LedPassiveCommand(LedManagerSubsystem ledManager, Collector collector) {
+//         this.ledManager = ledManager;
+//         this.collector = collector;
+//         addRequirements(ledManager);
+//     }
 
-        if (collector.hasPiece() == true) {
-            ledManager.setState(3);
-        }
+//     @Override
+//     public void execute() {
+
+//         if (collector.hasPiece() == true) {
+//             ledManager.setState(3);
+//         }
         
-    }
+//     }
 
-}
+// }
