@@ -71,10 +71,11 @@ public final class LedManager {
         if (instance == null)
             return;
         
-        System.out.println("Setting state to: " + state_name);
-
         instance.current_state_name   = state_name;
         instance.current_state_driver = instance.led_drivers.getOrDefault(state_name, null);
+    
+        if (instance.current_state_driver == null)
+            System.out.println("Led Driver with name [" + state_name + "] was not found, maybe it hasn't been registered?");
     }
 
     public static void ledPeriodic() { instance.periodic(); }
@@ -112,10 +113,8 @@ public final class LedManager {
         led_info.Time += delta_time;
         led_info.DeltaTime = delta_time;
         
-        if (current_state_driver == null) {
-            System.out.println("NO VALID StateDriver");
+        if (current_state_driver == null)
             return;
-        }
 
         current_state_driver.setLEDS(led_wrapper, led_info);
         leds.setData(led_buffer);
