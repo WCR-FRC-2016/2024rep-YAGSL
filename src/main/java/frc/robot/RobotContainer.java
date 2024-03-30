@@ -232,12 +232,12 @@ public class RobotContainer {
       new JoystickButton(manipulatorXbox, XboxController.Button.kLeftBumper.value)
           .whileTrue(new SpitCommand(shooter, collector, drivebase)); // Test bind
       new JoystickButton(manipulatorXbox, XboxController.Button.kX.value)
-          .whileTrue(new AmpAngleCommand(arm, Constants.RobotDemensions.ArmHeightLimit, ledManager));
+          .whileTrue(new AmpAngleCommand(arm, Constants.RobotDemensions.ArmHeightLimit));
       new JoystickButton(manipulatorXbox, XboxController.Button.kRightBumper.value).whileTrue(new FeedCommand(collector));
       // new JoystickButton(manipulatorXbox, XboxController.Button.kA.value)
       //     .whileTrue(new SpitCommand(shooter, collector, drivebase));
       new JoystickButton(manipulatorXbox, XboxController.Button.kA.value)
-          .whileTrue(new AmpAngleCommand(arm, Constants.RobotDemensions.ArmDipLimit, ledManager));
+          .whileTrue(new AmpAngleCommand(arm, Constants.RobotDemensions.ArmDipLimit));
 
       mainpulatorXboxCommanded.rightTrigger(0.5)
           .whileTrue(new ParallelCommandGroup(new LimelightShootAlignCommand(drivebase), new ShootCommand(shooter),
