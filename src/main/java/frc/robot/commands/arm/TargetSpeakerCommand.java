@@ -3,12 +3,10 @@ package frc.robot.commands.arm;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.robot.subsystems.Arm.Arm;
-import frc.robot.subsystems.LedManager.LedManagerSubsystem;
 import frc.robot.utilities.LimelightUtility;
 
 public class TargetSpeakerCommand extends Command {
     Arm arm;
-    LedManagerSubsystem ledManagerSubsystem;
     private static final double speakerBaseOffset = 0.991;
     private static final double distanceToAngleFactorClose = 0.040;
     private static final double distanceToAngleFactorMedium = 0.032;
@@ -17,9 +15,8 @@ public class TargetSpeakerCommand extends Command {
     private static final double farDistance = 3;
     private static final double horizontalDistanceOffsetFactor = 0.010;
 
-    public TargetSpeakerCommand(Arm arm, LedManagerSubsystem ledManagerSubsystem) {
+    public TargetSpeakerCommand(Arm arm) {
         this.arm = arm;
-        this.ledManagerSubsystem = ledManagerSubsystem;
         addRequirements(arm);
     }
 
