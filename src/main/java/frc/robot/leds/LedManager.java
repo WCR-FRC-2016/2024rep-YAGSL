@@ -106,7 +106,8 @@ public final class LedManager {
     private void periodic() {
         var current_time = WPIUtilJNI.now();             // Get the current time (in microseconds?)
         float delta_time = current_time - previous_time; // Calculate the time elapsed since this was last called (in microseconds)
-        delta_time /= 1e-6f;                             // Convert this time to seconds (from microseconds?) 
+        delta_time *= 1e-6f;                             // Convert this time to seconds (from microseconds?) 
+        previous_time = current_time;
 
         led_info.Time += delta_time;
         led_info.DeltaTime = delta_time;
@@ -133,6 +134,6 @@ public final class LedManager {
         led_drivers.put("NoLimelight", new NoLimelightDriver());
 
         // This is the default driver, set it to whatever its actually supposed to be
-        setState("NoLimelight");
+        setState("Resting");
     }
 }
