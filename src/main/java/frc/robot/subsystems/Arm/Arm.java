@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.utilities.LimelightUtility;
 
+
 public class Arm extends SubsystemBase {
 
     CANSparkMax masterMotorController = new CANSparkMax(7, MotorType.kBrushless);
@@ -19,6 +20,7 @@ public class Arm extends SubsystemBase {
     SparkPIDController pidController;
     AbsoluteEncoder encoder;
     double desiredAngle;
+
 
     public Arm() {
 
