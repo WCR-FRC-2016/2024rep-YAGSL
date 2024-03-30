@@ -24,10 +24,10 @@ public class LimelightAmpAlignCommand extends Command {
     public void initialize() {
         closeToTarget = false;
         System.out.println("***ran auto amp command***");
-        // NetworkTableInstance.getDefault().getTable("limelight").getEntry("botpose").getDoubleArray(botpose);
-        // desiredAngle = botpose[4];
-        // double tx = getTx();
-        // desiredAngle = driveBase.getHeading().getDegrees() - tx;
+        // // NetworkTableInstance.getDefault().getTable("limelight").getEntry("botpose").getDoubleArray(botpose);
+        // // desiredAngle = botpose[4];
+        // // double tx = getTx();
+        // // desiredAngle = driveBase.getHeading().getDegrees() - tx;
     }
 
     @Override
@@ -37,6 +37,11 @@ public class LimelightAmpAlignCommand extends Command {
 
         // Check connection to Network table
         if (botpose.length == 0) {
+            driveBase.drive(0, 0, driveBase.getHeading().getRadians());
+            return;
+        }
+        if(NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0.0) != 1){
+            System.out.println("no traget");
             driveBase.drive(0, 0, driveBase.getHeading().getRadians());
             return;
         }
@@ -61,7 +66,7 @@ public class LimelightAmpAlignCommand extends Command {
         double distanceToMoveX = -1 * (actualDistanceX);
         desiredAngle = driveBase.getHeading().getDegrees() - getTx();
         // currentAngle = botpose[4];
-        driveBase.drive(Math.max(distanceToMoveY * 0.6, 0.2), Math.max(distanceToMoveX * 0.6, 0.2), Math.toRadians(desiredAngle));
+        driveBase.drive(-Math.max(distanceToMoveY * 0.6, 0.2), -Math.max(distanceToMoveX * 0.6, 0.2), Math.toRadians(desiredAngle));
         currentAngle = getTx();
         turnMagnitude = currentAngle != 0.0d ? currentAngle / Math.abs(currentAngle) * -1.0d : 1.0d;
         // NetworkTableInstance.getDefault().getTable("limelight").getEntry("botpose").getDoubleArray(botpose);

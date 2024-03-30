@@ -37,7 +37,7 @@ public class Arm extends SubsystemBase {
 
         pidController.setP(6);
         pidController.setI(1e-4);
-        pidController.setD(0.75);
+        pidController.setD(0.55);
         pidController.setIZone(0);
         pidController.setFF(0);
         pidController.setOutputRange(-1, 1.0);

@@ -51,7 +51,8 @@ public final class Constants {
         "2Shoot3",
         "2Shoot2",
         "2Shoot1",
-        "OutOfWay1"
+        "OutOfWay1",
+        "ThreeShootBlue1"
     };
   }
 

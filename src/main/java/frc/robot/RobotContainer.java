@@ -182,7 +182,7 @@ public class RobotContainer {
    */
   private void configureBindings() {
     var ampAlignAndShootCommand = new SequentialCommandGroup(
-        new ParallelCommandGroup(new AmpAngleCommand(arm, 0.5, ledManager), new LimelightAmpAlignCommand(drivebase)),
+        new ParallelCommandGroup(new AmpAngleCommand(arm, 0.5, ledManager), new LimelightTrapAlignCommand(drivebase)),
         new GoForwardCommand(drivebase), new DumpCommand(shooter, collector, drivebase));
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
 

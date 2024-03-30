@@ -10,6 +10,7 @@ public class LedManagerSubsystem extends SubsystemBase{
     AddressableLEDBuffer ledBuffer = new AddressableLEDBuffer(ledLength);
     private int state = 0;
 
+
     public LedManagerSubsystem(){
 
         led.setLength(ledBuffer.getLength());
