@@ -11,7 +11,7 @@ public class TargetSpeakerCommand extends Command {
     LedManagerSubsystem ledManagerSubsystem;
     private static final double speakerBaseOffset = 0.991;
 private static final double distanceToAngleFactorClose = 0.062;
-    private static final double distanceToAngleFactorMedium = 0.040;
+    private static final double distanceToAngleFactorMedium = 0.044;
     private static final double mediumDistance = 2;
     private static final double distanceToAngleFactorFar = 0.025;
     private static final double farDistance = 2.7;
