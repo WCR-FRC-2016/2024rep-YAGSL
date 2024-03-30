@@ -36,8 +36,8 @@
         "y": 5.52661562465982
       },
       "prevControl": {
-        "x": 2.787619289524294,
-        "y": 5.55593454044051
+        "x": 2.760413448754825,
+        "y": 5.509843091758257
       },
       "nextControl": null,
       "isLocked": false,
@@ -54,7 +54,7 @@
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 1.0,
+    "maxVelocity": 3.0,
     "maxAcceleration": 3.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
@@ -65,10 +65,10 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "CollectPiece",
+  "folder": null,
   "previewStartingState": {
     "rotation": 0.0,
     "velocity": 0
   },
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }

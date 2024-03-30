@@ -9,7 +9,7 @@ public class LimelightTrapAlignCommand extends Command {
     private SwerveSubsystem driveBase;
     private double desiredAngle;
     private double currentAngle;
-    private static final double desiredDistanceZ = -0.26;
+    private static final double desiredDistanceZ = -0.4;
     private double actualDistanceZ;
     private double actualDistanceX;
     private double turnMagnitude = 1;

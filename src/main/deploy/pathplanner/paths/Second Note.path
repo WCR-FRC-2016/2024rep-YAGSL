@@ -59,7 +59,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "3 note shoot",
+  "folder": null,
   "previewStartingState": {
     "rotation": 121.07101208645179,
     "velocity": 0
