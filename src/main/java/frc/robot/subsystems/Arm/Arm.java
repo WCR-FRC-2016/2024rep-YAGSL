@@ -37,9 +37,9 @@ public class Arm extends SubsystemBase {
 
         encoder = masterMotorController.getAbsoluteEncoder(com.revrobotics.SparkAbsoluteEncoder.Type.kDutyCycle);
 
-        pidController.setP(6);
+        pidController.setP(6.5);
         pidController.setI(1e-4);
-        pidController.setD(0.55);
+        pidController.setD(0.4);
         pidController.setIZone(0);
         pidController.setFF(0);
         pidController.setOutputRange(-1, 1.0);
