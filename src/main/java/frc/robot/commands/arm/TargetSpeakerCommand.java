@@ -14,13 +14,14 @@ import frc.robot.utilities.LimelightUtility;
 public class TargetSpeakerCommand extends Command {
     Arm arm;
     private static final double speakerBaseOffset = 0.991;
-private static final double distanceToAngleFactorClose = 0.065;
+private static final double distanceToAngleFactorClose = 0.068;
     private static final double distanceToAngleFactorMedium = 0.047;
     private static final double mediumDistance = 2;
     private static final double distanceToAngleFactorFar = 0.025;
     private static final double farDistance = 2.7;
-    private static final double horizontalDistanceOffsetFactorClose = 0.023;
-    private static final double horizontalDistanceOffsetFactorMedium = 0.033;
+    private static final double horizontalDistanceOffsetFactorClose = 0.015;
+     private static final double mediumHorizontalDistance = 2.7;
+    private static final double horizontalDistanceOffsetFactorMedium = 0.023;
     private static double [] averageReadsArrayZ = new double [10];
     private static double [] averageReadsArrayX = new double [10];
     private int aprilTagReadIndex = 0;
@@ -102,7 +103,7 @@ private static final double distanceToAngleFactorClose = 0.065;
 
         }
 
-        if(Math.abs(averageDistanceToAprilTagX) < 1){
+        if(Math.abs(averageDistanceToAprilTagX) < mediumHorizontalDistance){
             horizontalDistanceOffset = averageDistanceToAprilTagX / 2.0f * horizontalDistanceOffsetFactorClose;
         }
         else{

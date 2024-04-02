@@ -35,14 +35,14 @@ public class Climber extends SubsystemBase {
          rightMotorController.setSmartCurrentLimit(40);
 
          leftMotorController.setInverted(true); // Need to verify
-         rightMotorController.follow(leftMotorController, true);
+         // rightMotorController.follow(leftMotorController, true);
 
          leftMotorController.burnFlash();
          rightMotorController.burnFlash();
-         highLeftClimberSensor = new DigitalInput(2);
-         highRightClimberSensor = new DigitalInput(3);
+         highLeftClimberSensor = new DigitalInput(3);
+         highRightClimberSensor = new DigitalInput(1);
          lowLeftClimberSensor = new DigitalInput(4);
-         lowRightClimberSensor = new DigitalInput(5);
+         lowRightClimberSensor = new DigitalInput(2);
     }
     public boolean climberLeftMaxHeight(){
         return highLeftClimberSensor.get();

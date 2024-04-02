@@ -24,11 +24,11 @@ public class ManualDriveClimberCommand extends Command {
         double adjustedInputLeft = 0;
         double adjustedInputRight = 0;
 
-        if(climber.climberLeftMaxHeight()){
+        if(!climber.climberLeftMaxHeight()){
             adjustedInputLeft = Math.min(input.getAsDouble(), 0);
         }
 
-        else if(climber.climberLeftMinHeight()){
+        else if(!climber.climberLeftMinHeight()){
             adjustedInputLeft = Math.max(input.getAsDouble(), 0);
         }
 
@@ -36,18 +36,18 @@ public class ManualDriveClimberCommand extends Command {
             adjustedInputLeft = input.getAsDouble();            
         }
 
-        if(climber.climberRightMaxHeight()){
-            adjustedInputRight = -Math.min(input.getAsDouble(), 0);
+        if(!climber.climberRightMaxHeight()){
+            adjustedInputRight = Math.min(input.getAsDouble(), 0);
         }
 
-        else if(climber.climberRightMinHeight()){
-            adjustedInputRight = -Math.max(input.getAsDouble(), 0);
+        else if(!climber.climberRightMinHeight()){
+            adjustedInputRight = Math.max(input.getAsDouble(), 0);
         }
-
         else{           
             adjustedInputRight = input.getAsDouble();
         }
 
+        System.out.println("lmax: " + climber.climberLeftMaxHeight() + " lmin: " + climber.climberLeftMinHeight() + " rmax: " + climber.climberRightMaxHeight() + " rmin: " + climber.climberRightMinHeight());
         
         // if (climber.climberMinHeight() == true) {
         //     adjustedInput = Math.min(input.getAsDouble(), 0);

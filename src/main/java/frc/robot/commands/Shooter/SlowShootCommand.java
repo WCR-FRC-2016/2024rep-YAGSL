@@ -13,7 +13,7 @@ public class SlowShootCommand extends Command {
 
     @Override
     public void execute() {
-        shooter.run(0.4);
+        shooter.run(0.7);
     }
 
     @Override
