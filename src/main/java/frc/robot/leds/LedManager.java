@@ -9,6 +9,7 @@ import frc.robot.leds.driver.ManualDriver;
 import frc.robot.leds.driver.NoLimelightDriver;
 import frc.robot.leds.driver.PieceCollectedDriver;
 import frc.robot.leds.driver.RestingDriver;
+import frc.robot.leds.driver.SolidColorDriver;
 import frc.robot.leds.driver.StripTestDriver;
 
 // 99 LEDS on strip
@@ -62,7 +63,8 @@ public final class LedManager {
     // Old LED info: 99 + 73; // Long LED panel, Shorter LED panel
 
     // Constants
-    private static final int LED_COUNT = 36 * 4;
+    //private static final int LED_COUNT = 36 * 4;
+    private static final int LED_COUNT = ((37 * 2) + 1) * 2; // 2 sides, 1 hidden LED, 37 leds per strip (2 per side)
     private static final int LED_PORT  = 1;
 
     // Runtime Variables
@@ -139,7 +141,7 @@ public final class LedManager {
     // If the current state is not this state, it will just ignore it since it either has already been
     // called, or something with a higher priority is currently being run (and this shouldn't reset that)
     public static void resetState(String state) {
-        if (instance == null)
+        if (instance ==null)
             return;
 
         // Verify that the current state is the same state as the one being passed in (if not, return)
@@ -227,14 +229,22 @@ public final class LedManager {
         //
         //led_drivers.put("SampleDriver", new SampleDriver());
 
-        led_drivers.put("Resting",        new RestingDriver());
-        led_drivers.put("ManualDrive",    new ManualDriver());
-        led_drivers.put("NoLimelight",    new NoLimelightDriver());
-        led_drivers.put("StripTest",      new StripTestDriver());
-        led_drivers.put("PieceCollected", new PieceCollectedDriver());
+        led_drivers.put("Resting",       new RestingDriver());
+        led_drivers.put("OdometryReset", new SolidColorDriver(255, 0, 255));
+
+        led_drivers.put("AmpAlignLimelightVisible",   new SolidColorDriver(255, 0, 255));
+        led_drivers.put("AmpAlignNoLimelightVisible", new SolidColorDriver(255, 200, 0));
+
+        led_drivers.put("CollectingNoPiece", new SolidColorDriver(255, 255, 0));
+        led_drivers.put("PieceCollected",    new PieceCollectedDriver());
+
+        // Other, non-good ones
+        led_drivers.put("ManualDrive", new ManualDriver());
+        led_drivers.put("NoLimelight", new NoLimelightDriver());
+        led_drivers.put("StripTest",   new StripTestDriver());
 
         // This is the default driver, set it to whatever its actually supposed to be
-        setState("StripTest");
+        setState("Resting");
     }
 
 }

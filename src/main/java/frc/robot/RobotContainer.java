@@ -69,7 +69,7 @@ public class RobotContainer {
   private final Shooter shooter = new Shooter();
   private final Arm arm = new Arm();
   private final Climber climber = new Climber();
-  private int ControllerBindMode = 1;
+  private int ControllerBindMode = 0;
   // CommandJoystick rotationController = new CommandJoystick(1);
   // Replace with CommandPS4Controller or CommandJoystick if needed
 
@@ -219,7 +219,6 @@ public class RobotContainer {
           new ManualDriveArmCommand(arm, () -> MathUtil.applyDeadband(manipulatorXbox.getRightY(), 0.7)));
       climber.setDefaultCommand(
           new ManualDriveClimberCommand(climber, () -> MathUtil.applyDeadband(manipulatorXbox.getLeftY(), 0.7)));
-
     }
 
     else{

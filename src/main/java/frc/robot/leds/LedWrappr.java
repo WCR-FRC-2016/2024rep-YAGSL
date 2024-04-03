@@ -102,14 +102,23 @@ public final class LedWrappr {
     // Sets all of the LEDs on the strip to be the gradient of two colors
     public void fillAllRGBGradient(int start_r, int start_g, int start_b, int end_r, int end_g, int end_b) { fillRangeRGBGradient(0, LedBuffer.getLength(), start_r, start_g, start_b, end_r, end_g, end_b); }
 
+    public void fillRangeHSV(int start_led, int end_led, int h, int s, int v) {
+        for (var i = start_led; i < end_led; i++)
+            LedBuffer.setHSV(i, h, s, v);
+    }
+    public void fillCountHSV(int start_led, int count, int h, int s, int v) {
+        fillRangeHSV(start_led, start_led + count, h, s, v);
+    }
+    public void fillAllHSV(int h, int s, int v) { fillRangeHSV(0, LedBuffer.getLength(), h, s, v); }
+
     // "Hidden" from things that aren't LedManager since you dont need to create multiple
     protected LedWrappr(AddressableLEDBuffer buffer) {
         LedBuffer = buffer;
 
-        StripA = new LedStrip(this, 0, 36);
-        StripB = new LedStrip(this, 36, 36);
-        StripC = new LedStrip(this, 72, 36);
-        StripD = new LedStrip(this, 108, 36);
+        StripA = new LedStrip(this, 0, 37);
+        StripB = new LedStrip(this, 38, 37);
+        StripC = new LedStrip(this, 75, 37);
+        StripD = new LedStrip(this, 113, 37);
     }
 
     private int lerp(int a, int b, float t) {

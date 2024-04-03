@@ -1,6 +1,11 @@
 package frc.robot.commands.collector;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.robot.leds.LedManager;
 import frc.robot.subsystems.Arm.Arm;
 import frc.robot.subsystems.Arm.Collector;
 
@@ -17,6 +22,7 @@ public class CollectCommand extends Command {
 
     @Override
     public void initialize() {
+        LedManager.setStateWithPriority("CollectingNoPiece", 1);
         arm.targetHell();
     }
 
@@ -27,6 +33,7 @@ public class CollectCommand extends Command {
             collector.run();
         } else {
             collector.stop();
+            LedManager.setStateWithPriority("PieceCollected", 2);
         }
         
     }
@@ -40,6 +47,15 @@ public class CollectCommand extends Command {
     @Override
     public void end(boolean interrupted) {
         collector.stop();
-    }
+        LedManager.resetState("CollectingNoPiece");
+        LedManager.setState("Resting");
 
+        CommandScheduler.getInstance().schedule(new SequentialCommandGroup(
+            new WaitCommand(2.0f),
+            new InstantCommand(() -> { 
+                LedManager.resetState("PieceCollected"); 
+                LedManager.setState("Resting");
+            })
+        ));
+    }
 }
