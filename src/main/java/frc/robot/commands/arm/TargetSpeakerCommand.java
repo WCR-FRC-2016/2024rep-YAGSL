@@ -118,7 +118,7 @@ public static double distanceToAngleFactorClose = 0.073;
          var desiredAngle = Constants.RobotDemensions.ArmDipLimit
                 - ((averageArray(averageReadsArrayZ) - speakerBaseOffset) * distanceToAngleFactorActual + horizontalDistanceOffset);
         
-        System.out.println(desiredAngle);
+        //System.out.println(desiredAngle);
         arm.setAngle(desiredAngle);
     }
 
@@ -132,7 +132,7 @@ public static double distanceToAngleFactorClose = 0.073;
         double sum = 0;
         double previousValue = 0;
         for(int i = 0; i < array.length; i++){
-            System.out.print(array[i] + " ");
+            //System.out.print(array[i] + " ");
             if(array[i] == 0){
                 sum += previousValue;
             }
