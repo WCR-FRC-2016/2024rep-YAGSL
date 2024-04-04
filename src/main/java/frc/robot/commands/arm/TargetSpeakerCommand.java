@@ -15,7 +15,7 @@ public class TargetSpeakerCommand extends Command {
     Arm arm;
     private static final double speakerBaseOffset = 0.991;
 private static final double distanceToAngleFactorClose = 0.068;
-    private static final double distanceToAngleFactorMedium = 0.047;
+    private static final double distanceToAngleFactorMedium = 0.041;
     private static final double mediumDistance = 2;
     private static final double distanceToAngleFactorFar = 0.025;
     private static final double farDistance = 2.7;
@@ -35,7 +35,7 @@ private static final double distanceToAngleFactorClose = 0.068;
     // Moving println to initialize so it only runs once
     @Override
     public void initialize() {
-        System.out.println("!!!target speaker command!!!");
+        System.out.println("TargetSpeakerCommand Start");
         var botpose = LimelightUtility.getBotPos();
         var distanceToAprilTag = Math.abs(botpose[2]);
         
@@ -125,6 +125,7 @@ private static final double distanceToAngleFactorClose = 0.068;
     @Override
     public void end(boolean interrupted) {
         // arm.targetHell();
+        System.out.println("TargetSpeakerCommand End");
     }
 
     private double averageArray(double [] array){
