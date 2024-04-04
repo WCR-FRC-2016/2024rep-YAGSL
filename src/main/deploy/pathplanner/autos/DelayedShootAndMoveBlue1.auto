@@ -1,0 +1,49 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 0.749954642766429,
+      "y": 6.523458761203237
+    },
+    "rotation": 58.13402230639629
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "named",
+          "data": {
+            "name": "AutoShoot"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 6.0
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "MoveOutBlue1"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AmpAlign"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 10000000.0
+          }
+        }
+      ]
+    }
+  },
+  "folder": null,
+  "choreoAuto": false
+}

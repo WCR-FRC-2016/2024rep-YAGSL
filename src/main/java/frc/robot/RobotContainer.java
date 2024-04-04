@@ -13,104 +13,128 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
-import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.Auton;
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.commands.Shooter.AutoFeed;
-import frc.robot.commands.Shooter.AutoShoot;
-import frc.robot.commands.Shooter.AutoShootStart;
-import frc.robot.commands.Shooter.AutoShootStop;
-import frc.robot.commands.Shooter.Dump;
-import frc.robot.commands.Shooter.Shoot;
-import frc.robot.commands.Shooter.Spit;
+import frc.robot.commands.Shooter.AutoFeedCommand;
+import frc.robot.commands.Shooter.AutoShootCommand;
+import frc.robot.commands.Shooter.AutoShootStartCommand;
+import frc.robot.commands.Shooter.AutoShootStopCommand;
+import frc.robot.commands.Shooter.DumpCommand;
+import frc.robot.commands.Shooter.ShootCommand;
+import frc.robot.commands.Shooter.SlowShootCommand;
+import frc.robot.commands.Shooter.SpitCommand;
 import frc.robot.commands.arm.AmpAngleCommand;
-import frc.robot.commands.arm.ManualDriveArm;
-import frc.robot.commands.arm.TargetSpeaker;
-import frc.robot.commands.collector.Collect;
-import frc.robot.commands.collector.Feed;
-import frc.robot.commands.debug.Debug;
-import frc.robot.commands.leds.LedPassive;
-import frc.robot.commands.swervedrive.drivebase.AbsoluteDriveAdv;
-import frc.robot.commands.swervedrive.drivebase.GoForward;
-import frc.robot.commands.swervedrive.drivebase.LimelightAmpAlign;
-import frc.robot.commands.swervedrive.drivebase.LimelightMoveAlign;
-import frc.robot.commands.swervedrive.drivebase.LimelightShootAlign;
-import frc.robot.commands.swervedrive.drivebase.LimelightTrapAlign;
+import frc.robot.commands.arm.ManualDriveArmCommand;
+import frc.robot.commands.arm.TargetSpeakerCommand;
+import frc.robot.commands.climber.ManualDriveClimberCommand;
+import frc.robot.commands.collector.CollectCommand;
+import frc.robot.commands.collector.FeedCommand;
+//import frc.robot.commands.leds.LedPassiveCommand; // FIXME: Use new LedManager system
+import frc.robot.commands.swervedrive.drivebase.AbsoluteDriveAdvCommand;
+import frc.robot.commands.swervedrive.drivebase.GoForwardCommand;
+import frc.robot.commands.swervedrive.drivebase.LimelightAmpAlignCommand;
+import frc.robot.commands.swervedrive.drivebase.LimelightShootAlignCommand;
+import frc.robot.commands.swervedrive.drivebase.LimelightShootAlignDriveCommand;
+import frc.robot.commands.swervedrive.drivebase.LimelightTrapAlignCommand;
+import frc.robot.leds.LedManager;
+import frc.robot.leds.driver.LedTest;
 import frc.robot.subsystems.Arm.Arm;
 import frc.robot.subsystems.Arm.Collector;
 import frc.robot.subsystems.Arm.Shooter;
-import frc.robot.subsystems.LedManager.LedManagerSubsystem;
+import frc.robot.subsystems.Climber.Climber;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import java.io.File;
-
-
 
 import com.pathplanner.lib.auto.NamedCommands;
 
 /**
- * This class is where the bulk of the robot should be declared. Since Command-based is a "declarative" paradigm, very
- * little robot logic should actually be handled in the {@link Robot} periodic methods (other than the scheduler calls).
- * Instead, the structure of the robot (including subsystems, commands, and trigger mappings) should be declared here.
+ * This class is where the bulk of the robot should be declared. Since
+ * Command-based is a "declarative" paradigm, very
+ * little robot logic should actually be handled in the {@link Robot} periodic
+ * methods (other than the scheduler calls).
+ * Instead, the structure of the robot (including subsystems, commands, and
+ * trigger mappings) should be declared here.
  */
-public class RobotContainer
-{
+public class RobotContainer {
 
   // The robot's subsystems and commands are defined here...
   private final SwerveSubsystem drivebase = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
-                                                                         "swerve/neo"));
+      "swerve/neo"));
 
-  private final LedManagerSubsystem ledManager = new LedManagerSubsystem();
-  public final Collector collector = new Collector(ledManager);
+  //private final LedManagerSubsystem ledManager = new LedManagerSubsystem();
+  private final Collector collector = new Collector();
   private final Shooter shooter = new Shooter();
   private final Arm arm = new Arm();
+  private final Climber climber = new Climber();
+  private int ControllerBindMode = 0;
   // CommandJoystick rotationController = new CommandJoystick(1);
   // Replace with CommandPS4Controller or CommandJoystick if needed
 
-  // CommandJoystick driverController   = new CommandJoystick(3);//(OperatorConstants.DRIVER_CONTROLLER_PORT);
+  // CommandJoystick driverController = new
+  // CommandJoystick(3);//(OperatorConstants.DRIVER_CONTROLLER_PORT);
   XboxController driverXbox = new XboxController(0);
   XboxController manipulatorXbox = new XboxController(1);
   CommandXboxController driverXboxCommanded = new CommandXboxController(0);
   CommandXboxController mainpulatorXboxCommanded = new CommandXboxController(1);
+
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
-  public RobotContainer()
-  {
+  public RobotContainer() {
+    LedManager.initialize();
+    //LedTest.ledFill(255, 255, 255);
+    var ampAlignAndShootCommand = new SequentialCommandGroup(
+        new ParallelCommandGroup(new AmpAngleCommand(arm, 0.5), new LimelightAmpAlignCommand(drivebase)),
+        new GoForwardCommand(drivebase), new AutoShootStartCommand(shooter, collector), new WaitCommand(2),
+        new AutoShootStopCommand(shooter, collector),
+        new AmpAngleCommand(arm, Constants.RobotDemensions.ArmDipLimit));
 
-    var ampAlignAndShootCommand = new SequentialCommandGroup 
-      (new  ParallelCommandGroup (new AmpAngleCommand (arm, 0.5, ledManager), new LimelightAmpAlign(drivebase)) 
-     , new GoForward(drivebase),new AutoShootStart(shooter, collector), new WaitCommand(2), new AutoShootStop(shooter, collector), new AmpAngleCommand (arm, Constants.RobotDemensions.ArmDipLimit, ledManager));
+    var AutoShoot = new SequentialCommandGroup(
+        new AmpAngleCommand(arm, Constants.RobotDemensions.ArmDipLimit), new AutoShootCommand(shooter),
+        new WaitCommand(1), new AutoFeedCommand(collector), new WaitCommand(1),
+        new AutoShootStopCommand(shooter, collector));
 
-     var AutoShoot = new SequentialCommandGroup 
-      (new AmpAngleCommand (arm, Constants.RobotDemensions.ArmDipLimit, ledManager), new AutoShoot(shooter), new WaitCommand(1), new AutoFeed(collector), new WaitCommand(1), new AutoShootStop(shooter, collector));
+    var AutoShootAndAim = new ParallelCommandGroup( 
+        new SequentialCommandGroup(
+          new WaitCommand(0.5), 
+          new AutoShootCommand(shooter), 
+          new WaitCommand(2), 
+          new AutoFeedCommand(collector), 
+          new WaitCommand(1), 
+          new AutoShootStopCommand(shooter, collector)
+        ),
+      new LimelightShootAlignCommand(drivebase), 
+      new TargetSpeakerCommand(arm)
+    );
 
-
-    NamedCommands.registerCommand("AmpAlign",ampAlignAndShootCommand);
-    NamedCommands.registerCommand("AutoShootAlign",new LimelightShootAlign(drivebase));
-    NamedCommands.registerCommand("Collect",new Collect(collector, arm));
-    NamedCommands.registerCommand("ShootStart", new AutoShootStart(shooter, collector));
-    NamedCommands.registerCommand("ShootStop", new AutoShootStop(shooter, collector));
+    NamedCommands.registerCommand("AmpAlign", ampAlignAndShootCommand);
+    NamedCommands.registerCommand("AutoShootAlign", new LimelightShootAlignCommand(drivebase));
+    NamedCommands.registerCommand("Collect", new CollectCommand(collector, arm));
+    NamedCommands.registerCommand("ShootStart", new AutoShootStartCommand(shooter, collector));
+    NamedCommands.registerCommand("ShootStop", new AutoShootStopCommand(shooter, collector));
     NamedCommands.registerCommand("AutoShoot", AutoShoot);
+    NamedCommands.registerCommand("ReadyArm", new AmpAngleCommand(arm, Constants.RobotDemensions.ArmHeightLimit));
+    NamedCommands.registerCommand("AutoShootWithAim", AutoShootAndAim);
     
-    
+
     // Configure the trigger bindings
     registerAutos();
     configureBindings();
 
-    AbsoluteDriveAdv closedAbsoluteDriveAdv = new AbsoluteDriveAdv(drivebase,
-                                                                   () -> MathUtil.applyDeadband(driverXbox.getLeftY(),
-                                                                                                OperatorConstants.LEFT_Y_DEADBAND),
-                                                                   () -> MathUtil.applyDeadband(driverXbox.getLeftX(),
-                                                                                                OperatorConstants.LEFT_X_DEADBAND),
-                                                                   () -> MathUtil.applyDeadband(driverXbox.getRightX(),
-                                                                                                OperatorConstants.RIGHT_X_DEADBAND),
-                                                                   driverXbox::getYButtonPressed,
-                                                                   driverXbox::getAButtonPressed,
-                                                                   driverXbox::getXButtonPressed,
-                                                                   driverXbox::getBButtonPressed);
+    AbsoluteDriveAdvCommand closedAbsoluteDriveAdv = new AbsoluteDriveAdvCommand(drivebase,
+        () -> MathUtil.applyDeadband(driverXbox.getLeftY(),
+            OperatorConstants.LEFT_Y_DEADBAND),
+        () -> MathUtil.applyDeadband(driverXbox.getLeftX(),
+            OperatorConstants.LEFT_X_DEADBAND),
+        () -> MathUtil.applyDeadband(driverXbox.getRightX(),
+            OperatorConstants.RIGHT_X_DEADBAND),
+        driverXbox::getYButtonPressed,
+        driverXbox::getAButtonPressed,
+        driverXbox::getXButtonPressed,
+        driverXbox::getBButtonPressed);
 
     // Applies deadbands and inverts controls because joysticks
     // are back-right positive while robot
@@ -131,67 +155,107 @@ public class RobotContainer
     Command driveFieldOrientedAnglularVelocity = drivebase.driveCommand(
         () -> MathUtil.applyDeadband(driverXbox.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
         () -> MathUtil.applyDeadband(driverXbox.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
-        () -> -driverXbox.getRightX()); // driverXbox.getRawAxis(2)
+        () -> - MathUtil.applyDeadband(driverXbox.getRightX(), OperatorConstants.RIGHT_X_DEADBAND)); // driverXbox.getRawAxis(2)
 
     Command driveFieldOrientedDirectAngleSim = drivebase.simDriveCommand(
         () -> MathUtil.applyDeadband(driverXbox.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
         () -> MathUtil.applyDeadband(driverXbox.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
         () -> driverXbox.getRawAxis(2));
 
-      drivebase.setDefaultCommand(driveFieldOrientedAnglularVelocity);
-      //drivebase.setDefaultCommand(driveFieldOrientedDirectAngle);
+    drivebase.setDefaultCommand(driveFieldOrientedAnglularVelocity);
+    // drivebase.setDefaultCommand(driveFieldOrientedDirectAngle);
 
-    //drivebase.setDefaultCommand(
-    //    !RobotBase.isSimulation() ? driveFieldOrientedAnglularVelocity : driveFieldOrientedDirectAngleSim);
+    // drivebase.setDefaultCommand(
+    // !RobotBase.isSimulation() ? driveFieldOrientedAnglularVelocity :
+    // driveFieldOrientedDirectAngleSim);
   }
 
   /**
-   * Use this method to define your trigger->command mappings. Triggers can be created via the
-   * {@link Trigger#Trigger(java.util.function.BooleanSupplier)} constructor with an arbitrary predicate, or via the
-   * named factories in {@link edu.wpi.first.wpilibj2.command.button.CommandGenericHID}'s subclasses for
-   * {@link CommandXboxController Xbox}/{@link edu.wpi.first.wpilibj2.command.button.CommandPS4Controller PS4}
-   * controllers or {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight joysticks}.
+   * Use this method to define your trigger->command mappings. Triggers can be
+   * created via the
+   * {@link Trigger#Trigger(java.util.function.BooleanSupplier)} constructor with
+   * an arbitrary predicate, or via the
+   * named factories in
+   * {@link edu.wpi.first.wpilibj2.command.button.CommandGenericHID}'s subclasses
+   * for
+   * {@link CommandXboxController
+   * Xbox}/{@link edu.wpi.first.wpilibj2.command.button.CommandPS4Controller PS4}
+   * controllers or {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick
+   * Flight joysticks}.
    */
-  private void configureBindings()
-  { var ampAlignAndShootCommand = new SequentialCommandGroup 
-      (new  ParallelCommandGroup (new AmpAngleCommand (arm, 0.5, ledManager), new LimelightAmpAlign(drivebase))
-     , new GoForward(drivebase), new Dump(shooter, collector, drivebase));
+  private void configureBindings() {
+    var ampAlignAndShootCommand = new SequentialCommandGroup(
+        new ParallelCommandGroup(new AmpAngleCommand(arm, 0.5), new LimelightTrapAlignCommand(drivebase)),
+        new GoForwardCommand(drivebase), new DumpCommand(shooter, collector, drivebase));
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
-    arm.setDefaultCommand(new ManualDriveArm(arm, () -> MathUtil.applyDeadband(manipulatorXbox.getRightY(), 0.7)));
-    new JoystickButton(driverXbox, XboxController.Button.kBack.value).onTrue((new InstantCommand(drivebase::zeroGyro)));
-    NamedCommands.registerCommand("AmpAlignAndShoot", ampAlignAndShootCommand);
-    // new JoystickButton(driverXbox, 3).onTrue(new InstantCommand(drivebase::addFakeVisionReading));
-    // new JoystickButton(driverXbox,
-    //                    2).whileTrue(
-    //     Commands.deferredProxy(() -> drivebase.driveToPose(
-    //                                new Pose2d(new Translation2d(4, 4), Rotation2d.fromDegrees(0)))
-    //                           ));
-//    new JoystickButton(driverXbox, 3).whileTrue(new RepeatCommand(new InstantCommand(drivebase::lock, drivebase)));
-    
-    // TODO: Unremove these...
-    //new JoystickButton(driverXbox, XboxController.Button.kX.value).whileTrue(new LimelightShootAlign(drivebase));
-    //new JoystickButton(driverXbox, XboxController.Button.kY.value).whileTrue(new LimelightMoveAlign(drivebase));
-    //new JoystickButton(driverXbox, XboxController.Button.kY.value).whileTrue(new LimelightAmpAlign(drivebase)); // Test bind
-    //new JoystickButton(driverXbox, XboxController.Button.kA.value).whileTrue(ampAlignAndShootCommand);
-    //new JoystickButton(driverXbox, XboxController.Button.kX.value).whileTrue( new LimelightAmpAlign(drivebase));
-    
-    new JoystickButton(driverXbox, XboxController.Button.kLeftBumper.value).whileTrue(new InstantCommand(() -> {System.out.println(arm.getAngle());}));
-    new JoystickButton(driverXbox, XboxController.Button.kStart.value).whileTrue(new LedPassive(ledManager, collector));
-    new JoystickButton(driverXbox, XboxController.Button.kB.value).whileTrue(ampAlignAndShootCommand);
-    new JoystickButton(driverXbox, XboxController.Button.kY.value).whileTrue(new LimelightTrapAlign(drivebase));
 
+    if(ControllerBindMode == 1){
+      new JoystickButton(driverXbox, XboxController.Button.kBack.value).onTrue((new InstantCommand(drivebase::zeroGyro)));
+      //new JoystickButton(driverXbox, XboxController.Button.kStart.value).whileTrue(new LedPassiveCommand(collector)); // FIXME: readd command
+      new JoystickButton(driverXbox, XboxController.Button.kX.value).whileTrue(ampAlignAndShootCommand);
+      new JoystickButton(driverXbox, XboxController.Button.kY.value).whileTrue(new ShootCommand(shooter));
+      new JoystickButton(driverXbox, XboxController.Button.kB.value)
+          .whileTrue(new AmpAngleCommand(arm, Constants.RobotDemensions.ArmHeightLimit));
+      new JoystickButton(driverXbox, XboxController.Button.kA.value)
+          .whileTrue(new AmpAngleCommand(arm, Constants.RobotDemensions.ArmDipLimit));
+      new JoystickButton(driverXbox, XboxController.Button.kRightBumper.value).whileTrue(new FeedCommand(collector));
+      new JoystickButton(driverXbox, XboxController.Button.kLeftBumper.value)     
+          .whileTrue(new SpitCommand(shooter, collector, drivebase));    
+      driverXboxCommanded.rightTrigger(0.5)
+          .whileTrue(new ParallelCommandGroup(new LimelightShootAlignCommand(drivebase), new ShootCommand(shooter),
+              new TargetSpeakerCommand(arm)));
+      //driverXboxCommanded.rightTrigger(0.5)
+      //  .whileTrue(new ParallelCommandGroup(new LimelightShootAlignDriveCommand(
+      //    drivebase, 
+      //    () -> MathUtil.applyDeadband(driverXbox.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
+      //  () -> MathUtil.applyDeadband(driverXbox.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
+      //  () -> - MathUtil.applyDeadband(driverXbox.getRightX(), OperatorConstants.RIGHT_X_DEADBAND))
+      //    , new ShootCommand(shooter)
+      //    , new TargetSpeakerCommand(arm))
+      //  );
+      driverXboxCommanded.leftTrigger(0.5).whileTrue(new CollectCommand(collector, arm));
 
-    new JoystickButton(manipulatorXbox, XboxController.Button.kY.value).whileTrue(new Shoot(shooter));
-    new JoystickButton(manipulatorXbox, XboxController.Button.kLeftBumper.value).whileTrue(new Spit(shooter, collector, drivebase)); // Test bind
-    new JoystickButton(manipulatorXbox, XboxController.Button.kX.value).whileTrue(new AmpAngleCommand(arm, Constants.RobotDemensions.ArmHeightLimit, ledManager));
-    new JoystickButton(manipulatorXbox, XboxController.Button.kRightBumper.value).whileTrue(new Feed(collector));
-    new JoystickButton(manipulatorXbox, XboxController.Button.kA.value).whileTrue(new Spit(shooter, collector, drivebase));
- 
-    
+      arm.setDefaultCommand(
+          new ManualDriveArmCommand(arm, () -> MathUtil.applyDeadband(manipulatorXbox.getRightY(), 0.7)));
+      climber.setDefaultCommand(
+          new ManualDriveClimberCommand(climber, () -> MathUtil.applyDeadband(manipulatorXbox.getLeftY(), 0.7)));
+    }
 
-    mainpulatorXboxCommanded.rightTrigger(0.5).whileTrue( new ParallelCommandGroup ( new LimelightShootAlign(drivebase), new Shoot(shooter), new TargetSpeaker(arm, ledManager)));
-    mainpulatorXboxCommanded.leftTrigger(0.5).whileTrue(new Collect(collector, arm));
-    // new JoystickButton(driverXbox, XboxController.Button.kX.value).whileTrue(new TargetSpeaker(arm)); // TODO: Double bound from merge
+    else{
+
+      arm.setDefaultCommand(
+          new ManualDriveArmCommand(arm, () -> MathUtil.applyDeadband(manipulatorXbox.getRightY(), 0.7)));
+      climber.setDefaultCommand(
+          new ManualDriveClimberCommand(climber, () -> MathUtil.applyDeadband(manipulatorXbox.getLeftY(), 0.7)));
+
+      new JoystickButton(driverXbox, XboxController.Button.kBack.value).onTrue((new InstantCommand(drivebase::zeroGyro)));
+      NamedCommands.registerCommand("AmpAlignAndShoot", ampAlignAndShootCommand);
+      
+      new JoystickButton(driverXbox, XboxController.Button.kLeftBumper.value).whileTrue(new InstantCommand(() -> {System.out.println(arm.getAngle());}));
+      //new JoystickButton(driverXbox, XboxController.Button.kStart.value).whileTrue(new LedPassiveCommand(collector)); // FIXME: readd command
+      new JoystickButton(driverXbox, XboxController.Button.kB.value).whileTrue(ampAlignAndShootCommand);
+      new JoystickButton(driverXbox, XboxController.Button.kY.value).whileTrue(new LimelightTrapAlignCommand(drivebase));
+
+      new JoystickButton(manipulatorXbox, XboxController.Button.kY.value).whileTrue(new ShootCommand(shooter));
+      // new JoystickButton(manipulatorXbox, XboxController.Button.kB.value).whileTrue(new CollectCommand(collector, arm));
+      new JoystickButton(manipulatorXbox, XboxController.Button.kB.value).whileTrue(new SlowShootCommand(shooter));
+      new JoystickButton(manipulatorXbox, XboxController.Button.kLeftBumper.value)
+          .whileTrue(new SpitCommand(shooter, collector, drivebase)); // Test bind
+      new JoystickButton(manipulatorXbox, XboxController.Button.kX.value)
+          .whileTrue(new AmpAngleCommand(arm, Constants.RobotDemensions.ArmHeightLimit));
+      new JoystickButton(manipulatorXbox, XboxController.Button.kRightBumper.value).whileTrue(new FeedCommand(collector));
+      // new JoystickButton(manipulatorXbox, XboxController.Button.kA.value)
+      //     .whileTrue(new SpitCommand(shooter, collector, drivebase));
+      new JoystickButton(manipulatorXbox, XboxController.Button.kA.value)
+          .whileTrue(new AmpAngleCommand(arm, Constants.RobotDemensions.ArmDipLimit));
+
+      mainpulatorXboxCommanded.rightTrigger(0.5)
+          .whileTrue(new ParallelCommandGroup(new LimelightShootAlignCommand(drivebase), new ShootCommand(shooter),
+              new TargetSpeakerCommand(arm)));
+      mainpulatorXboxCommanded.leftTrigger(0.5).whileTrue(new CollectCommand(collector, arm));
+      // new JoystickButton(driverXbox, XboxController.Button.kX.value).whileTrue(new
+      // TargetSpeaker(arm)); // TODO: Double bound from merge
+    }
   }
 
   /**
@@ -199,8 +263,7 @@ public class RobotContainer
    *
    * @return the command to run in autonomous
    */
-  public Command getAutonomousCommand()
-  {
+  public Command getAutonomousCommand() {
     var auto = SmartDashboard.getString("Auto Selector", null);
     System.out.println("Selected Autonomous: " + ((auto == null) ? "[null, cannot find one]" : auto));
 
@@ -208,9 +271,10 @@ public class RobotContainer
     if (auto == null)
       return drivebase.getAutonomousCommand(Auton.DEFAULT_AUTO_NAME, true);
 
-    // Verify the command actually exists. This will return the command if its in the list. (MUST match)
+    // Verify the command actually exists. This will return the command if its in
+    // the list. (MUST match)
     for (var i = 0; i < Auton.AUTO_NAMES.length; i++)
-      if (Auton.AUTO_NAMES[i].equals(auto))
+      if (Auton.AUTO_NAMES[i].equals(auto))  
         return drivebase.getAutonomousCommand(auto, true);
 
     // Dont try to run a autonomous that isn't verifiably in the list
@@ -220,17 +284,15 @@ public class RobotContainer
     return drivebase.getAutonomousCommand(Auton.DEFAULT_AUTO_NAME, true);
   }
 
-  public void setDriveMode()
-  {
-    //drivebase.setDefaultCommand();
+  public void setDriveMode() {
+    // drivebase.setDefaultCommand();
   }
 
-  public void setMotorBrake(boolean brake)
-  {
+  public void setMotorBrake(boolean brake) {
     drivebase.setMotorBrake(brake);
   }
 
   private void registerAutos() {
-   SmartDashboard.putStringArray("Auto List", Auton.AUTO_NAMES);
+    SmartDashboard.putStringArray("Auto List", Auton.AUTO_NAMES);
   }
 }

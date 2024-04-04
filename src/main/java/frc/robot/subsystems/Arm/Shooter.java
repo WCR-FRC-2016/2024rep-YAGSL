@@ -28,8 +28,8 @@ public class Shooter extends SubsystemBase {
         topMotorController.setInverted(true);
         bottomMotorController.setInverted(true);
 
-        topMotorController.setOpenLoopRampRate(0.5);
-        bottomMotorController.setOpenLoopRampRate(0.5);
+        topMotorController.setOpenLoopRampRate(0.25);
+        bottomMotorController.setOpenLoopRampRate(0.25);
 
         topMotorController.burnFlash();
         bottomMotorController.burnFlash();

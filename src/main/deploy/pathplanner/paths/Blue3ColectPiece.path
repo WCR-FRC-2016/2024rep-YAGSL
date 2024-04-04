@@ -3,41 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.6002032004064015,
-        "y": 3.019848325410937
+        "x": 0.7792735585471178,
+        "y": 4.559091403897094
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.5855306796327864,
-        "y": 2.125621394099931
+        "x": 1.9693309914290373,
+        "y": 5.10611369742688
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.670343626401539,
-        "y": 3.3716753147792016
+        "x": 2.66,
+        "y": 4.339199535541929
       },
       "prevControl": {
-        "x": 2.6841411049987616,
-        "y": 2.6680039063208616
-      },
-      "nextControl": {
-        "x": 2.6556841685111943,
-        "y": 4.119307667186764
-      },
-      "isLocked": false,
-      "linkedName": null
-    },
-    {
-      "anchor": {
-        "x": 2.670343626401539,
-        "y": 4.7936427301426034
-      },
-      "prevControl": {
-        "x": 2.670343626401539,
-        "y": 4.148626582967452
+        "x": 1.996008563445699,
+        "y": 5.145469719510868
       },
       "nextControl": null,
       "isLocked": false,
@@ -46,29 +30,29 @@
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 1,
-      "rotationDegrees": 90.0,
+      "waypointRelativePos": 0.5,
+      "rotationDegrees": -57.783150800673965,
       "rotateFast": false
     }
   ],
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 3.0,
+    "maxVelocity": 0.75,
     "maxAcceleration": 3.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 90.0,
+    "rotation": -58.05564368610927,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "CollectPiece",
+  "folder": null,
   "previewStartingState": {
-    "rotation": 91.84761026599438,
+    "rotation": -57.52880770915145,
     "velocity": 0
   },
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }
