@@ -3,6 +3,7 @@ package frc.robot.commands.climber;
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.leds.LedManager;
 import frc.robot.subsystems.Climber.Climber;
 
 public class ManualDriveClimberCommand extends Command {
@@ -24,7 +25,7 @@ public class ManualDriveClimberCommand extends Command {
         double adjustedInputLeft = 0;
         double adjustedInputRight = 0;
 
-        if(!climber.climberLeftMaxHeight()){
+        if(!climber.climberLeftMaxHeight()){           
             adjustedInputLeft = Math.min(input.getAsDouble(), 0);
         }
 
@@ -43,11 +44,23 @@ public class ManualDriveClimberCommand extends Command {
         else if(!climber.climberRightMinHeight()){
             adjustedInputRight = Math.max(input.getAsDouble(), 0);
         }
-        else{           
+        else{    
             adjustedInputRight = input.getAsDouble();
         }
 
-        System.out.println("lmax: " + climber.climberLeftMaxHeight() + " lmin: " + climber.climberLeftMinHeight() + " rmax: " + climber.climberRightMaxHeight() + " rmin: " + climber.climberRightMinHeight());
+        if(!climber.climberLeftMaxHeight() && !climber.climberRightMaxHeight()){
+            LedManager.setState("TopOfClimber");
+        }
+
+        else if(!climber.climberLeftMinHeight() && !climber.climberRightMinHeight()){
+            LedManager.setState("BottomOfClimber");
+        }
+
+        else{
+            LedManager.setState("Resting");  
+        }
+
+        // System.out.println("lmax: " + climber.climberLeftMaxHeight() + " lmin: " + climber.climberLeftMinHeight() + " rmax: " + climber.climberRightMaxHeight() + " rmin: " + climber.climberRightMinHeight());
         
         // if (climber.climberMinHeight() == true) {
         //     adjustedInput = Math.min(input.getAsDouble(), 0);

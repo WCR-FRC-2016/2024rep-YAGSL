@@ -63,7 +63,7 @@ private static final double distanceToAngleFactorClose = 0.068;
         double horizontalDistanceOffset;
 
         if(checkSight){
-            LedManager.setState("Resting");
+            LedManager.setState("ShootOnSight");
 
             averageReadsArrayZ[aprilTagReadIndex] = distanceToAprilTag;
             averageReadsArrayX[aprilTagReadIndex] = distanceToAprilTagHorizontal;
