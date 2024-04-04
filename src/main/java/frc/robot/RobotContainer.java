@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.Auton;
 import frc.robot.Constants.OperatorConstants;
@@ -70,6 +71,10 @@ public class RobotContainer {
   private final Arm arm = new Arm();
   private final Climber climber = new Climber();
   private int ControllerBindMode = 0;
+
+  double initialClose = TargetSpeakerCommand.distanceToAngleFactorClose;
+  double initialMedium = TargetSpeakerCommand.distanceToAngleFactorMedium;
+  double initialFar = TargetSpeakerCommand.distanceToAngleFactorFar;
   // CommandJoystick rotationController = new CommandJoystick(1);
   // Replace with CommandPS4Controller or CommandJoystick if needed
 
@@ -223,6 +228,8 @@ public class RobotContainer {
 
     else{
 
+
+      
       arm.setDefaultCommand(
           new ManualDriveArmCommand(arm, () -> MathUtil.applyDeadband(manipulatorXbox.getRightY(), 0.7)));
       climber.setDefaultCommand(
@@ -248,6 +255,36 @@ public class RobotContainer {
       //     .whileTrue(new SpitCommand(shooter, collector, drivebase));
       new JoystickButton(manipulatorXbox, XboxController.Button.kA.value)
           .whileTrue(new AmpAngleCommand(arm, Constants.RobotDemensions.ArmDipLimit));
+
+
+
+      new POVButton(manipulatorXbox, 180).onTrue(new InstantCommand(() -> {
+        TargetSpeakerCommand.distanceToAngleFactorClose += 0.005;
+        TargetSpeakerCommand.distanceToAngleFactorMedium += 0.005;
+        TargetSpeakerCommand.distanceToAngleFactorFar += 0.005;
+        System.out.println(TargetSpeakerCommand.distanceToAngleFactorClose);
+        System.out.println(TargetSpeakerCommand.distanceToAngleFactorMedium);
+        System.out.println(TargetSpeakerCommand.distanceToAngleFactorFar);
+      }));
+
+      new POVButton(manipulatorXbox, 0).onTrue(new InstantCommand(() -> {
+        TargetSpeakerCommand.distanceToAngleFactorClose -= 0.005;
+        TargetSpeakerCommand.distanceToAngleFactorMedium -= 0.005;
+        TargetSpeakerCommand.distanceToAngleFactorFar -= 0.005;
+        System.out.println(TargetSpeakerCommand.distanceToAngleFactorClose);
+        System.out.println(TargetSpeakerCommand.distanceToAngleFactorMedium);
+        System.out.println(TargetSpeakerCommand.distanceToAngleFactorFar);
+      }));
+
+       new POVButton(manipulatorXbox, 90).onTrue(new InstantCommand(() -> {
+        TargetSpeakerCommand.distanceToAngleFactorClose = initialClose;
+        TargetSpeakerCommand.distanceToAngleFactorMedium = initialMedium;
+        TargetSpeakerCommand.distanceToAngleFactorFar = initialFar;
+        System.out.println(TargetSpeakerCommand.distanceToAngleFactorClose);
+        System.out.println(TargetSpeakerCommand.distanceToAngleFactorMedium);
+        System.out.println(TargetSpeakerCommand.distanceToAngleFactorFar);
+      }));
+
 
       mainpulatorXboxCommanded.rightTrigger(0.5)
           .whileTrue(new ParallelCommandGroup(new LimelightShootAlignCommand(drivebase), new ShootCommand(shooter),
