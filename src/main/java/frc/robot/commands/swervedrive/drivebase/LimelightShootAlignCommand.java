@@ -21,6 +21,7 @@ public class LimelightShootAlignCommand extends Command {
         // desiredAngle = botpose[4];
         // double tx = getTx();
         // desiredAngle = driveBase.getHeading().getDegrees() - tx;
+         System.out.println("LimeLightShootAlign");
     }
 
     @Override

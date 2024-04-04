@@ -7,7 +7,7 @@ import frc.robot.leds.LedWrappr;
 public final class NoLimelightDriver implements ILedStateDriver {
     @Override
     public void setLEDS(LedWrappr leds, LedInfo led_info) {
-        leds.fillAllRGB(255, 0, 0);
+        leds.fillAllRGB(0, 200, 255);
 
         for (var i = 0; i < led_info.LedCount; i++) {
             if (i % 2 == 0)

@@ -232,12 +232,12 @@ public final class LedManager {
         led_drivers.put("Resting",       new RestingDriver());
         led_drivers.put("OdometryReset", new SolidColorDriver(255, 0, 255));
 
-        led_drivers.put("AmpAlignLimelightVisible",   new SolidColorDriver(255, 0, 255));
+        led_drivers.put("AmpAlignLimelightVisible",   new SolidColorDriver(151, 77, 255));
 
         led_drivers.put("TopOfClimber", new SolidColorDriver(255, 255, 0));
         led_drivers.put("BottomOfClimber", new SolidColorDriver(0, 200, 255));
 
-        led_drivers.put("ShootOnSight", new SolidColorDriver(200, 0, 255));
+        led_drivers.put("ShootOnSight", new SolidColorDriver(151, 77, 255));
 
         led_drivers.put("CollectingNoPiece", new SolidColorDriver(255, 255, 0));
         led_drivers.put("PieceCollected",    new PieceCollectedDriver());

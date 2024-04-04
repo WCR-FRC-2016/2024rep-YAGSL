@@ -24,7 +24,7 @@ public class LimelightAmpAlignCommand extends Command {
     @Override
     public void initialize() {
         closeToTarget = false;
-        System.out.println("***ran auto amp command***");
+        System.out.println("AmpAlign Start");
         // // NetworkTableInstance.getDefault().getTable("limelight").getEntry("botpose").getDoubleArray(botpose);
         // // desiredAngle = botpose[4];
         // // double tx = getTx();
@@ -87,6 +87,7 @@ public class LimelightAmpAlignCommand extends Command {
 
         // return Math.abs( currentAngle) <= 0.1d;
         if (Math.abs(getTx()) <= 3d && Math.abs(desiredDistanceZ) - 0.25 <= Math.abs(getZpos()) && Math.abs(getZpos()) <= Math.abs(desiredDistanceZ) + 0.5) {
+            System.out.println("AmpAlign Finished");
             return true;
         }
         return false;

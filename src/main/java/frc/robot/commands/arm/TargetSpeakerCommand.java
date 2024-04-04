@@ -141,7 +141,6 @@ private static final double distanceToAngleFactorClose = 0.068;
             }
             
         }
-        System.out.println();
         return sum/array.length;
     }
 

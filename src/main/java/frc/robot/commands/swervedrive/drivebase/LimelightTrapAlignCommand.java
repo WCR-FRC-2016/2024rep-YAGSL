@@ -23,6 +23,7 @@ public class LimelightTrapAlignCommand extends Command {
 
     @Override
     public void initialize() {
+         System.out.println("TrapAlign Start");
         closeToTarget = false;
         // NetworkTableInstance.getDefault().getTable("limelight").getEntry("botpose").getDoubleArray(botpose);
         // desiredAngle = botpose[4];
@@ -54,7 +55,6 @@ public class LimelightTrapAlignCommand extends Command {
             return;
         }
 
-        System.out.println("distance: " + botpose[2] + " | angle: " + getTx());
         actualDistanceX = botpose[0];
         actualDistanceZ = botpose[2];
         double distanceToMoveY = (actualDistanceZ - desiredDistanceZ);
@@ -77,6 +77,7 @@ public class LimelightTrapAlignCommand extends Command {
     public boolean isFinished(){
         //return  Math.abs( currentAngle) <= 0.1d;
        if(Math.abs(getTx()) <= 1.0d && Math.abs(getZpos())<=Math.abs(desiredDistanceZ) + 0.1) {
+        System.out.println("TrapAlign Finished");
         return true;
        }
 

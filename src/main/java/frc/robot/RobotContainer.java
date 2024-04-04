@@ -69,7 +69,7 @@ public class RobotContainer {
   private final Shooter shooter = new Shooter();
   private final Arm arm = new Arm();
   private final Climber climber = new Climber();
-  private int ControllerBindMode = 0;
+  private int ControllerBindMode = 1;
   // CommandJoystick rotationController = new CommandJoystick(1);
   // Replace with CommandPS4Controller or CommandJoystick if needed
 
