@@ -32,6 +32,7 @@ import frc.robot.commands.arm.AmpAngleCommand;
 import frc.robot.commands.arm.ManualDriveArmCommand;
 import frc.robot.commands.arm.TargetSpeakerCommand;
 import frc.robot.commands.climber.ManualDriveClimberCommand;
+import frc.robot.commands.climber.ManualDriveClimberCommandDpad;
 import frc.robot.commands.collector.CollectCommand;
 import frc.robot.commands.collector.FeedCommand;
 //import frc.robot.commands.leds.LedPassiveCommand; // FIXME: Use new LedManager system
@@ -225,6 +226,9 @@ public class RobotContainer {
           new ManualDriveArmCommand(arm, () -> MathUtil.applyDeadband(manipulatorXbox.getRightY(), 0.7)));
       climber.setDefaultCommand(
           new ManualDriveClimberCommand(climber, () -> MathUtil.applyDeadband(manipulatorXbox.getLeftY(), 0.7)));
+
+      new POVButton(manipulatorXbox, 180).whileTrue(new ManualDriveClimberCommandDpad(climber, 1.0));
+            new POVButton(manipulatorXbox, 0).whileTrue(new ManualDriveClimberCommandDpad(climber, -1.0));
     }
 
     else{
