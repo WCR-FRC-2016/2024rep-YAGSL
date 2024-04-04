@@ -22,6 +22,7 @@ public static double distanceToAngleFactorClose = 0.073;
     private static final double horizontalDistanceOffsetFactorClose = 0.020;
      private static final double mediumHorizontalDistance = 2.7;
     private static final double horizontalDistanceOffsetFactorMedium = 0.025;
+    private static double factor = 0;
     private static double [] averageReadsArrayZ = new double [10];
     private static double [] averageReadsArrayX = new double [10];
     private int aprilTagReadIndex = 0;
@@ -61,6 +62,8 @@ public static double distanceToAngleFactorClose = 0.073;
         boolean checkSight = botpose[2] < 0;
 
         double horizontalDistanceOffset;
+
+
 
         if(checkSight){
             LedManager.setState("ShootOnSight");
@@ -119,6 +122,11 @@ public static double distanceToAngleFactorClose = 0.073;
                 - ((averageArray(averageReadsArrayZ) - speakerBaseOffset) * distanceToAngleFactorActual + horizontalDistanceOffset);
         
         //System.out.println(desiredAngle);
+                
+        factor = 0.00989311 * Math.sin(averageDistanceToAprilTagZ) + 0.0517135 * Math.cos(averageDistanceToAprilTagZ) + 0.0855246;
+        var expDesiredAngle =  Constants.RobotDemensions.ArmDipLimit
+                - ((averageArray(averageReadsArrayZ) - speakerBaseOffset) * factor + horizontalDistanceOffset);
+        
         arm.setAngle(desiredAngle);
     }
 

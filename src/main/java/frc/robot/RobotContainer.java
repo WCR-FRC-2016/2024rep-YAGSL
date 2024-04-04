@@ -241,7 +241,7 @@ public class RobotContainer {
       
       new JoystickButton(driverXbox, XboxController.Button.kLeftBumper.value).whileTrue(new InstantCommand(() -> {System.out.println(arm.getAngle());}));
       //new JoystickButton(driverXbox, XboxController.Button.kStart.value).whileTrue(new LedPassiveCommand(collector)); // FIXME: readd command
-      new JoystickButton(driverXbox, XboxController.Button.kB.value).whileTrue(new ParallelCommandGroup(ampAlignAndShootCommand, new ControllerRumble(manipulatorXbox, 0.5)));
+      new JoystickButton(driverXbox, XboxController.Button.kB.value).whileTrue(new ParallelCommandGroup(ampAlignAndShootCommand, new ControllerRumble(manipulatorXbox, Constants.OperatorConstants.manipulatorRumbleValue)));
       new JoystickButton(driverXbox, XboxController.Button.kY.value).whileTrue(new LimelightTrapAlignCommand(drivebase));
 
       new JoystickButton(manipulatorXbox, XboxController.Button.kY.value).whileTrue(new ShootCommand(shooter));
@@ -250,12 +250,12 @@ public class RobotContainer {
       new JoystickButton(manipulatorXbox, XboxController.Button.kLeftBumper.value)
           .whileTrue(new SpitCommand(shooter, collector, drivebase)); // Test bind
       new JoystickButton(manipulatorXbox, XboxController.Button.kX.value)
-          .whileTrue(new AmpAngleCommand(arm, Constants.RobotDemensions.ArmHeightLimit));
+          .whileTrue(new ParallelCommandGroup(new AmpAngleCommand(arm, Constants.RobotDemensions.ArmHeightLimit), new ControllerRumble(manipulatorXbox, Constants.OperatorConstants.manipulatorRumbleValue)));
       new JoystickButton(manipulatorXbox, XboxController.Button.kRightBumper.value).whileTrue(new FeedCommand(collector));
       // new JoystickButton(manipulatorXbox, XboxController.Button.kA.value)
       //     .whileTrue(new SpitCommand(shooter, collector, drivebase));
       new JoystickButton(manipulatorXbox, XboxController.Button.kA.value)
-          .whileTrue(new AmpAngleCommand(arm, Constants.RobotDemensions.ArmDipLimit));
+          .whileTrue(new ParallelCommandGroup(new AmpAngleCommand(arm, Constants.RobotDemensions.ArmDipLimit), new ControllerRumble(manipulatorXbox, Constants.OperatorConstants.manipulatorRumbleValue)));
 
 
 
@@ -289,8 +289,8 @@ public class RobotContainer {
 
       mainpulatorXboxCommanded.rightTrigger(0.5)
           .whileTrue(new ParallelCommandGroup(new LimelightShootAlignCommand(drivebase), new ShootCommand(shooter),
-              new TargetSpeakerCommand(arm), new ControllerRumble(driverXbox, 0.5)));
-      mainpulatorXboxCommanded.leftTrigger(0.5).whileTrue(new ParallelCommandGroup(new CollectCommand(collector, arm), new ControllerRumble(driverXbox, 0.5)));
+              new TargetSpeakerCommand(arm), new ControllerRumble(driverXbox, Constants.OperatorConstants.driverRumbleValue)));
+      mainpulatorXboxCommanded.leftTrigger(0.5).whileTrue(new ParallelCommandGroup(new CollectCommand(collector, arm), new ControllerRumble(driverXbox, Constants.OperatorConstants.driverRumbleValue)));
       // new JoystickButton(driverXbox, XboxController.Button.kX.value).whileTrue(new
       // TargetSpeaker(arm)); // TODO: Double bound from merge
     }
