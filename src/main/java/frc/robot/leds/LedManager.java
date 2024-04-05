@@ -5,6 +5,7 @@ import java.util.HashMap;
 import edu.wpi.first.util.WPIUtilJNI;
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
+import frc.robot.leds.driver.AutoAlignGradientDriver;
 import frc.robot.leds.driver.ManualDriver;
 import frc.robot.leds.driver.NoLimelightDriver;
 import frc.robot.leds.driver.PieceCollectedDriver;
@@ -216,7 +217,7 @@ public final class LedManager {
 
             // Set all LEDs to red to indicate "BAD - Something went wrong!!!"
             for (var i = 0; i < LED_COUNT; i++)
-                led_buffer.setRGB(i, 255, 0, 0);
+                led_buffer.setRGB(i, 255, 0, 255);
         }
     }
 
@@ -232,16 +233,22 @@ public final class LedManager {
         led_drivers.put("Resting",       new RestingDriver());
         led_drivers.put("OdometryReset", new SolidColorDriver(255, 0, 255));
 
-        led_drivers.put("AmpAlignLimelightVisible",   new SolidColorDriver(255, 0, 255));
-        led_drivers.put("AmpAlignNoLimelightVisible", new SolidColorDriver(255, 200, 0));
+        led_drivers.put("AmpAlignLimelightVisible",   new SolidColorDriver(255, 0, 0));
+
+        led_drivers.put("TopOfClimber", new SolidColorDriver(255, 255, 0));
+        led_drivers.put("BottomOfClimber", new SolidColorDriver(0, 200, 255));
+
+        led_drivers.put("ShootOnSight", new SolidColorDriver(255, 0, 0));
 
         led_drivers.put("CollectingNoPiece", new SolidColorDriver(255, 255, 0));
         led_drivers.put("PieceCollected",    new PieceCollectedDriver());
 
+        led_drivers.put("NoLimelight", new NoLimelightDriver());
+
         // Other, non-good ones
         led_drivers.put("ManualDrive", new ManualDriver());
-        led_drivers.put("NoLimelight", new NoLimelightDriver());
         led_drivers.put("StripTest",   new StripTestDriver());
+        led_drivers.put("NoNetworkTable",   new SolidColorDriver(255, 255, 255));
 
         // This is the default driver, set it to whatever its actually supposed to be
         setState("Resting");

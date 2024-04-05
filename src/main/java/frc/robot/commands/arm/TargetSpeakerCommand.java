@@ -14,14 +14,15 @@ import frc.robot.utilities.LimelightUtility;
 public class TargetSpeakerCommand extends Command {
     Arm arm;
     private static final double speakerBaseOffset = 0.991;
-private static final double distanceToAngleFactorClose = 0.068;
-    private static final double distanceToAngleFactorMedium = 0.047;
+public static double distanceToAngleFactorClose = 0.073;
+    public static double distanceToAngleFactorMedium = 0.046;
     private static final double mediumDistance = 2;
-    private static final double distanceToAngleFactorFar = 0.025;
+    public static double distanceToAngleFactorFar = 0.033;
     private static final double farDistance = 2.7;
-    private static final double horizontalDistanceOffsetFactorClose = 0.015;
+    private static final double horizontalDistanceOffsetFactorClose = 0.020;
      private static final double mediumHorizontalDistance = 2.7;
-    private static final double horizontalDistanceOffsetFactorMedium = 0.023;
+    private static final double horizontalDistanceOffsetFactorMedium = 0.025;
+    private static double factor = 0;
     private static double [] averageReadsArrayZ = new double [10];
     private static double [] averageReadsArrayX = new double [10];
     private int aprilTagReadIndex = 0;
@@ -35,7 +36,7 @@ private static final double distanceToAngleFactorClose = 0.068;
     // Moving println to initialize so it only runs once
     @Override
     public void initialize() {
-        System.out.println("!!!target speaker command!!!");
+        System.out.println("TargetSpeakerCommand Start");
         var botpose = LimelightUtility.getBotPos();
         var distanceToAprilTag = Math.abs(botpose[2]);
         
@@ -62,8 +63,10 @@ private static final double distanceToAngleFactorClose = 0.068;
 
         double horizontalDistanceOffset;
 
+
+
         if(checkSight){
-            LedManager.setState("Resting");
+            LedManager.setState("ShootOnSight");
 
             averageReadsArrayZ[aprilTagReadIndex] = distanceToAprilTag;
             averageReadsArrayX[aprilTagReadIndex] = distanceToAprilTagHorizontal;
@@ -118,20 +121,26 @@ private static final double distanceToAngleFactorClose = 0.068;
          var desiredAngle = Constants.RobotDemensions.ArmDipLimit
                 - ((averageArray(averageReadsArrayZ) - speakerBaseOffset) * distanceToAngleFactorActual + horizontalDistanceOffset);
         
-        System.out.println(desiredAngle);
+        //System.out.println(desiredAngle);
+                
+        factor = 0.00989311 * Math.sin(averageDistanceToAprilTagZ) + 0.0517135 * Math.cos(averageDistanceToAprilTagZ) + 0.0855246;
+        var expDesiredAngle =  Constants.RobotDemensions.ArmDipLimit
+                - ((averageArray(averageReadsArrayZ) - speakerBaseOffset) * factor + horizontalDistanceOffset);
+        
         arm.setAngle(desiredAngle);
     }
 
     @Override
     public void end(boolean interrupted) {
         // arm.targetHell();
+        System.out.println("TargetSpeakerCommand End");
     }
 
     private double averageArray(double [] array){
         double sum = 0;
         double previousValue = 0;
         for(int i = 0; i < array.length; i++){
-            System.out.print(array[i] + " ");
+            //System.out.print(array[i] + " ");
             if(array[i] == 0){
                 sum += previousValue;
             }
@@ -141,7 +150,6 @@ private static final double distanceToAngleFactorClose = 0.068;
             }
             
         }
-        System.out.println();
         return sum/array.length;
     }
 

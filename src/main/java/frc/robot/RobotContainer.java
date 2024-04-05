@@ -15,9 +15,11 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.Auton;
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.commands.ControllerRumble;
 import frc.robot.commands.Shooter.AutoFeedCommand;
 import frc.robot.commands.Shooter.AutoShootCommand;
 import frc.robot.commands.Shooter.AutoShootStartCommand;
@@ -30,6 +32,7 @@ import frc.robot.commands.arm.AmpAngleCommand;
 import frc.robot.commands.arm.ManualDriveArmCommand;
 import frc.robot.commands.arm.TargetSpeakerCommand;
 import frc.robot.commands.climber.ManualDriveClimberCommand;
+import frc.robot.commands.climber.ManualDriveClimberCommandDpad;
 import frc.robot.commands.collector.CollectCommand;
 import frc.robot.commands.collector.FeedCommand;
 //import frc.robot.commands.leds.LedPassiveCommand; // FIXME: Use new LedManager system
@@ -70,6 +73,10 @@ public class RobotContainer {
   private final Arm arm = new Arm();
   private final Climber climber = new Climber();
   private int ControllerBindMode = 0;
+
+  double initialClose = TargetSpeakerCommand.distanceToAngleFactorClose;
+  double initialMedium = TargetSpeakerCommand.distanceToAngleFactorMedium;
+  double initialFar = TargetSpeakerCommand.distanceToAngleFactorFar;
   // CommandJoystick rotationController = new CommandJoystick(1);
   // Replace with CommandPS4Controller or CommandJoystick if needed
 
@@ -219,10 +226,15 @@ public class RobotContainer {
           new ManualDriveArmCommand(arm, () -> MathUtil.applyDeadband(manipulatorXbox.getRightY(), 0.7)));
       climber.setDefaultCommand(
           new ManualDriveClimberCommand(climber, () -> MathUtil.applyDeadband(manipulatorXbox.getLeftY(), 0.7)));
+
+      new POVButton(manipulatorXbox, 180).whileTrue(new ManualDriveClimberCommandDpad(climber, 1.0));
+            new POVButton(manipulatorXbox, 0).whileTrue(new ManualDriveClimberCommandDpad(climber, -1.0));
     }
 
     else{
 
+
+      
       arm.setDefaultCommand(
           new ManualDriveArmCommand(arm, () -> MathUtil.applyDeadband(manipulatorXbox.getRightY(), 0.7)));
       climber.setDefaultCommand(
@@ -233,7 +245,7 @@ public class RobotContainer {
       
       new JoystickButton(driverXbox, XboxController.Button.kLeftBumper.value).whileTrue(new InstantCommand(() -> {System.out.println(arm.getAngle());}));
       //new JoystickButton(driverXbox, XboxController.Button.kStart.value).whileTrue(new LedPassiveCommand(collector)); // FIXME: readd command
-      new JoystickButton(driverXbox, XboxController.Button.kB.value).whileTrue(ampAlignAndShootCommand);
+      new JoystickButton(driverXbox, XboxController.Button.kB.value).whileTrue(new ParallelCommandGroup(ampAlignAndShootCommand, new ControllerRumble(manipulatorXbox, Constants.OperatorConstants.manipulatorRumbleValue)));
       new JoystickButton(driverXbox, XboxController.Button.kY.value).whileTrue(new LimelightTrapAlignCommand(drivebase));
 
       new JoystickButton(manipulatorXbox, XboxController.Button.kY.value).whileTrue(new ShootCommand(shooter));
@@ -242,17 +254,47 @@ public class RobotContainer {
       new JoystickButton(manipulatorXbox, XboxController.Button.kLeftBumper.value)
           .whileTrue(new SpitCommand(shooter, collector, drivebase)); // Test bind
       new JoystickButton(manipulatorXbox, XboxController.Button.kX.value)
-          .whileTrue(new AmpAngleCommand(arm, Constants.RobotDemensions.ArmHeightLimit));
+          .whileTrue(new ParallelCommandGroup(new AmpAngleCommand(arm, Constants.RobotDemensions.ArmHeightLimit), new ControllerRumble(manipulatorXbox, Constants.OperatorConstants.manipulatorRumbleValue)));
       new JoystickButton(manipulatorXbox, XboxController.Button.kRightBumper.value).whileTrue(new FeedCommand(collector));
       // new JoystickButton(manipulatorXbox, XboxController.Button.kA.value)
       //     .whileTrue(new SpitCommand(shooter, collector, drivebase));
       new JoystickButton(manipulatorXbox, XboxController.Button.kA.value)
-          .whileTrue(new AmpAngleCommand(arm, Constants.RobotDemensions.ArmDipLimit));
+          .whileTrue(new ParallelCommandGroup(new AmpAngleCommand(arm, Constants.RobotDemensions.ArmDipLimit), new ControllerRumble(manipulatorXbox, Constants.OperatorConstants.manipulatorRumbleValue)));
+
+
+
+      new POVButton(manipulatorXbox, 180).onTrue(new InstantCommand(() -> {
+        TargetSpeakerCommand.distanceToAngleFactorClose += 0.005;
+        TargetSpeakerCommand.distanceToAngleFactorMedium += 0.005;
+        TargetSpeakerCommand.distanceToAngleFactorFar += 0.005;
+        System.out.println(TargetSpeakerCommand.distanceToAngleFactorClose);
+        System.out.println(TargetSpeakerCommand.distanceToAngleFactorMedium);
+        System.out.println(TargetSpeakerCommand.distanceToAngleFactorFar);
+      })).whileTrue(new ControllerRumble(manipulatorXbox, 1));
+
+      new POVButton(manipulatorXbox, 0).onTrue(new InstantCommand(() -> {
+        TargetSpeakerCommand.distanceToAngleFactorClose -= 0.005;
+        TargetSpeakerCommand.distanceToAngleFactorMedium -= 0.005;
+        TargetSpeakerCommand.distanceToAngleFactorFar -= 0.005;
+        System.out.println(TargetSpeakerCommand.distanceToAngleFactorClose);
+        System.out.println(TargetSpeakerCommand.distanceToAngleFactorMedium);
+        System.out.println(TargetSpeakerCommand.distanceToAngleFactorFar);
+      })).whileTrue(new ControllerRumble(manipulatorXbox, 1));
+
+       new POVButton(manipulatorXbox, 90).onTrue(new InstantCommand(() -> {
+        TargetSpeakerCommand.distanceToAngleFactorClose = initialClose;
+        TargetSpeakerCommand.distanceToAngleFactorMedium = initialMedium;
+        TargetSpeakerCommand.distanceToAngleFactorFar = initialFar;
+        System.out.println(TargetSpeakerCommand.distanceToAngleFactorClose);
+        System.out.println(TargetSpeakerCommand.distanceToAngleFactorMedium);
+        System.out.println(TargetSpeakerCommand.distanceToAngleFactorFar);
+      })).whileTrue(new ControllerRumble(manipulatorXbox, 1));
+
 
       mainpulatorXboxCommanded.rightTrigger(0.5)
           .whileTrue(new ParallelCommandGroup(new LimelightShootAlignCommand(drivebase), new ShootCommand(shooter),
-              new TargetSpeakerCommand(arm)));
-      mainpulatorXboxCommanded.leftTrigger(0.5).whileTrue(new CollectCommand(collector, arm));
+              new TargetSpeakerCommand(arm), new ControllerRumble(driverXbox, Constants.OperatorConstants.driverRumbleValue)));
+      mainpulatorXboxCommanded.leftTrigger(0.5).whileTrue(new ParallelCommandGroup(new CollectCommand(collector, arm), new ControllerRumble(driverXbox, Constants.OperatorConstants.driverRumbleValue)));
       // new JoystickButton(driverXbox, XboxController.Button.kX.value).whileTrue(new
       // TargetSpeaker(arm)); // TODO: Double bound from merge
     }

@@ -1,16 +1,15 @@
 package frc.robot.commands.climber;
 
-import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.leds.LedManager;
 import frc.robot.subsystems.Climber.Climber;
 
-public class ManualDriveClimberCommand extends Command {
+public class ManualDriveClimberCommandDpad extends Command {
     Climber climber;
-    DoubleSupplier input;
+    Double input;
 
-    public ManualDriveClimberCommand(Climber climber, DoubleSupplier input) {
+    public ManualDriveClimberCommandDpad(Climber climber, Double input) {
         this.climber = climber;
         this.input = input;
         addRequirements(climber);
@@ -26,26 +25,26 @@ public class ManualDriveClimberCommand extends Command {
         double adjustedInputRight = 0;
 
         if(!climber.climberLeftMaxHeight()){           
-            adjustedInputLeft = Math.min(input.getAsDouble(), 0);
+            adjustedInputLeft = Math.min(input, 0);
         }
 
         else if(!climber.climberLeftMinHeight()){
-            adjustedInputLeft = Math.max(input.getAsDouble(), 0);
+            adjustedInputLeft = Math.max(input, 0);
         }
 
         else{
-            adjustedInputLeft = input.getAsDouble();            
+            adjustedInputLeft = input;            
         }
 
         if(!climber.climberRightMaxHeight()){
-            adjustedInputRight = Math.min(input.getAsDouble(), 0);
+            adjustedInputRight = Math.min(input, 0);
         }
 
         else if(!climber.climberRightMinHeight()){
-            adjustedInputRight = Math.max(input.getAsDouble(), 0);
+            adjustedInputRight = Math.max(input, 0);
         }
         else{    
-            adjustedInputRight = input.getAsDouble();
+            adjustedInputRight = input;
         }
 
         if(!climber.climberLeftMaxHeight() && !climber.climberRightMaxHeight()){

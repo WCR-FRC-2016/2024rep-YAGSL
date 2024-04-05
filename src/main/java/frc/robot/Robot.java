@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.net.PortForwarder;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
@@ -46,9 +47,17 @@ public class Robot extends TimedRobot
   @Override
   public void robotInit()
   {
+    System.out.println("--- Robot started");
+
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
+
+    // Make sure you only configure port forwarding once in your robot code.
+    // Do not place these function calls in any periodic functions
+    for (int port = 5800; port <= 5809; port++) {
+        PortForwarder.add(port, "limelight.local", port);
+    }
 
     // Create a timer to disable motor brake a few seconds after disable.  This will let the robot stop
     // immediately when disabled, but then also let it be pushed more 
