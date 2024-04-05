@@ -2,6 +2,7 @@ package frc.robot.commands.swervedrive.drivebase;
 
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.leds.LedManager;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import frc.robot.utilities.LimelightUtility;
 
@@ -38,6 +39,7 @@ public class LimelightTrapAlignCommand extends Command {
 
         // Check connection to Network table
         if (botpose.length == 0) {
+            LedManager.setState("NoNetworkTable");  
             driveBase.drive(0, 0, driveBase.getHeading().getRadians());
             return;
         }
@@ -47,6 +49,7 @@ public class LimelightTrapAlignCommand extends Command {
         if (botpose[0] == 0 && botpose[1] == 0 && botpose[2] == 0) {
             if (closeToTarget == true) {
                 driveBase.drive(0, 0, driveBase.getHeading().getRadians());
+                LedManager.setState("NoLimelight");  
             }
             // else{
             // driveBase.drive(0, 0, driveBase.getHeading().getRadians() +
@@ -71,6 +74,7 @@ public class LimelightTrapAlignCommand extends Command {
         if (Math.abs(distanceToMoveY) <= 0.1) {
             closeToTarget = true;
         }
+        LedManager.setState("AmpAlignLimelightVisible");  
     }
 
     @Override 

@@ -101,8 +101,8 @@ public final class Constants {
   }
 
   public static class ClimberConstants {
-    public static final int leftCanId = 8; // Needs to be set
-    public static final int rightCanId = 11; // Needs to be set
+    public static final int leftCanId = 8; 
+    public static final int rightCanId = 11;
     public static final double runSpeed = 0.9d;
   }
 }

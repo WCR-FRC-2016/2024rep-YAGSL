@@ -38,6 +38,12 @@ public static double distanceToAngleFactorClose = 0.073;
     public void initialize() {
         System.out.println("TargetSpeakerCommand Start");
         var botpose = LimelightUtility.getBotPos();
+        if (botpose.length == 0) {
+            LedManager.setState("NoNetworkTable");
+            return;
+        }
+
+
         var distanceToAprilTag = Math.abs(botpose[2]);
         
         var distanceToAprilTagHorizontal = Math.abs(botpose[0]);
@@ -55,6 +61,11 @@ public static double distanceToAngleFactorClose = 0.073;
         // System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!target speaker command");
         double distanceToAngleFactorActual = 0.040;
         var botpose = LimelightUtility.getBotPos();
+
+        if (botpose.length == 0) {
+            LedManager.setState("NoNetworkTable");
+            return;
+        }
 
         var distanceToAprilTag = Math.abs(botpose[2]);
         var distanceToAprilTagHorizontal = Math.abs(botpose[0]);;
@@ -126,6 +137,9 @@ public static double distanceToAngleFactorClose = 0.073;
         factor = 0.00989311 * Math.sin(averageDistanceToAprilTagZ) + 0.0517135 * Math.cos(averageDistanceToAprilTagZ) + 0.0855246;
         var expDesiredAngle =  Constants.RobotDemensions.ArmDipLimit
                 - ((averageArray(averageReadsArrayZ) - speakerBaseOffset) * factor + horizontalDistanceOffset);
+        //System.out.println("desired Angle: " +desiredAngle);
+        //System.out.println("current distance: " + averageDistanceToAprilTagZ);
+        //System.out.println("Arm Angle: " + arm.getAngle());
         
         arm.setAngle(desiredAngle);
     }
