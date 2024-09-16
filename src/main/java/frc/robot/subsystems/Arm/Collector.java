@@ -33,9 +33,6 @@ public class Collector  extends SubsystemBase {
         return !pieceSensor.get();
     }
 
-    public void printSensorValue(){
-        System.out.println("Raw Value: " + pieceSensor.get());
-    }
 
     public void run(){
         // ledManager.setState(2);   

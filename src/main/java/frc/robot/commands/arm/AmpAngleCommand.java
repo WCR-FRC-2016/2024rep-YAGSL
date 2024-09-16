@@ -15,6 +15,7 @@ public class AmpAngleCommand extends Command {
 
     @Override
     public void initialize() {
+        System.out.println("AmpAngleCommand Start (and end)");
         arm.setAngle(angle);
     }
 
@@ -24,7 +25,7 @@ public class AmpAngleCommand extends Command {
     }
 
     @Override
-    public boolean isFinished() {
+    public boolean isFinished() {       
         return arm.atDesiredAngle();
     }
 }

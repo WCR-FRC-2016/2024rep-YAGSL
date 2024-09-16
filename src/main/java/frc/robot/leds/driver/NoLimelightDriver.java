@@ -10,8 +10,8 @@ public final class NoLimelightDriver implements ILedStateDriver {
         leds.fillAllRGB(255, 0, 0);
 
         for (var i = 0; i < led_info.LedCount; i++) {
-            if (i % 3 == 0)
-                leds.setRGB(i, 0, 255, 0);
+            if (i % 2 == 0)
+                leds.setRGB(i, 0255, 255, 0);
         }
     }
 }

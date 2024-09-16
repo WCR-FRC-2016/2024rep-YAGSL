@@ -2,6 +2,7 @@ package frc.robot.commands.swervedrive.drivebase;
 
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.leds.LedManager;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import frc.robot.utilities.LimelightUtility;
 
@@ -23,7 +24,7 @@ public class LimelightAmpAlignCommand extends Command {
     @Override
     public void initialize() {
         closeToTarget = false;
-        System.out.println("***ran auto amp command***");
+        System.out.println("AmpAlign Start");
         // // NetworkTableInstance.getDefault().getTable("limelight").getEntry("botpose").getDoubleArray(botpose);
         // // desiredAngle = botpose[4];
         // // double tx = getTx();
@@ -38,11 +39,13 @@ public class LimelightAmpAlignCommand extends Command {
         // Check connection to Network table
         if (botpose.length == 0) {
             driveBase.drive(0, 0, driveBase.getHeading().getRadians());
+            LedManager.setState("NoNetworkTable");  
             return;
         }
         if(NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0.0) != 1){
-            System.out.println("no traget");
+            //System.out.println("no traget");
             driveBase.drive(0, 0, driveBase.getHeading().getRadians());
+            LedManager.setState("NoLimelight");  
             return;
         }
 
@@ -59,7 +62,7 @@ public class LimelightAmpAlignCommand extends Command {
         //     return;
         // }
 
-        System.out.println("distance: " + botpose[2] + " | angle: " + getTx());
+        //System.out.println("distance: " + botpose[2] + " | angle: " + getTx());
         actualDistanceX = botpose[0];
         actualDistanceZ = botpose[2];
         double distanceToMoveY = (actualDistanceZ - desiredDistanceZ);
@@ -69,6 +72,7 @@ public class LimelightAmpAlignCommand extends Command {
         driveBase.drive(-Math.max(distanceToMoveY * 0.6, 0.2), -Math.max(distanceToMoveX * 0.6, 0.2), Math.toRadians(desiredAngle));
         currentAngle = getTx();
         turnMagnitude = currentAngle != 0.0d ? currentAngle / Math.abs(currentAngle) * -1.0d : 1.0d;
+        LedManager.setState("AmpAlignLimelightVisible");  
         // NetworkTableInstance.getDefault().getTable("limelight").getEntry("botpose").getDoubleArray(botpose);
 
         // System.out.println(currentAngle);
@@ -83,9 +87,15 @@ public class LimelightAmpAlignCommand extends Command {
 
         // return Math.abs( currentAngle) <= 0.1d;
         if (Math.abs(getTx()) <= 3d && Math.abs(desiredDistanceZ) - 0.25 <= Math.abs(getZpos()) && Math.abs(getZpos()) <= Math.abs(desiredDistanceZ) + 0.5) {
+            System.out.println("AmpAlign Finished");
             return true;
         }
         return false;
+    }
+
+    @Override
+    public void end(boolean interrupted) {
+                LedManager.setState("Resting");
     }
 
     public double getTx() {

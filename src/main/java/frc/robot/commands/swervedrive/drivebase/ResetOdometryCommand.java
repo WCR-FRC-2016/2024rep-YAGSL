@@ -18,6 +18,7 @@ public class ResetOdometryCommand extends Command {
 
     @Override
     public void initialize() {
+        System.out.println("OdometryReset");
         driveBase.resetOdometry(null);
         LedManager.setStateWithPriority("OdometryReset", 1);
     }
