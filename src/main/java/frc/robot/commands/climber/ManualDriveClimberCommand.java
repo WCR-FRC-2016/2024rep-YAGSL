@@ -47,7 +47,7 @@ public class ManualDriveClimberCommand extends Command {
             adjustedInputRight = input.getAsDouble();
         }
 
-        System.out.println("lmax: " + climber.climberLeftMaxHeight() + " lmin: " + climber.climberLeftMinHeight() + " rmax: " + climber.climberRightMaxHeight() + " rmin: " + climber.climberRightMinHeight());
+        //System.out.println("lmax: " + climber.climberLeftMaxHeight() + " lmin: " + climber.climberLeftMinHeight() + " rmax: " + climber.climberRightMaxHeight() + " rmin: " + climber.climberRightMinHeight());
         
         // if (climber.climberMinHeight() == true) {
         //     adjustedInput = Math.min(input.getAsDouble(), 0);
